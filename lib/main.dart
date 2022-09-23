@@ -96,23 +96,23 @@ class ScannerPage extends StatefulWidget {
 }
 
 class _ScannerPageState extends State<ScannerPage> {
-  Future<void> startBarcodeScanStream() async {
-    FlutterBarcodeScanner.getBarcodeStreamReceiver(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE)!
-        .listen((barcode) => print(barcode));
-  }
+  // barcodeScanRes is the Result of the SCANNER
+  String temp = "";
+  String barcodeScanRes = "NotKnown";
 
   Future<void> scanBarcodeNormal() async {
-    String barcodeScanRes;
-    // Platform messages may fail, so we use a try/catch PlatformException.
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      setState(() {
+        temp = barcodeScanRes;
+      });
       print(barcodeScanRes);
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -132,7 +132,7 @@ class _ScannerPageState extends State<ScannerPage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
-            onPressed: () => startBarcodeScanStream(),
+            onPressed: () => setState(() => scanBarcodeNormal(),),
             style: ElevatedButton.styleFrom(
               primary: Colors.amberAccent,
               elevation: 2.5,
@@ -168,6 +168,15 @@ class _ScannerPageState extends State<ScannerPage> {
                 color: Colors.black,
                 fontSize: 15.0,
               ),
+            ),
+          ),
+          const SizedBox(
+            height: 15.0,
+          ),
+          Text(
+            "Result : $temp",
+            style: const TextStyle(
+              fontSize: 25.0,
             ),
           ),
         ],
