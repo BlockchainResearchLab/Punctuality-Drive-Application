@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:punctuality_drive/barcodeScanner.dart';
 
 void main() {
   runApp(const MainPage());
@@ -82,37 +83,21 @@ class MainPage extends StatelessWidget {
           backgroundColor: Colors.amberAccent,
           foregroundColor: Colors.blueGrey.shade900,
         ),
-        body: const ScannerPage(),
+        body: const ResultPage(),
+        floatingActionButton: const Scanner(),
       ),
     );
   }
 }
 
-class ScannerPage extends StatefulWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+class ResultPage extends StatefulWidget {
+  const ResultPage({Key? key}) : super(key: key);
 
   @override
-  State<ScannerPage> createState() => _ScannerPageState();
+  State<ResultPage> createState() => _ResultPageState();
 }
 
-class _ScannerPageState extends State<ScannerPage> {
-  // barcodeScanRes is the Result of the SCANNER
-  String temp = "";
-  String barcodeScanRes = "NotKnown";
-
-  Future<void> scanBarcodeNormal() async {
-    try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      setState(() {
-        temp = barcodeScanRes;
-      });
-      print(barcodeScanRes);
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
-    }
-  }
-
+class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -130,52 +115,10 @@ class _ScannerPageState extends State<ScannerPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () => setState(() => scanBarcodeNormal(),),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.amberAccent,
-              elevation: 2.5,
-              side: const BorderSide(
-                color: Colors.green,
-                style: BorderStyle.solid,
-              ),
-            ),
-            child: const Text(
-              "SCAN CARD",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25.0,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
-              elevation: 2.5,
-              side: const BorderSide(
-                color: Colors.red,
-                style: BorderStyle.solid,
-              ),
-            ),
-            child: const Text(
-              "LOGOUT",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15.0,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 15.0,
-          ),
+        children: const [
           Text(
-            "Result : $temp",
-            style: const TextStyle(
+            "Result : ",
+            style: TextStyle(
               fontSize: 25.0,
             ),
           ),
