@@ -1,6 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:punctuality_drive/barcodeScanner.dart';
 
 void main() {
   runApp(const MainPage());
@@ -44,7 +47,9 @@ class MainPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 5.0,),
+                    const SizedBox(
+                      height: 5.0,
+                    ),
                     const Text(
                       "UserName",
                       style: TextStyle(
@@ -78,14 +83,21 @@ class MainPage extends StatelessWidget {
           backgroundColor: Colors.amberAccent,
           foregroundColor: Colors.blueGrey.shade900,
         ),
-        body: const ScannerPage(),
+        body: const ResultPage(),
+        floatingActionButton: const Scanner(),
       ),
     );
   }
 }
 
-class ScannerPage extends StatelessWidget {
-  const ScannerPage({Key? key}) : super(key: key);
+class ResultPage extends StatefulWidget {
+  const ResultPage({Key? key}) : super(key: key);
+
+  @override
+  State<ResultPage> createState() => _ResultPageState();
+}
+
+class _ResultPageState extends State<ResultPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -103,44 +115,11 @@ class ScannerPage extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              primary: Colors.amberAccent,
-              elevation: 2.5,
-              side: const BorderSide(
-                color: Colors.green,
-                style: BorderStyle.solid,
-              ),
-            ),
-            child: const Text(
-              "SCAN CARD",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 25.0,
-              ),
-            ),
-          ),
-          const SizedBox(
-            height: 25,
-          ),
-          ElevatedButton(
-            onPressed: () {},
-            style: ElevatedButton.styleFrom(
-              primary: Colors.amber,
-              elevation: 2.5,
-              side: const BorderSide(
-                color: Colors.red,
-                style: BorderStyle.solid,
-              ),
-            ),
-            child: const Text(
-              "LOGOUT",
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 15.0,
-              ),
+        children: const [
+          Text(
+            "Result : ",
+            style: TextStyle(
+              fontSize: 25.0,
             ),
           ),
         ],
