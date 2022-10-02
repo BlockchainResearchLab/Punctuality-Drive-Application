@@ -9,32 +9,32 @@ class Scanner extends StatefulWidget {
   State<Scanner> createState() => _ScannerState();
 }
 
-String temp ="";
+String temp = "";
 
 class _ScannerState extends State<Scanner> {
-
   // barcodeScanRes is the Result of the SCANNER
   String barcodeScanRes = "";
 
-    Future<void> scanBarcodeNormal() async {
-      try {
-        barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-            '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-        setState(() {
-          temp = barcodeScanRes;
-        });
-        print(barcodeScanRes);
-      } on PlatformException {
-        barcodeScanRes = 'Failed to get platform version.';
-      }
+  Future<void> scanBarcodeNormal() async {
+    try {
+      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+      setState(() {
+        temp = barcodeScanRes;
+      });
+      print(barcodeScanRes);
+    } on PlatformException {
+      barcodeScanRes = 'Failed to get platform version.';
     }
+  }
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.large(onPressed: () => scanBarcodeNormal(),
+    return FloatingActionButton.large(
+      onPressed: () => scanBarcodeNormal(),
       elevation: 10.0,
-      backgroundColor: Colors.amberAccent,
-      foregroundColor: Colors.black,
+      backgroundColor: Colors.black,
+      foregroundColor: Colors.amberAccent,
       child: const Icon(Icons.document_scanner),
     );
   }

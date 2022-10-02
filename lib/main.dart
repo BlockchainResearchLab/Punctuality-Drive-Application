@@ -14,10 +14,9 @@ class MainPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       routes: {
-        '/' : (context) => const LoginPage(),
+        '/': (context) => const LoginPage(),
         '/result': (context) => const ResultScreen(),
       },
     );
   }
 }
-

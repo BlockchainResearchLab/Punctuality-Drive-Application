@@ -15,7 +15,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[800],
       body: SingleChildScrollView(
         reverse: true,
         child: SafeArea(
@@ -26,9 +26,14 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 50.0),
-                    child: Image.asset(
-                      'images/akgeclogo.png',
-                      scale: 2.0,
+                    child: SizedBox(
+                      height: 200,
+                      width: 200,
+                      child: Image.asset(
+                        'images/akg2.png',
+                        fit: BoxFit.fill,
+                        scale: 2.0,
+                      ),
                     ),
                   ),
                 ],
@@ -47,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
+                          color: Colors.amberAccent,
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                         ),
                       ),
@@ -60,6 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                         children: [
                           TextFormField(
                             cursorColor: Colors.amberAccent,
+                            style: const TextStyle(color: Colors.amberAccent),
                             validator: (name) {
                               if (name!.isEmpty) {
                                 return "Please enter you Name!";
@@ -75,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextFormField(
                             cursorColor: Colors.amberAccent,
+                            style: const TextStyle(color: Colors.amberAccent),
                             validator: (usernm) {
                               if (usernm!.isEmpty) {
                                 return "Please enter you Username!";
@@ -86,6 +94,7 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           TextFormField(
                             cursorColor: Colors.amberAccent,
+                            style: const TextStyle(color: Colors.amberAccent),
                             validator: (pswd) {
                               if (pswd!.isEmpty) {
                                 return "Please enter Password!";
@@ -117,8 +126,8 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushNamed(context, Routes.resultScreen);
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.amberAccent,
-                        foregroundColor: Colors.black,
+                        backgroundColor: Colors.black,
+                        foregroundColor: Colors.amberAccent,
                         minimumSize: Size(
                             MediaQuery.of(context).size.width * 0.8,
                             MediaQuery.of(context).size.height * 0.05),
