@@ -31,6 +31,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       fit: BoxFit.fill,
+                      // TODO: UID IMAGE
                       image: AssetImage("images/akg2.png"),
                     ),
                   ),
@@ -40,6 +41,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 height: 5.0,
               ),
               const Text(
+                // TODO: UID NAME
                 "UserName",
                 style: TextStyle(fontSize: 30.0, color: Colors.amberAccent),
               ),
@@ -54,6 +56,7 @@ class _ResultScreenState extends State<ResultScreen> {
                     children: [
                       GestureDetector(
                         onTap: () {
+                          // TODO: Logout Function Implementation
                           setState(() {
                             _isElevated = !_isElevated;
                           });
@@ -79,12 +82,12 @@ class _ResultScreenState extends State<ResultScreen> {
                                           spreadRadius: 1),
                                     ]
                                   : null),
-                          child: const Center(
+                          child: Center(
                             child: Text(
                               "Log Out",
                               style: TextStyle(
                                 fontSize: 20.0,
-                                color: Colors.red,
+                                color: _isElevated ? Colors.red : Colors.white,
                               ),
                             ),
                           ),
