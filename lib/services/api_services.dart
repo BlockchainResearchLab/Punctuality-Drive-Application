@@ -1,5 +1,24 @@
-import '';
+import 'package:http/http.dart' as http;
+import 'package:punctuality_drive/resultScreen.dart';
+import 'package:punctuality_drive/barcodeScanner.dart';
 
-String apiURL = "https://akgec-late-entry.herokuapp.com/";
-String token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzMzgxYmI0YWRiZDMyNTZkMGQzOWYzMyIsIm5hbWUiOiJTSEFIQkFaIEFMSSIsIm1vYmlsZSI6NzM5ODM1ODAxMiwidXNlck5hbWUiOiJzaGE3Mzk4MyIsInByaXZpbGVnZSI6MSwiZW1haWwiOiJzaGFoYmF6X2FsaUBvdXRsb29rLmluIiwicGFzc3dvcmQiOiIkMmIkMTAkOER3VTJxYTQ3L0w2TFFPbG5ERFJydTRkbmZPRW01SFBFcTZmdXZkTWVlUE1icFgzM0hCTEsiLCJkZXB0IjoiSVQiLCJjcmVhdGVkQXQiOiIyMDIyLTEwLTAxVDEwOjUxOjMyLjM3MFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTEwLTAxVDExOjAwOjIwLjcwMloiLCJfX3YiOjAsInNhdmVkRm9ybWF0IjoiRm9sbG93aW5nIHN0dWRlbnRzIGFyZSBiZWluZyBhd2FyZGVkIDxzdHJvbmc-ZGVkdWN0aW9uIG9mIFR3byAoMikgR1AgTWFya3M8L3N0cm9uZz4gZWFjaCBmb3IgYmVpbmcgbGF0ZSB0aHJpY2UgZHVyaW5nIHB1bmN0dWFsaXR5IGRyaXZlLiJ9LCJpYXQiOjE2NjU2ODI0ODMsImV4cCI6MTY2NTY5MzI4M30.vsI-JiWtGoqty0yv0RTiev_tH_nipJ42vv-EYbZnNX4";
+
+String apiURL = "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
+
+Future<EntryModel>() async {
+  var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  var request = http.Request(
+    'POST',
+    Uri.parse(apiURL),
+  );
+  request.bodyFields = {'stdNo': _studentNumber, 'location': _location};
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  } else {
+    print(response.reasonPhrase);
+  }
+}

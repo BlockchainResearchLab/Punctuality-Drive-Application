@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'barcodeScanner.dart';
+import 'package:punctuality_drive/services/api_services.dart';
+
+String _location = 'CS/IT';
+
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -10,10 +14,9 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   bool _isElevated = true;
-  String _location = "CS/IT";
 
-  void _dropDownCallback(String? selectedValue){
-    if(selectedValue is String){
+  void _dropDownCallback(String? selectedValue) {
+    if (selectedValue is String) {
       setState(() {
         _location = selectedValue;
       });
@@ -114,20 +117,31 @@ class _ResultScreenState extends State<ResultScreen> {
         title: const Text("PUNCTUALITY DRIVE"),
         actions: [
           DropdownButton(
-            hint: const Text("Location",
-            style: TextStyle(
-              color: Colors.amberAccent,
-            ),),
+            hint: const Text(
+              "Location",
+              style: TextStyle(
+                color: Colors.amberAccent,
+              ),
+            ),
             //focusColor: Colors.amber,
             iconEnabledColor: Colors.amberAccent,
-              dropdownColor: Colors.amberAccent,
-              items: const [
-            DropdownMenuItem(value: "LT",child: Text("LT"),),
-            DropdownMenuItem(value: "CS/IT",child: Text("CS/IT"),),
-            DropdownMenuItem(value: "MG",child: Text("Main Gate"),),
-          ],
-              onChanged: _dropDownCallback),
-
+            dropdownColor: Colors.amberAccent,
+            items: const [
+              DropdownMenuItem(
+                value: "LT",
+                child: Text("LT"),
+              ),
+              DropdownMenuItem(
+                value: "CS/IT",
+                child: Text("CS/IT"),
+              ),
+              DropdownMenuItem(
+                value: "MG",
+                child: Text("Main Gate"),
+              ),
+            ],
+            onChanged: _dropDownCallback,
+          ),
         ],
         centerTitle: true,
         backgroundColor: Colors.black,

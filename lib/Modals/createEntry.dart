@@ -4,12 +4,12 @@
 
 import 'dart:convert';
 
-Welcome welcomeFromJson(String str) => Welcome.fromJson(json.decode(str));
+EntryModel welcomeFromJson(String str) => EntryModel.fromJson(json.decode(str));
 
-String welcomeToJson(Welcome data) => json.encode(data.toJson());
+String welcomeToJson(EntryModel data) => json.encode(data.toJson());
 
-class Welcome {
-  Welcome({
+class EntryModel {
+  EntryModel({
     required this.stdNo,
     required this.location,
   });
@@ -17,7 +17,7 @@ class Welcome {
   String stdNo;
   String location;
 
-  factory Welcome.fromJson(Map<String, dynamic> json) => Welcome(
+  factory EntryModel.fromJson(Map<String, dynamic> json) => EntryModel(
         stdNo: json["stdNo"],
         location: json["location"],
       );
