@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:punctuality_drive/services/api_services.dart';
 
 String _studentNumber = '';
 String studentNumber = _studentNumber;
@@ -22,6 +23,7 @@ class _ScannerState extends State<Scanner> {
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
       setState(() {
         _studentNumber = barcodeScanRes;
+        lateEntry();
       });
       //print(barcodeScanRes);
     } on PlatformException {

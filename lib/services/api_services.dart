@@ -2,10 +2,11 @@ import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 
+import '../Modals/createEntry.dart';
 
 String apiURL = "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
 
-Future<EntryModel>() async {
+Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   var request = http.Request(
     'POST',
