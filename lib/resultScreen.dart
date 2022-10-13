@@ -10,6 +10,15 @@ class ResultScreen extends StatefulWidget {
 
 class _ResultScreenState extends State<ResultScreen> {
   bool _isElevated = true;
+  String _location = "CS/IT";
+
+  void _dropDownCallback(String? selectedValue){
+    if(selectedValue is String){
+      setState(() {
+        _location = selectedValue;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,7 +111,24 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
       ),
       appBar: AppBar(
-        title: const Text("PUNCTUALITY DRIVE AKGEC"),
+        title: const Text("PUNCTUALITY DRIVE"),
+        actions: [
+          DropdownButton(
+            hint: const Text("Location",
+            style: TextStyle(
+              color: Colors.amberAccent,
+            ),),
+            //focusColor: Colors.amber,
+            iconEnabledColor: Colors.amberAccent,
+              dropdownColor: Colors.amberAccent,
+              items: const [
+            DropdownMenuItem(value: "LT",child: Text("LT"),),
+            DropdownMenuItem(value: "CS/IT",child: Text("CS/IT"),),
+            DropdownMenuItem(value: "MG",child: Text("Main Gate"),),
+          ],
+              onChanged: _dropDownCallback),
+
+        ],
         centerTitle: true,
         backgroundColor: Colors.black,
         foregroundColor: Colors.amberAccent,
