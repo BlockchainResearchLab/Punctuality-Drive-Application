@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 String _studentNumber = '';
+String studentNumber = _studentNumber;
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);

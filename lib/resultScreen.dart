@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 
-String _location = 'CS/IT';
+
+String _location = location;
+String location = 'CS/IT';
 
 
 class ResultScreen extends StatefulWidget {

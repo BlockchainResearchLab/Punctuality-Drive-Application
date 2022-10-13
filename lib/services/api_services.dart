@@ -11,7 +11,7 @@ Future<EntryModel>() async {
     'POST',
     Uri.parse(apiURL),
   );
-  request.bodyFields = {'stdNo': _studentNumber, 'location': _location};
+  request.bodyFields = {'stdNo': studentNumber, 'location': location};
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
