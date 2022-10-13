@@ -1,11 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 
-
-String _location = location;
-String location = 'CS/IT';
-
+String _location = '';
+String location = _location;
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -21,7 +20,11 @@ class _ResultScreenState extends State<ResultScreen> {
     if (selectedValue is String) {
       setState(() {
         _location = selectedValue;
+        location = _location;
       });
+      if (kDebugMode) {
+        print(location);
+      }
     }
   }
 
@@ -119,9 +122,9 @@ class _ResultScreenState extends State<ResultScreen> {
         title: const Text("PUNCTUALITY DRIVE"),
         actions: [
           DropdownButton(
-            hint: const Text(
-              "Location",
-              style: TextStyle(
+            hint: Text(
+              _location,
+              style: const TextStyle(
                 color: Colors.amberAccent,
               ),
             ),

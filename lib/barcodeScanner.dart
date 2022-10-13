@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
@@ -25,7 +26,9 @@ class _ScannerState extends State<Scanner> {
         _studentNumber = barcodeScanRes;
         lateEntry();
       });
-      //print(barcodeScanRes);
+      if (kDebugMode) {
+        print(barcodeScanRes);
+      }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
     }
