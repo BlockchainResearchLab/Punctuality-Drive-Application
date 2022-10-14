@@ -222,6 +222,8 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                   ],
                 );
+              } else {
+                return CircularProgressIndicator.adaptive();
               }
             }),
       ]),
