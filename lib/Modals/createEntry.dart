@@ -1,7 +1,3 @@
-// To parse this JSON data, do
-//
-//     final welcome = welcomeFromJson(jsonString);
-
 import 'dart:convert';
 
 EntryModel welcomeFromJson(String str) => EntryModel.fromJson(json.decode(str));
