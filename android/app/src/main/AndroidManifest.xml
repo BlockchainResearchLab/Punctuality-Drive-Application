@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.punctuality_drive">
    <application
-        android:label="punctuality_drive"
+        android:label="Punctuality Drive"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
