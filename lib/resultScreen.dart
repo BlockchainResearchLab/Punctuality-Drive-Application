@@ -152,7 +152,7 @@ class _ResultScreenState extends State<ResultScreen> {
         elevation: 20.0,
       ),
       body: const ResultPage(),
-      floatingActionButton: const Scanner(),
+      floatingActionButton:const Scanner(),
     );
   }
 }
@@ -179,18 +179,43 @@ class _ResultPageState extends State<ResultPage> {
         ),
       ),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              "Entry Marked\n\nSTUDENT NUMBER = $studentNumber\n\nLocation = $location",
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 25.0,
+          Center(
+            child: Container(
+              margin: const EdgeInsets.only(top: 40.0),
+              width: 150,
+              height: 150,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                image: DecorationImage(
+                  fit: BoxFit.fill,
+                  // TODO: UID IMAGE
+                  image: NetworkImage("https://brlakgec.com/assets/Aadarsh.jpeg"),
+                ),
               ),
             ),
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              SizedBox(
+                height: 15.0,
+              ),
+              Text(
+                // TODO: Student NAME
+                "Student Name",
+                style: TextStyle(fontSize: 30.0, color: Colors.white),
+              ),
+              SizedBox(
+                height: 15.0,
+              ),
+              Text(
+                // TODO: Student Number
+                "Student Number ",
+                style: TextStyle(fontSize: 30.0, color: Colors.white),
+              ),
+            ],
           ),
         ],
       ),

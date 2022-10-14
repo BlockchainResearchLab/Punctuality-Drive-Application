@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
-
+import 'dart:math' as math;
 
 String? studentNumber;
 
@@ -37,11 +37,16 @@ class _ScannerState extends State<Scanner> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.large(
-      onPressed: () => scanBarcodeNormal(),
+      onPressed: () => setState(() {
+        scanBarcodeNormal();
+      }),
       elevation: 10.0,
       backgroundColor: Colors.black,
       foregroundColor: Colors.amberAccent,
-      child: const Icon(Icons.document_scanner),
+      child: Transform.rotate(
+        angle: 90 * math.pi / 180,
+        child: const Icon(Icons.document_scanner),
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
@@ -19,9 +20,14 @@ Future<EntryModel?> lateEntry() async {
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
+    if (kDebugMode) {
+      print(await response.stream.bytesToString());
+    }
     // print("$location AAAAAAAAAAAAA $studentNumber");
   } else {
-    print(response.reasonPhrase);
+    if (kDebugMode) {
+      print(response.reasonPhrase);
+    }
   }
+  return null;
 }
