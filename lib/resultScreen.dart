@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:punctuality_drive/services/api_services.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
-
 
 String? location;
 
@@ -122,7 +122,7 @@ class _ResultScreenState extends State<ResultScreen> {
         actions: [
           DropdownButton(
             hint: Text(
-              location??'Default',
+              location ?? 'Default',
               style: const TextStyle(
                 color: Colors.amberAccent,
               ),
@@ -153,7 +153,7 @@ class _ResultScreenState extends State<ResultScreen> {
         elevation: 20.0,
       ),
       body: const ResultPage(),
-      floatingActionButton:const Scanner(),
+      floatingActionButton: const Scanner(),
     );
   }
 }
@@ -179,46 +179,52 @@ class _ResultPageState extends State<ResultPage> {
           image: const AssetImage("images/akg2.png"),
         ),
       ),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Center(
-            child: Container(
-              margin: const EdgeInsets.only(top: 40.0),
-              width: 150,
-              height: 150,
-              decoration: const BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.fill,
-                  // TODO: UID IMAGE
-                  image: NetworkImage("https://brlakgec.com/assets/Aadarsh.jpeg"),
-                ),
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
-              SizedBox(
-                height: 15.0,
-              ),
-              Text(
-                // TODO: Student NAME
-                "Student Name",
-                style: TextStyle(fontSize: 30.0, color: Colors.white),
-              ),
-              SizedBox(
-                height: 15.0,
-              ),
-              Text(
-               "DEFAULT",
-                style: TextStyle(fontSize: 30.0, color: Colors.white),
-              ),
-            ],
-          ),
-        ],
-      ),
+      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+        Center(
+          child: FutureBuilder<StudentData?>(
+              future: show(),
+              builder: (context, snapshot) {
+                return Container(
+                  margin: const EdgeInsets.only(top: 40.0),
+                  width: 150,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.fill,
+                      image:
+                          NetworkImage(snapshot.data!.result!.img!.toString()),
+                    ),
+                  ),
+                );
+              }),
+        ),
+        FutureBuilder<StudentData?>(
+            future: show(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Text(
+                      snapshot.data!.result!.name!.toString(),
+                      style: TextStyle(fontSize: 30.0, color: Colors.white),
+                    ),
+                    SizedBox(
+                      height: 15.0,
+                    ),
+                    Text(
+                      snapshot.data!.result!.stdNo!.toString(),
+                      style: TextStyle(fontSize: 30.0, color: Colors.white),
+                    ),
+                  ],
+                );
+              }
+            }),
+      ]),
     );
   }
 }
