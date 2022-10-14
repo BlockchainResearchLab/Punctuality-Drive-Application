@@ -1,10 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'barcodeScanner.dart';
-import 'package:punctuality_drive/services/api_services.dart';
 
-String _location = '';
-String location = _location;
+
+String? location;
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -19,8 +18,7 @@ class _ResultScreenState extends State<ResultScreen> {
   void _dropDownCallback(String? selectedValue) {
     if (selectedValue is String) {
       setState(() {
-        _location = selectedValue;
-        location = _location;
+        location = selectedValue;
       });
       if (kDebugMode) {
         print(location);
@@ -123,7 +121,7 @@ class _ResultScreenState extends State<ResultScreen> {
         actions: [
           DropdownButton(
             hint: Text(
-              _location,
+              location??'Default',
               style: const TextStyle(
                 color: Colors.amberAccent,
               ),
@@ -148,7 +146,7 @@ class _ResultScreenState extends State<ResultScreen> {
             onChanged: _dropDownCallback,
           ),
         ],
-        centerTitle: true,
+        centerTitle: false,
         backgroundColor: Colors.black,
         foregroundColor: Colors.amberAccent,
         elevation: 20.0,
@@ -183,11 +181,15 @@ class _ResultPageState extends State<ResultPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          Text(
-            "Result : ",
-            style: TextStyle(
-              fontSize: 25.0,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(
+              "Entry Marked\n\nSTUDENT NUMBER = $studentNumber\n\nLocation = $location",
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 25.0,
+              ),
             ),
           ),
         ],

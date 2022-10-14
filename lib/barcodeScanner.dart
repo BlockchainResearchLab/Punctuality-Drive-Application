@@ -4,8 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 
-String _studentNumber = '';
-String studentNumber = _studentNumber;
+
+String? studentNumber;
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);
@@ -23,7 +23,7 @@ class _ScannerState extends State<Scanner> {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
       setState(() {
-        _studentNumber = barcodeScanRes;
+        studentNumber = barcodeScanRes;
         lateEntry();
       });
       if (kDebugMode) {
