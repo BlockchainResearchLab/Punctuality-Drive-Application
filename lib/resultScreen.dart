@@ -182,7 +182,7 @@ class _ResultPageState extends State<ResultPage> {
       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
         Center(
           child: FutureBuilder<StudentData?>(
-              future: show(),
+              future: show(studentNumber ?? "0000"),
               builder: (context, snapshot) {
                 return Container(
                   margin: const EdgeInsets.only(top: 40.0),
@@ -193,37 +193,37 @@ class _ResultPageState extends State<ResultPage> {
                     image: DecorationImage(
                       fit: BoxFit.fill,
                       image:
-                          NetworkImage(snapshot.data!.result!.img!.toString()),
+                          NetworkImage(snapshot.data!.result!.img.toString())
                     ),
                   ),
                 );
               }),
         ),
         FutureBuilder<StudentData?>(
-            future: show(),
+            future: show(studentNumber ?? "0000"),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 15.0,
                     ),
                     Text(
                       snapshot.data!.result!.name!.toString(),
-                      style: TextStyle(fontSize: 30.0, color: Colors.white),
+                      style: const TextStyle(fontSize: 30.0, color: Colors.white),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15.0,
                     ),
                     Text(
                       snapshot.data!.result!.stdNo!.toString(),
-                      style: TextStyle(fontSize: 30.0, color: Colors.white),
+                      style: const TextStyle(fontSize: 30.0, color: Colors.white),
                     ),
                   ],
                 );
               } else {
-                return CircularProgressIndicator.adaptive();
+                return const CircularProgressIndicator.adaptive();
               }
             }),
       ]),

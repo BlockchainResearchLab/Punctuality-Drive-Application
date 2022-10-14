@@ -11,8 +11,6 @@ import '../Modals/createEntry.dart';
 String postApiURL =
     "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
 
-String studentDataApiURL =
-    "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$studentNumber";
 
 Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -40,7 +38,9 @@ Future<EntryModel?> lateEntry() async {
   return null;
 }
 
-Future<StudentData?> show() async {
+Future<StudentData?> show(String stdNum) async {
+  String studentDataApiURL =
+      "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$stdNum";
   final response = await http.get(
     Uri.parse(studentDataApiURL),
   );
@@ -56,5 +56,5 @@ Future<StudentData?> show() async {
       print(response.statusCode);
     }
   }
-  return null;
+  //return null;
 }
