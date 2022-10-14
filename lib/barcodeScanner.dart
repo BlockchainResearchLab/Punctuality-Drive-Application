@@ -25,6 +25,7 @@ class _ScannerState extends State<Scanner> {
       setState(() {
         studentNumber = barcodeScanRes;
         lateEntry();
+        show();
       });
       if (kDebugMode) {
         print(barcodeScanRes);

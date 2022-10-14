@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'barcodeScanner.dart';
+import 'package:punctuality_drive/Modals/studentData.dart';
 
 
 String? location;
@@ -211,8 +212,7 @@ class _ResultPageState extends State<ResultPage> {
                 height: 15.0,
               ),
               Text(
-                // TODO: Student Number
-                "Student Number ",
+               "DEFAULT",
                 style: TextStyle(fontSize: 30.0, color: Colors.white),
               ),
             ],

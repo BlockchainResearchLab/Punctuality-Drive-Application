@@ -8,11 +8,11 @@ import 'package:punctuality_drive/barcodeScanner.dart';
 
 import '../Modals/createEntry.dart';
 
-String postApiURL = "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
+String postApiURL =
+    "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
 
-String studentDataApiURL = "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$studentNumber";
-
-
+String studentDataApiURL =
+    "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$studentNumber";
 
 Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
@@ -20,7 +20,10 @@ Future<EntryModel?> lateEntry() async {
     'POST',
     Uri.parse(postApiURL),
   );
-  request.bodyFields = {'stdNo': studentNumber ?? '...', 'location': location ?? '...'};
+  request.bodyFields = {
+    'stdNo': studentNumber ?? '...',
+    'location': location ?? '...'
+  };
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
@@ -37,14 +40,17 @@ Future<EntryModel?> lateEntry() async {
   return null;
 }
 
-
 Future<StudentData?> show() async {
-  final response = await http.get(Uri.parse(studentDataApiURL));
+  final response = await http.get(
+    Uri.parse(studentDataApiURL),
+  );
   if (response.statusCode == 200) {
     if (kDebugMode) {
       print(response.body);
     }
-    return StudentData.fromJson(jsonDecode(response.body));
+    return StudentData.fromJson(
+      jsonDecode(response.body),
+    );
   } else {
     if (kDebugMode) {
       print(response.statusCode);
