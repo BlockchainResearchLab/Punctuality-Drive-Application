@@ -29,8 +29,8 @@ class _ScannedEntryState extends State<ScannedEntry> {
         child: Center(
           child: Container(
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: 400,
-            width: 400,
+            height: height * 0.479,
+            width: width,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               border: Border.all(color: Colors.grey),
