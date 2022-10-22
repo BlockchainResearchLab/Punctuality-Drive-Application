@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
@@ -30,12 +31,13 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: ResultFooter(),
       drawer: Drawer(
         child: Container(
           width: double.infinity,
           decoration: BoxDecoration(
-            color: Colors.grey[800],
-          ),
+              // color: Colors.grey[800],
+              ),
           child: Column(
             children: [
               Center(
@@ -59,7 +61,7 @@ class _ResultScreenState extends State<ResultScreen> {
               const Text(
                 // TODO: UID NAME
                 "UserName",
-                style: TextStyle(fontSize: 30.0, color: Colors.amberAccent),
+                style: TextStyle(fontSize: 30.0, color: Colors.black),
               ),
               // SizedBox(
               //   height: 500,

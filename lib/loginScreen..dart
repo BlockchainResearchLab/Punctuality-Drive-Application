@@ -15,7 +15,6 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey[800],
       body: SingleChildScrollView(
         reverse: true,
         child: SafeArea(
@@ -126,8 +125,8 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushNamed(context, Routes.resultScreen);
                     },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        foregroundColor: Colors.amberAccent,
+                        backgroundColor: Colors.blue,
+                        // foregroundColor: Colors.amberAccent,
                         minimumSize: Size(
                             MediaQuery.of(context).size.width * 0.8,
                             MediaQuery.of(context).size.height * 0.05),
@@ -136,12 +135,12 @@ class _LoginPageState extends State<LoginPage> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: const [
-                        Icon(Icons.g_mobiledata_rounded),
+                        // Icon(Icons.g_mobiledata_rounded),
                         SizedBox(
                           width: 10.0,
                         ),
                         Text(
-                          "Google Sign In",
+                          "Sign In",
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
