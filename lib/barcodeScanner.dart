@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'dart:math' as math;
 
@@ -24,8 +25,10 @@ class _ScannerState extends State<Scanner> {
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
       setState(() {
         studentNumber = barcodeScanRes;
-        lateEntry();
+        // lateEntry(); // moved to mark entry button.
         show(studentNumber ?? "2012014");
+        Navigator.push(
+            context, MaterialPageRoute(builder: ((context) => ScannedEntry())));
       });
       if (kDebugMode) {
         print(barcodeScanRes);

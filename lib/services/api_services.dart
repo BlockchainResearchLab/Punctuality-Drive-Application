@@ -11,7 +11,6 @@ import '../Modals/createEntry.dart';
 String postApiURL =
     "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
 
-
 Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   var request = http.Request(

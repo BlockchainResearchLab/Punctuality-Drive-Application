@@ -152,81 +152,81 @@ class _ResultScreenState extends State<ResultScreen> {
         foregroundColor: Colors.amberAccent,
         elevation: 20.0,
       ),
-      body: const ResultPage(),
+      body: const Scaffold(),
       floatingActionButton: const Scanner(),
     );
   }
 }
 
-class ResultPage extends StatefulWidget {
-  const ResultPage({Key? key}) : super(key: key);
+// class ResultPage extends StatefulWidget {
+//   const ResultPage({Key? key}) : super(key: key);
 
-  @override
-  State<ResultPage> createState() => _ResultPageState();
-}
+//   @override
+//   State<ResultPage> createState() => _ResultPageState();
+// }
 
-class _ResultPageState extends State<ResultPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: Colors.grey[800],
-        image: DecorationImage(
-          // fit: BoxFit.fitHeight,
-          colorFilter: ColorFilter.mode(
-              const Color(0xFF424242).withOpacity(0.2), BlendMode.dstATop),
-          image: const AssetImage("images/akg2.png"),
-        ),
-      ),
-      child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
-        Center(
-          child: FutureBuilder<StudentData?>(
-              future: show(studentNumber ?? "0000"),
-              builder: (context, snapshot) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 40.0),
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      image:
-                          NetworkImage(snapshot.data!.result!.img.toString())
-                    ),
-                  ),
-                );
-              }),
-        ),
-        FutureBuilder<StudentData?>(
-            future: show(studentNumber ?? "0000"),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    Text(
-                      snapshot.data!.result!.name!.toString(),
-                      style: const TextStyle(fontSize: 30.0, color: Colors.white),
-                    ),
-                    const SizedBox(
-                      height: 15.0,
-                    ),
-                    Text(
-                      snapshot.data!.result!.stdNo!.toString(),
-                      style: const TextStyle(fontSize: 30.0, color: Colors.white),
-                    ),
-                  ],
-                );
-              } else {
-                return const CircularProgressIndicator.adaptive();
-              }
-            }),
-      ]),
-    );
-  }
-}
+// class _ResultPageState extends State<ResultPage> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       width: double.infinity,
+//       decoration: BoxDecoration(
+//         color: Colors.grey[800],
+//         image: DecorationImage(
+//           // fit: BoxFit.fitHeight,
+//           colorFilter: ColorFilter.mode(
+//               const Color(0xFF424242).withOpacity(0.2), BlendMode.dstATop),
+//           image: const AssetImage("images/akg2.png"),
+//         ),
+//       ),
+//       child: Column(mainAxisAlignment: MainAxisAlignment.start, children: [
+//         Center(
+//           child: FutureBuilder<StudentData?>(
+//               future: show(studentNumber ?? "0000"),
+//               builder: (context, snapshot) {
+//                 return Container(
+//                   margin: const EdgeInsets.only(top: 40.0),
+//                   width: 150,
+//                   height: 150,
+//                   decoration: BoxDecoration(
+//                     shape: BoxShape.circle,
+//                     image: DecorationImage(
+//                       fit: BoxFit.fill,
+//                       image:
+//                           NetworkImage(snapshot.data!.result!.img.toString())
+//                     ),
+//                   ),
+//                 );
+//               }),
+//         ),
+//         FutureBuilder<StudentData?>(
+//             future: show(studentNumber ?? "0000"),
+//             builder: (context, snapshot) {
+//               if (snapshot.hasData) {
+//                 return Column(
+//                   crossAxisAlignment: CrossAxisAlignment.start,
+//                   children: [
+//                     const SizedBox(
+//                       height: 15.0,
+//                     ),
+//                     Text(
+//                       snapshot.data!.result!.name!.toString(),
+//                       style: const TextStyle(fontSize: 30.0, color: Colors.white),
+//                     ),
+//                     const SizedBox(
+//                       height: 15.0,
+//                     ),
+//                     Text(
+//                       snapshot.data!.result!.stdNo!.toString(),
+//                       style: const TextStyle(fontSize: 30.0, color: Colors.white),
+//                     ),
+//                   ],
+//                 );
+//               } else {
+//                 return const CircularProgressIndicator.adaptive();
+//               }
+//             }),
+//       ]),
+//     );
+//   }
+// }
