@@ -28,7 +28,7 @@ class _ScannerState extends State<Scanner> {
         // lateEntry(); // moved to mark entry button.
         show(studentNumber ?? "2012014");
         Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => ScannedEntry())));
+            context, MaterialPageRoute(builder: ((context) => const ScannedEntry())));
       });
       if (kDebugMode) {
         print(barcodeScanRes);

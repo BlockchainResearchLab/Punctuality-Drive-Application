@@ -1,9 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/result2.dart';
-import 'package:punctuality_drive/services/api_services.dart';
 import 'barcodeScanner.dart';
-import 'package:punctuality_drive/Modals/studentData.dart';
 
 String? location;
 
@@ -31,13 +29,10 @@ class _ResultScreenState extends State<ResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomSheet: ResultFooter(),
+      bottomSheet: resultFooter(),
       drawer: Drawer(
-        child: Container(
+        child: SizedBox(
           width: double.infinity,
-          decoration: BoxDecoration(
-              // color: Colors.grey[800],
-              ),
           child: Column(
             children: [
               Center(
