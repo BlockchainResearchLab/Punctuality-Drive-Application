@@ -5,8 +5,6 @@ import 'package:punctuality_drive/services/api_services.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
 
-String? location;
-
 class ResultScreen extends StatefulWidget {
   const ResultScreen({Key? key}) : super(key: key);
 
@@ -17,16 +15,16 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   bool _isElevated = true;
 
-  void _dropDownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        location = selectedValue;
-      });
-      if (kDebugMode) {
-        print(location);
-      }
-    }
-  }
+  // void _dropDownCallback(String? selectedValue) {
+  //   if (selectedValue is String) {
+  //     setState(() {
+  //       location = selectedValue;
+  //     });
+  //     if (kDebugMode) {
+  //       print(location);
+  //     }
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -121,34 +119,34 @@ class _ResultScreenState extends State<ResultScreen> {
       ),
       appBar: AppBar(
         title: const Text("PUNCTUALITY DRIVE"),
-        actions: [
-          DropdownButton(
-            hint: Text(
-              location ?? 'Default',
-              style: const TextStyle(
-                color: Colors.amberAccent,
-              ),
-            ),
-            //focusColor: Colors.amber,
-            iconEnabledColor: Colors.amberAccent,
-            dropdownColor: Colors.amberAccent,
-            items: const [
-              DropdownMenuItem(
-                value: "LT",
-                child: Text("LT"),
-              ),
-              DropdownMenuItem(
-                value: "CS/IT",
-                child: Text("CS/IT"),
-              ),
-              DropdownMenuItem(
-                value: "MG",
-                child: Text("Main Gate"),
-              ),
-            ],
-            onChanged: _dropDownCallback,
-          ),
-        ],
+        // actions: [
+        //   DropdownButton(
+        //     hint: Text(
+        //       location ?? 'Default',
+        //       style: const TextStyle(
+        //         color: Colors.amberAccent,
+        //       ),
+        //     ),
+        //     //focusColor: Colors.amber,
+        //     iconEnabledColor: Colors.amberAccent,
+        //     dropdownColor: Colors.amberAccent,
+        //     items: const [
+        //       DropdownMenuItem(
+        //         value: "LT",
+        //         child: Text("LT"),
+        //       ),
+        //       DropdownMenuItem(
+        //         value: "CS/IT",
+        //         child: Text("CS/IT"),
+        //       ),
+        //       DropdownMenuItem(
+        //         value: "MG",
+        //         child: Text("Main Gate"),
+        //       ),
+        //     ],
+        //     onChanged: _dropDownCallback,
+        //   ),
+        // ],
         centerTitle: false,
         backgroundColor: Colors.black,
         foregroundColor: Colors.amberAccent,

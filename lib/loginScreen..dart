@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:punctuality_drive/Modals/studentData.dart';
+import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/routes/routes.dart';
+import 'package:punctuality_drive/services/api_services.dart';
+import 'Modals/login.dart';
+
+String? location;
+String? username;
+String? password;
+String? isSuccess = "Unauthorized";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -9,7 +18,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String name = "";
   final _validationKey = GlobalKey<FormState>();
 
   @override
@@ -64,22 +72,25 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           TextFormField(
+                            //field for location
                             cursorColor: Colors.amberAccent,
                             style: const TextStyle(color: Colors.amberAccent),
                             validator: (name) {
                               if (name!.isEmpty) {
-                                return "Please enter you Name!";
+                                return "Please enter your Location (Main Gate, CS/IT, LT)!";
                               }
                               return null;
                             },
                             decoration: const InputDecoration(
-                                labelText: 'Name', hintText: 'Your Name'),
+                                labelText: 'Location',
+                                hintText: 'Your Location'),
                             onChanged: (value) {
-                              name = value;
+                              location = value;
                               setState(() {});
                             },
                           ),
                           TextFormField(
+                            // field for username
                             cursorColor: Colors.amberAccent,
                             style: const TextStyle(color: Colors.amberAccent),
                             validator: (usernm) {
@@ -88,10 +99,14 @@ class _LoginPageState extends State<LoginPage> {
                               }
                               return null;
                             },
+                            onChanged: (value) {
+                              username = value;
+                            },
                             decoration: const InputDecoration(
                                 labelText: 'Username', hintText: 'Username'),
                           ),
                           TextFormField(
+                            // field for password
                             cursorColor: Colors.amberAccent,
                             style: const TextStyle(color: Colors.amberAccent),
                             validator: (pswd) {
@@ -101,6 +116,9 @@ class _LoginPageState extends State<LoginPage> {
                                 return "Password should at least have 8 characters!";
                               }
                               return null;
+                            },
+                            onChanged: (value) {
+                              password = value;
                             },
                             obscureText: true,
                             autocorrect: false,
@@ -122,7 +140,21 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     autofocus: true,
                     onPressed: () {
-                      Navigator.pushNamed(context, Routes.resultScreen);
+                      // Navigator.pushNamed(context, Routes.resultScreen);
+                      try {
+                        login(username!, password!);
+                        if (isSuccess == "true") {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ResultScreen(),
+                              ));
+                        } else {
+                          return null;
+                        }
+                      } catch (e) {
+                        throw (e);
+                      }
                     },
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
@@ -154,6 +186,8 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
+              isSuccess == true ? Text("Logged In") : Container(),
+              //linear progress indicator is to be put here.
               const SizedBox(
                 height: 100.0,
               ),
@@ -164,3 +198,24 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
+// FutureBuilder<Login?> isSuccess() {
+//   return FutureBuilder<Login?>(
+//     future: login(username!, password!),
+//     builder: (context, snapshot) {
+//       if (snapshot.data!.success == true) {
+//         return
+//         Navigator.push(
+//             context,
+//             MaterialPageRoute(
+//               builder: (context) => ResultScreen(),
+//             ));
+//       } else {
+//         return LinearProgressIndicator();
+//       }
+
+//     }
+//   );
+// }
+
+// bool isSuccess() {}

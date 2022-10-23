@@ -5,12 +5,14 @@ import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
+import 'package:punctuality_drive/loginScreen..dart';
 
 import '../Modals/createEntry.dart';
+import 'package:punctuality_drive/Modals/login.dart';
 
 String postApiURL =
     "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
-
+/*Function for creating late entry in the DB */
 Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   var request = http.Request(
@@ -37,6 +39,7 @@ Future<EntryModel?> lateEntry() async {
   return null;
 }
 
+/*Function for fetching student details in result2 page*/
 Future<StudentData?> show(String stdNum) async {
   String studentDataApiURL =
       "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$stdNum";
@@ -56,4 +59,27 @@ Future<StudentData?> show(String stdNum) async {
     }
   }
   //return null;
+}
+
+/*Function for login authorization */
+
+Future<Login?> login(String username, String password) async {
+  var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+  var request = http.Request(
+      'POST', Uri.parse('http://akgec-late-entry.herokuapp.com/login'));
+  request.bodyFields = {'userName': username, 'password': password};
+  request.headers.addAll(headers);
+
+  http.StreamedResponse response = await request.send();
+
+  if (response.statusCode == 200) {
+    var data = await response.stream.bytesToString();
+    var jsondata = jsonDecode(data);
+    print(jsondata);
+    // print(jsondata["success"]);
+
+    isSuccess = jsondata["success"];
+  } else {
+    print(response.reasonPhrase);
+  }
 }
