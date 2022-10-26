@@ -63,24 +63,4 @@ Future<StudentData?> show(String stdNum) async {
 
 /*Function for login authorization */
 
-Future<Login?> login(String username, String password) async {
-  var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
-  var request = http.Request(
-      'POST', Uri.parse('http://akgec-late-entry.herokuapp.com/login'));
-  request.bodyFields = {'userName': username, 'password': password};
-  request.headers.addAll(headers);
 
-  http.StreamedResponse response = await request.send();
-
-  if (response.statusCode == 200) {
-    var data = await response.stream.bytesToString();
-    var jsondata = jsonDecode(data);
-    print(jsondata);
-    // print(jsondata["success"]);
-
-    isSuccess = "true";
-  } else {
-    print(response.reasonPhrase);
-    isSuccess = "false";
-  }
-}

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
@@ -6,6 +8,7 @@ import 'package:punctuality_drive/routes/routes.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
+import 'package:http/http.dart' as http;
 
 String? location;
 String? username;
@@ -33,6 +36,32 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+  Future<Login?> login(String username, String password) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var request = http.Request(
+        'POST', Uri.parse('http://akgec-late-entry.herokuapp.com/login'));
+    request.bodyFields = {'userName': username, 'password': password};
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      var data = await response.stream.bytesToString();
+      var jsondata = jsonDecode(data);
+      print(jsondata);
+      // print(jsondata["success"]);
+
+      setState(() {
+        isSuccess = "true";
+      });
+    } else {
+      print(response.reasonPhrase);
+      setState(() {
+        isSuccess = "false";
+      });
+    }
+  }
+
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   // @override
@@ -42,6 +71,35 @@ class _LoginPageState extends State<LoginPage> {
   //   usernameController.dispose();
   //   passwordController.dispose();
   // }
+  @override
+  void initState() {
+    super.initState();
+    usernameController.addListener(_printLatestUsername);
+    passwordController.addListener(_printLatestPassword);
+  }
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is removed from the widget tree.
+    // This also removes the _printLatestValue listener.
+    usernameController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  void _printLatestUsername() {
+    setState(() {
+      username = usernameController.text;
+    });
+    print(username);
+  }
+
+  void _printLatestPassword() {
+    setState(() {
+      password = passwordController.text;
+    });
+    print(password);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -153,6 +211,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               username = value;
+                              print(username);
                             },
                             decoration: const InputDecoration(
                                 labelText: 'Username', hintText: 'Username'),
@@ -172,6 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               password = value;
+                              print(password);
                             },
                             obscureText: true,
                             autocorrect: false,
@@ -193,6 +253,7 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     autofocus: true,
                     onPressed: () async {
+                      setState(() {});
                       if (password == null && username == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
