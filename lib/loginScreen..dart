@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/resultScreen.dart';
@@ -20,6 +21,19 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _validationKey = GlobalKey<FormState>();
 
+  void _dropDownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        location = selectedValue;
+      });
+      if (kDebugMode) {
+        print(location);
+      }
+    }
+  }
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,11 +69,11 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     Center(
                       child: Text(
-                        "PUNCTUALITY DRIVE APPLICATION",
+                        "PUNCTUALITY DRIVE",
                         textAlign: TextAlign.left,
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
-                          color: Colors.amberAccent,
+                          color: Colors.black,
                           fontSize: MediaQuery.of(context).size.width * 0.05,
                         ),
                       ),
@@ -71,28 +85,57 @@ class _LoginPageState extends State<LoginPage> {
                       key: _validationKey,
                       child: Column(
                         children: [
-                          TextFormField(
-                            //field for location
-                            cursorColor: Colors.amberAccent,
-                            style: const TextStyle(color: Colors.amberAccent),
-                            validator: (name) {
-                              if (name!.isEmpty) {
-                                return "Please enter your Location (Main Gate, CS/IT, LT)!";
-                              }
-                              return null;
-                            },
-                            decoration: const InputDecoration(
-                                labelText: 'Location',
-                                hintText: 'Your Location'),
-                            onChanged: (value) {
-                              location = value;
-                              setState(() {});
-                            },
+                          DropdownButton(
+                            isExpanded: true,
+                            elevation: 12,
+                            hint: Text(
+                              location ?? 'Your Location',
+                              style: const TextStyle(
+                                color: Colors.black54,
+                              ),
+                            ),
+                            //focusColor: Colors.amber,
+                            iconEnabledColor: Colors.black,
+                            dropdownColor: Colors.white,
+                            items: const [
+                              DropdownMenuItem(
+                                value: "LT",
+                                child: Text("LT"),
+                              ),
+                              DropdownMenuItem(
+                                value: "CS/IT",
+                                child: Text("CS/IT"),
+                              ),
+                              DropdownMenuItem(
+                                value: "MG",
+                                child: Text("Main Gate"),
+                              ),
+                            ],
+                            onChanged: _dropDownCallback,
                           ),
+                          // TextFormField(
+                          //   //field for location
+                          //   cursorColor: Colors.amberAccent,
+                          //   style: const TextStyle(color: Colors.amberAccent),
+                          //   validator: (name) {
+                          //     if (name!.isEmpty) {
+                          //       return "Please enter your Location (Main Gate, CS/IT, LT)!";
+                          //     }
+                          //     return null;
+                          //   },
+                          //   decoration: const InputDecoration(
+                          //       labelText: 'Location',
+                          //       hintText: 'Your Location'),
+                          //   onChanged: (value) {
+                          //     location = value;
+                          //     setState(() {});
+                          //   },
+                          // ),
                           TextFormField(
+                            controller: usernameController,
                             // field for username
-                            cursorColor: Colors.amberAccent,
-                            style: const TextStyle(color: Colors.amberAccent),
+                            cursorColor: Colors.black,
+                            style: const TextStyle(color: Colors.black),
                             validator: (usernm) {
                               if (usernm!.isEmpty) {
                                 return "Please enter you Username!";
@@ -106,9 +149,10 @@ class _LoginPageState extends State<LoginPage> {
                                 labelText: 'Username', hintText: 'Username'),
                           ),
                           TextFormField(
+                            controller: passwordController,
                             // field for password
-                            cursorColor: Colors.amberAccent,
-                            style: const TextStyle(color: Colors.amberAccent),
+                            cursorColor: Colors.black,
+                            style: const TextStyle(color: Colors.black),
                             validator: (pswd) {
                               if (pswd!.isEmpty) {
                                 return "Please enter Password!";
@@ -140,24 +184,46 @@ class _LoginPageState extends State<LoginPage> {
                   ElevatedButton(
                     autofocus: true,
                     onPressed: () {
-                      // Navigator.pushNamed(context, Routes.resultScreen);
-                      try {
-                        login(username!, password!);
-                        if (isSuccess == "true") {
+                      if (password == null && username == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            content: Text(
+                                "Please provide required details to login")));
+                      } else {
+                        try {
+                          login(username!, password!);
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => ResultScreen(),
                               ));
-                        } else {
-                          return null;
+                        } catch (e) {
+                          print(e);
                         }
-                      } catch (e) {
-                        throw (e);
                       }
                     },
+                    // onPressed: () {
+                    //   // Navigator.pushNamed(context, Routes.resultScreen);
+                    //   try {
+                    //     // login(username!, password!);
+                    //     if (isSuccess == "true") {
+                    //       Navigator.push(
+                    //           context,
+                    //           MaterialPageRoute(
+                    //             builder: (context) => ResultScreen(),
+                    //           ));
+                    //     } else if (username == "" && password == "") {
+                    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    //           content: Text(
+                    //               "Please fill Username and Password to Login")));
+                    //     } else {
+                    //       return null;
+                    //     }
+                    //   } catch (e) {
+                    //     throw (e);
+                    //   }
+                    // },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.black,
                         // foregroundColor: Colors.amberAccent,
                         minimumSize: Size(
                             MediaQuery.of(context).size.width * 0.8,
@@ -172,7 +238,7 @@ class _LoginPageState extends State<LoginPage> {
                           width: 10.0,
                         ),
                         Text(
-                          "Sign In",
+                          "LOGIN",
                           style: TextStyle(
                             fontSize: 20.0,
                           ),
@@ -186,7 +252,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              isSuccess == true ? Text("Logged In") : Container(),
+              isSuccess == "true"
+                  ? Text("Logged In")
+                  : Text("Incorrect Username or Password"),
               //linear progress indicator is to be put here.
               const SizedBox(
                 height: 100.0,

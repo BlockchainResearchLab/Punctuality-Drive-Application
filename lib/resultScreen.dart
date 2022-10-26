@@ -15,17 +15,6 @@ class ResultScreen extends StatefulWidget {
 class _ResultScreenState extends State<ResultScreen> {
   bool _isElevated = true;
 
-  // void _dropDownCallback(String? selectedValue) {
-  //   if (selectedValue is String) {
-  //     setState(() {
-  //       location = selectedValue;
-  //     });
-  //     if (kDebugMode) {
-  //       print(location);
-  //     }
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

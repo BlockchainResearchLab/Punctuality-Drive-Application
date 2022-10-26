@@ -78,7 +78,7 @@ Future<Login?> login(String username, String password) async {
     print(jsondata);
     // print(jsondata["success"]);
 
-    isSuccess = jsondata["success"];
+    isSuccess = jsondata["success"].toString();
   } else {
     print(response.reasonPhrase);
   }
