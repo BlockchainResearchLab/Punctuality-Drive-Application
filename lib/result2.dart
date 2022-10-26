@@ -183,25 +183,31 @@ class Buttons extends StatelessWidget {
 
 Widget ResultFooter() {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      SizedBox(
-        width: 145,
-      ),
+      // SizedBox(
+      //   width: 145,
+      // ),
       Container(
         height: 100,
         width: 100,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              "POWERED BY : ",
-              style: TextStyle(fontWeight: FontWeight.w300),
+            Center(
+              child: Text(
+                "POWERED BY : ",
+                style: TextStyle(fontWeight: FontWeight.w300),
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Image(
-              image: AssetImage(
-                "images/brl_logo.png",
+            Center(
+              child: Image(
+                image: AssetImage(
+                  "images/brl_logo.png",
+                ),
               ),
             )
           ],

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
+import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/routes/routes.dart';
 import 'package:punctuality_drive/services/api_services.dart';
@@ -104,6 +105,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomSheet: ResultFooter(),
       body: SingleChildScrollView(
         reverse: true,
         child: SafeArea(
