@@ -1,7 +1,9 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
 
@@ -60,7 +62,18 @@ class _ResultScreenState extends State<ResultScreen> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () {
+                        onTap: () async {
+                          SharedPreferences prefs =
+                              await SharedPreferences.getInstance();
+                          prefs.remove('username');
+                          prefs.remove('password');
+                          username = null;
+                          password = null;
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ));
                           // TODO: Logout Function Implementation
                           setState(() {
                             _isElevated = !_isElevated;

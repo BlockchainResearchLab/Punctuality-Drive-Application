@@ -4,12 +4,13 @@ import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/routes/routes.dart';
 import 'package:punctuality_drive/services/api_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 
 String? location;
 String? username;
 String? password;
-String? isSuccess = "Unauthorized";
+String? isSuccess = "false";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -34,6 +35,14 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   usernameController.dispose();
+  //   passwordController.dispose();
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -183,21 +192,47 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   ElevatedButton(
                     autofocus: true,
-                    onPressed: () {
+                    onPressed: () async {
                       if (password == null && username == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            duration: Duration(seconds: 1),
                             content: Text(
-                                "Please provide required details to login")));
+                                "Please provide required details to login"),
+                          ),
+                        );
                       } else {
                         try {
                           login(username!, password!);
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ResultScreen(),
-                              ));
+                          if (isSuccess == "false") {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  "Unauthorized Access",
+                                ),
+                                duration: Duration(seconds: 1),
+                              ),
+                            );
+                          } else {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.setString('username', username.toString());
+                            prefs.setString('password', password.toString());
+                            Future.delayed(Duration(seconds: 2), () {
+                              Container(
+                                child: LinearProgressIndicator(
+                                  color: Colors.black,
+                                  minHeight: 18,
+                                ),
+                              );
+                            }).then((value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ResultScreen(),
+                                )));
+                          }
                         } catch (e) {
-                          print(e);
+                          print("cannot process");
                         }
                       }
                     },
@@ -252,9 +287,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ],
               ),
-              isSuccess == "true"
-                  ? Text("Logged In")
-                  : Text("Incorrect Username or Password"),
+              // isSuccess == "true"
+              //     ? Text("Logged In")
+              //     : Text("Incorrect Username or Password"),
               //linear progress indicator is to be put here.
               const SizedBox(
                 height: 100.0,
