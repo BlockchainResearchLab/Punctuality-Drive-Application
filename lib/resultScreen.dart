@@ -67,13 +67,16 @@ class _ResultScreenState extends State<ResultScreen> {
                               await SharedPreferences.getInstance();
                           prefs.remove('username');
                           prefs.remove('password');
-                          username = null;
-                          password = null;
+                          // username = null;
+                          // password = null;
                           Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                 builder: (context) => LoginPage(),
-                              ));
+                              )).whenComplete(() {
+                            password = null;
+                            username = null;
+                          });
                           // TODO: Logout Function Implementation
                           setState(() {
                             _isElevated = !_isElevated;

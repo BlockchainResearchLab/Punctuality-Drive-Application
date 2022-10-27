@@ -266,7 +266,11 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       } else {
                         try {
-                          login(username!, password!);
+                          login(username!, password!).then((value) {
+                            isSuccess = "true";
+                          }).catchError(() {
+                            isSuccess = "false";
+                          });
                           if (isSuccess == "false") {
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
