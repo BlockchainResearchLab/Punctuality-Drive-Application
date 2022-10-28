@@ -38,6 +38,7 @@ dependencies:
   page_transition: ^2.0.9
   flutter_barcode_scanner: ^2.0.0
   http: ^0.13.5
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

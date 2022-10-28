@@ -18,10 +18,13 @@ class _ScannedEntryState extends State<ScannedEntry> {
 
     var height = size.height;
     var width = size.width;
+
     if (kDebugMode) {
       print(height);
       print(width);
     }
+
+
     return Scaffold(
       bottomSheet: resultFooter(),
       body: Container(
@@ -54,9 +57,9 @@ class _ScannedEntryState extends State<ScannedEntry> {
                         child: CircleAvatar(
                           backgroundColor: Colors.grey,
                           radius: 80,
-                          backgroundImage: NetworkImage(
-                            snapshot.data!.result!.img.toString(),
-                          ), // link to be provided later.
+                          backgroundImage: NetworkImage(snapshot
+                              .data!.result!.img
+                              .toString()), // link to be provided later.
                         ),
                       ),
                       const SizedBox(
@@ -125,7 +128,9 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                         ),
                                       );
                                     },
-                                  ).then((value) => Navigator.pop(context)),
+                                  ).then(
+                                    (value) => Navigator.pop(context),
+                                  ),
                               "Cancel",
                               Colors.red)
                         ],
@@ -139,7 +144,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                       style: TextStyle(fontSize: 18),
                     ),
                   );
-                }
+                };
               },
             ),
           ),
@@ -203,25 +208,28 @@ class Buttons extends StatelessWidget {
 
 Widget resultFooter() {
   return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      const SizedBox(
-        width: 145,
-      ),
       SizedBox(
         height: 100,
         width: 100,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: const [
-            Text(
-              "POWERED BY : ",
-              style: TextStyle(fontWeight: FontWeight.w300),
+            Center(
+              child: Text(
+                "POWERED BY : ",
+                style: TextStyle(fontWeight: FontWeight.w300),
+              ),
             ),
             SizedBox(
               height: 10,
             ),
-            Image(
-              image: AssetImage(
-                "images/brl_logo.png",
+            Center(
+              child: Image(
+                image: AssetImage(
+                  "images/brl_logo.png",
+                ),
               ),
             ),
           ],
