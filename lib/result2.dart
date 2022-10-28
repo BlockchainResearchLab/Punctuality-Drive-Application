@@ -18,17 +18,20 @@ class _ScannedEntryState extends State<ScannedEntry> {
 
     var height = size.height;
     var width = size.width;
+
     if (kDebugMode) {
       print(height);
       print(width);
     }
+
+
     return Scaffold(
       bottomSheet: ResultFooter(),
       body: Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
           child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+            padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
             height: height * 0.479,
             width: width,
             decoration: BoxDecoration(
@@ -36,105 +39,115 @@ class _ScannedEntryState extends State<ScannedEntry> {
               border: Border.all(color: Colors.grey),
             ),
             child: FutureBuilder<StudentData?>(
-                future: show(studentNumber ?? "0000"),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      child: Center(child: LinearProgressIndicator()),
-                      height: 100,
-                      width: 100,
-                    );
-                  } else if (snapshot.hasData) {
-                    return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Center(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              radius: 80,
-                              backgroundImage: NetworkImage(snapshot
-                                  .data!.result!.img
-                                  .toString()), // link to be provided later.
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Student Name : ${snapshot.data!.result!.name.toString()}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Student Number :${snapshot.data!.result!.stdNo} ",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 70,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Buttons(
-                                  IconData(0xe156, fontFamily: 'MaterialIcons'),
-                                  () {
-                                lateEntry()
-                                    .whenComplete(() => showDialog(
-                                        context: context,
-                                        builder: ((context) {
-                                          return AlertDialog(
-                                            title: Text("Entry Status"),
-                                            content: Text(
-                                                "Entry Marked \nCount : ${snapshot.data!.result!.lateCount}"),
-                                          );
-                                        })))
-                                    .whenComplete(() => Navigator.pop(context));
-                                // ScaffoldMessenger(child: Text("Entry Marked"));
-
-                                // Future.delayed(Duration(seconds: 2), () {
-                                //   Navigator.pop(context);
-                                // });
-                              }, "Mark Entry", Colors.blue),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Buttons(
-                                  IconData(0xe139, fontFamily: 'MaterialIcons'),
+              future: show(studentNumber ?? "0000"),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const SizedBox(
+                    height: 100,
+                    width: 100,
+                    child: Center(
+                      child: LinearProgressIndicator(),
+                    ),
+                  );
+                } else if (snapshot.hasData) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Center(
+                        child: CircleAvatar(
+                          backgroundColor: Colors.grey,
+                          radius: 80,
+                          backgroundImage: NetworkImage(snapshot
+                              .data!.result!.img
+                              .toString()), // link to be provided later.
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Student Name : ${snapshot.data!.result!.name.toString()}",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        "Student Number :${snapshot.data!.result!.stdNo} ",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 70,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Buttons(
+                              const IconData(0xe156,
+                                  fontFamily: 'MaterialIcons'), () {
+                            lateEntry()
+                                .whenComplete(
                                   () => showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Entry Status"),
-                                            content: Text(
-                                              "Entry Cancelled",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                          );
-                                        },
-                                      ).then((value) => Navigator.pop(context)),
-                                  "Cancel",
-                                  Colors.red)
-                            ],
+                                    context: context,
+                                    builder: ((context) {
+                                      return AlertDialog(
+                                        title: const Text("Entry Status"),
+                                        content: Text(
+                                            "Entry Marked \nCount : ${snapshot.data!.result!.lateCount}"),
+                                      );
+                                    }),
+                                  ),
+                                )
+                                .whenComplete(() => Navigator.pop(context));
+                            // ScaffoldMessenger(child: Text("Entry Marked"));
+
+                            // Future.delayed(Duration(seconds: 2), () {
+                            //   Navigator.pop(context);
+                            // });
+                          }, "Mark Entry", Colors.blue),
+                          const SizedBox(
+                            width: 10,
                           ),
-                        ]);
-                  } else {
-                    return ScaffoldMessenger(
-                        child: Text(
+                          Buttons(
+                              const IconData(0xe139,
+                                  fontFamily: 'MaterialIcons'),
+                              () => showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return const AlertDialog(
+                                        title: Text("Entry Status"),
+                                        content: Text(
+                                          "Entry Cancelled",
+                                          style: TextStyle(color: Colors.red),
+                                        ),
+                                      );
+                                    },
+                                  ).then(
+                                    (value) => Navigator.pop(context),
+                                  ),
+                              "Cancel",
+                              Colors.red)
+                        ],
+                      ),
+                    ],
+                  );
+                } else {
+                  return const ScaffoldMessenger(
+                    child: Text(
                       "Scan the card again",
                       style: TextStyle(fontSize: 18),
-                    ));
-                  }
-                  ;
-                }),
+                    ),
+                  );
+                }
+                ;
+              },
+            ),
           ),
         ),
       ),
@@ -149,35 +162,46 @@ class Buttons extends StatelessWidget {
     this.text,
     this.color,
   );
+
   IconData icon;
   String text;
   Function() onpressed;
   Color color;
+
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(color),
-            minimumSize: MaterialStateProperty.all(Size(50, 50)),
-            side: MaterialStatePropertyAll(BorderSide(color: Colors.white)),
-            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)))),
-        onPressed: onpressed,
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.black54,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              text,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ));
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all(color),
+        minimumSize: MaterialStateProperty.all(
+          const Size(50, 50),
+        ),
+        side: const MaterialStatePropertyAll(
+          BorderSide(color: Colors.white),
+        ),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
+      onPressed: onpressed,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: Colors.black54,
+          ),
+          const SizedBox(
+            width: 5,
+          ),
+          Text(
+            text,
+            style: const TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -188,12 +212,12 @@ Widget ResultFooter() {
       // SizedBox(
       //   width: 145,
       // ),
-      Container(
+      SizedBox(
         height: 100,
         width: 100,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Center(
               child: Text(
                 "POWERED BY : ",

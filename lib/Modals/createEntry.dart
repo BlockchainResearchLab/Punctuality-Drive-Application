@@ -1,8 +1,12 @@
 import 'dart:convert';
 
-EntryModel welcomeFromJson(String str) => EntryModel.fromJson(json.decode(str));
+EntryModel welcomeFromJson(String str) => EntryModel.fromJson(
+      json.decode(str),
+    );
 
-String welcomeToJson(EntryModel data) => json.encode(data.toJson());
+String welcomeToJson(EntryModel data) => json.encode(
+      data.toJson(),
+    );
 
 class EntryModel {
   EntryModel({

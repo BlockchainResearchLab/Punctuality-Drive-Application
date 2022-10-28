@@ -3,16 +3,16 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/Modals/studentData.dart';
-import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 
 import '../Modals/createEntry.dart';
-import 'package:punctuality_drive/Modals/login.dart';
 
 String postApiURL =
     "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
-/*Function for creating late entry in the DB */
+
+/* Function for creating late entry in the DB */
+
 Future<EntryModel?> lateEntry() async {
   var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
   var request = http.Request(
@@ -46,10 +46,12 @@ Future<StudentData?> show(String stdNum) async {
   final response = await http.get(
     Uri.parse(studentDataApiURL),
   );
+
   if (response.statusCode == 200) {
     if (kDebugMode) {
       print(response.body);
     }
+
     return StudentData.fromJson(
       jsonDecode(response.body),
     );
@@ -58,9 +60,7 @@ Future<StudentData?> show(String stdNum) async {
       print(response.statusCode);
     }
   }
-  //return null;
+  return null;
 }
 
 /*Function for login authorization */
-
-

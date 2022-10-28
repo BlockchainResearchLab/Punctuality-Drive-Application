@@ -23,13 +23,20 @@ class _ScannerState extends State<Scanner> {
     try {
       barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
           '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      setState(() {
-        studentNumber = barcodeScanRes;
-        // lateEntry(); // moved to mark entry button.
-        show(studentNumber ?? "2012014");
-        Navigator.push(
-            context, MaterialPageRoute(builder: ((context) => ScannedEntry())));
-      });
+      setState(
+        () {
+          studentNumber = barcodeScanRes;
+          // lateEntry(); // moved to mark entry button.
+          show(studentNumber ?? "2012014");
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const ScannedEntry()),
+            ),
+          );
+        },
+      );
+
       if (kDebugMode) {
         print(barcodeScanRes);
       }
@@ -41,9 +48,11 @@ class _ScannerState extends State<Scanner> {
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton.large(
-      onPressed: () => setState(() {
-        scanBarcodeNormal();
-      }),
+      onPressed: () => setState(
+        () {
+          scanBarcodeNormal();
+        },
+      ),
       elevation: 10.0,
       backgroundColor: Colors.black,
       foregroundColor: Colors.amberAccent,

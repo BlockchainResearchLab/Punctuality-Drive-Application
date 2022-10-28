@@ -1,12 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/result2.dart';
-import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
-import 'package:punctuality_drive/Modals/studentData.dart';
 
 class ResultScreen extends StatefulWidget {
   const ResultScreen({Key? key}) : super(key: key);
@@ -59,7 +56,7 @@ class _ResultScreenState extends State<ResultScreen> {
         drawer: Drawer(
           child: Container(
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // color: Colors.grey[800],
                 ),
             child: Column(
@@ -105,23 +102,30 @@ class _ResultScreenState extends State<ResultScreen> {
                             // username = null;
                             // password = null;
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                )).whenComplete(() {
-                              // password = null;
-                              // username = null;
-                              setState(() {
-                                password = null;
-                                username = null;
-                                isSuccess = "false";
-                                location = null;
-                              });
-                            });
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginPage(),
+                              ),
+                            ).whenComplete(
+                              () {
+                                // password = null;
+                                // username = null;
+                                setState(
+                                  () {
+                                    password = null;
+                                    username = null;
+                                    isSuccess = "false";
+                                    location = null;
+                                  },
+                                );
+                              },
+                            );
                             // TODO: Logout Function Implementation
-                            setState(() {
-                              _isElevated = !_isElevated;
-                            });
+                            setState(
+                              () {
+                                _isElevated = !_isElevated;
+                              },
+                            );
                           },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 100),

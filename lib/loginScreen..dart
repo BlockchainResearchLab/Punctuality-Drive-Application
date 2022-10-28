@@ -1,12 +1,8 @@
 import 'dart:convert';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/resultScreen.dart';
-import 'package:punctuality_drive/routes/routes.dart';
-import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 import 'package:http/http.dart' as http;
@@ -28,9 +24,12 @@ class _LoginPageState extends State<LoginPage> {
 
   void _dropDownCallback(String? selectedValue) {
     if (selectedValue is String) {
-      setState(() {
-        location = selectedValue;
-      });
+      setState(
+        () {
+          location = selectedValue;
+        },
+      );
+
       if (kDebugMode) {
         print(location);
       }
@@ -49,22 +48,33 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       var data = await response.stream.bytesToString();
       var jsondata = jsonDecode(data);
-      print(jsondata);
-      // print(jsondata["success"]);
 
-      setState(() {
-        isSuccess = "true";
-      });
+      if (kDebugMode) {
+        print(jsondata);
+      }
+
+      setState(
+        () {
+          isSuccess = "true";
+        },
+      );
     } else {
-      print(response.reasonPhrase);
-      setState(() {
-        isSuccess = "false";
-      });
+      if (kDebugMode) {
+        print(response.reasonPhrase);
+      }
+
+      setState(
+        () {
+          isSuccess = "false";
+        },
+      );
     }
+    return null;
   }
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -89,17 +99,27 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _printLatestUsername() {
-    setState(() {
-      username = usernameController.text;
-    });
-    print(username);
+    setState(
+      () {
+        username = usernameController.text;
+      },
+    );
+
+    if (kDebugMode) {
+      print(username);
+    }
   }
 
   void _printLatestPassword() {
-    setState(() {
-      password = passwordController.text;
-    });
-    print(password);
+    setState(
+      () {
+        password = passwordController.text;
+      },
+    );
+
+    if (kDebugMode) {
+      print(password);
+    }
   }
 
   @override
@@ -213,7 +233,10 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               username = value;
-                              print(username);
+
+                              if (kDebugMode) {
+                                print(username);
+                              }
                             },
                             decoration: const InputDecoration(
                                 labelText: 'Username', hintText: 'Username'),
@@ -233,7 +256,10 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               password = value;
-                              print(password);
+
+                              if (kDebugMode) {
+                                print(password);
+                              }
                             },
                             obscureText: true,
                             autocorrect: false,
@@ -258,7 +284,7 @@ class _LoginPageState extends State<LoginPage> {
                       setState(() {});
                       if (password == null && username == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             duration: Duration(seconds: 1),
                             content: Text(
                                 "Please provide required details to login"),
@@ -271,20 +297,26 @@ class _LoginPageState extends State<LoginPage> {
                           // }).catchError(() {
                           //   isSuccess = "false";
                           // });
-                          await login(username!, password!).then((value) {
-                            if (value != null) {
-                              setState(() {
-                                isSuccess = "true";
-                              });
-                            }
-                          }).catchError(() {
-                            setState(() {
-                              isSuccess = "false";
-                            });
-                          });
+                          await login(username!, password!).then(
+                            (value) {
+                              if (value != null) {
+                                setState(() {
+                                  isSuccess = "true";
+                                });
+                              }
+                            },
+                          ).catchError(
+                            (value) {
+                              setState(
+                                () {
+                                  isSuccess = "false";
+                                },
+                              );
+                            },
+                          );
                           if (isSuccess == "false") {
                             ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
+                              const SnackBar(
                                 content: Text(
                                   "Unauthorized Access",
                                 ),
@@ -296,21 +328,27 @@ class _LoginPageState extends State<LoginPage> {
                                 await SharedPreferences.getInstance();
                             prefs.setString('username', username.toString());
                             prefs.setString('password', password.toString());
-                            Future.delayed(Duration(seconds: 2), () {
-                              Container(
-                                child: LinearProgressIndicator(
+                            Future.delayed(
+                              const Duration(seconds: 2),
+                              () {
+                                const LinearProgressIndicator(
                                   color: Colors.black,
                                   minHeight: 18,
-                                ),
-                              );
-                            }).then((value) => Navigator.push(
+                                );
+                              },
+                            ).then(
+                              (value) => Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ResultScreen(),
-                                )));
+                                  builder: (context) => const ResultScreen(),
+                                ),
+                              ),
+                            );
                           }
                         } catch (e) {
-                          print("cannot process");
+                          if (kDebugMode) {
+                            print("cannot process");
+                          }
                         }
                       }
                     },
@@ -336,17 +374,16 @@ class _LoginPageState extends State<LoginPage> {
                     //   }
                     // },
                     style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        // foregroundColor: Colors.amberAccent,
-                        minimumSize: Size(
-                            MediaQuery.of(context).size.width * 0.8,
-                            MediaQuery.of(context).size.height * 0.05),
-                        elevation: 8.0,
-                        animationDuration: const Duration(seconds: 1)),
+                      backgroundColor: Colors.black,
+                      // foregroundColor: Colors.amberAccent,
+                      minimumSize: Size(MediaQuery.of(context).size.width * 0.8,
+                          MediaQuery.of(context).size.height * 0.05),
+                      elevation: 8.0,
+                      animationDuration: const Duration(seconds: 1),
+                    ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: const [
-                        // Icon(Icons.g_mobiledata_rounded),
                         SizedBox(
                           width: 10.0,
                         ),

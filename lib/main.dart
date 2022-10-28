@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/resultScreen.dart';
@@ -8,11 +9,17 @@ Future<void> main() async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   var userNamePrefs = prefs.getString('username');
   var passwordPrefs = prefs.getString("password");
-  print(userNamePrefs);
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: userNamePrefs == null ? LoginPage() : ResultScreen(),
-  ));
+
+  if (kDebugMode) {
+    print(userNamePrefs);
+  }
+
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: userNamePrefs == null ? const LoginPage() : const ResultScreen(),
+    ),
+  );
 }
 
 class MainPage extends StatelessWidget {
