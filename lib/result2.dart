@@ -26,7 +26,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
 
 
     return Scaffold(
-      bottomSheet: ResultFooter(),
+      bottomSheet: resultFooter(),
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -144,8 +144,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                       style: TextStyle(fontSize: 18),
                     ),
                   );
-                }
-                ;
+                };
               },
             ),
           ),
@@ -181,7 +180,9 @@ class Buttons extends StatelessWidget {
         ),
         shape: MaterialStatePropertyAll(
           RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: BorderRadius.circular(
+              10,
+            ),
           ),
         ),
       ),
@@ -205,13 +206,10 @@ class Buttons extends StatelessWidget {
   }
 }
 
-Widget ResultFooter() {
+Widget resultFooter() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      // SizedBox(
-      //   width: 145,
-      // ),
       SizedBox(
         height: 100,
         width: 100,
@@ -233,7 +231,7 @@ Widget ResultFooter() {
                   "images/brl_logo.png",
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),

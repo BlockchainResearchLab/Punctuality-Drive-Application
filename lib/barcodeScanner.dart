@@ -36,7 +36,6 @@ class _ScannerState extends State<Scanner> {
           );
         },
       );
-
       if (kDebugMode) {
         print(barcodeScanRes);
       }
