@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
@@ -19,146 +20,188 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      bottomSheet: ResultFooter(),
-      drawer: Drawer(
-        child: Container(
-          width: double.infinity,
-          decoration: BoxDecoration(
-              // color: Colors.grey[800],
+    return WillPopScope(
+      onWillPop: () async {
+        return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text(
+                'Are you sure?',
               ),
-          child: Column(
-            children: [
-              Center(
-                child: Container(
-                  margin: const EdgeInsets.only(top: 40.0),
-                  width: 150,
-                  height: 150,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.fill,
-                      // TODO: UID IMAGE
-                      image: AssetImage("images/akg2.png"),
+              content: const Text(
+                'Do you want to exit an App',
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text(
+                    'No',
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    'Yes',
+                  ),
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                )
+              ],
+            );
+          },
+        );
+      },
+      child: Scaffold(
+        bottomSheet: ResultFooter(),
+        drawer: Drawer(
+          child: Container(
+            width: double.infinity,
+            decoration: BoxDecoration(
+                // color: Colors.grey[800],
+                ),
+            child: Column(
+              children: [
+                Center(
+                  child: Container(
+                    margin: const EdgeInsets.only(top: 40.0),
+                    width: 150,
+                    height: 150,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.fill,
+                        // TODO: UID IMAGE
+                        image: AssetImage("images/akg2.png"),
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 5.0,
-              ),
-              const Text(
-                // TODO: UID NAME
-                "UserName",
-                style: TextStyle(fontSize: 30.0, color: Colors.black),
-              ),
-              // SizedBox(
-              //   height: 500,
-              // ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                        onTap: () async {
-                          SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
-                          prefs.remove('username');
-                          prefs.remove('password');
-                          // username = null;
-                          // password = null;
-                          Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              )).whenComplete(() {
-                            password = null;
-                            username = null;
-                          });
-                          // TODO: Logout Function Implementation
-                          setState(() {
-                            _isElevated = !_isElevated;
-                          });
-                        },
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 100),
-                          height: 50,
-                          width: 200,
-                          decoration: BoxDecoration(
-                              color: Colors.grey[800],
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: _isElevated
-                                  ? [
-                                      const BoxShadow(
-                                          color: Colors.black,
-                                          offset: Offset(4, 4),
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                      const BoxShadow(
-                                          color: Colors.black12,
-                                          offset: Offset(-8, -8),
-                                          blurRadius: 15,
-                                          spreadRadius: 1),
-                                    ]
-                                  : null),
-                          child: Center(
-                            child: Text(
-                              "Log Out",
-                              style: TextStyle(
-                                fontSize: 20.0,
-                                color: _isElevated ? Colors.red : Colors.white,
+                const SizedBox(
+                  height: 5.0,
+                ),
+                const Text(
+                  // TODO: UID NAME
+                  "UserName",
+                  style: TextStyle(fontSize: 30.0, color: Colors.black),
+                ),
+                // SizedBox(
+                //   height: 500,
+                // ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 50.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                          onTap: () async {
+                            SharedPreferences prefs =
+                                await SharedPreferences.getInstance();
+                            prefs.remove('username');
+                            prefs.remove('password');
+                            // username = null;
+                            // password = null;
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                )).whenComplete(() {
+                              // password = null;
+                              // username = null;
+                              setState(() {
+                                password = null;
+                                username = null;
+                                isSuccess = "false";
+                                location = null;
+                              });
+                            });
+                            // TODO: Logout Function Implementation
+                            setState(() {
+                              _isElevated = !_isElevated;
+                            });
+                          },
+                          child: AnimatedContainer(
+                            duration: const Duration(milliseconds: 100),
+                            height: 50,
+                            width: 200,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[800],
+                                borderRadius: BorderRadius.circular(30),
+                                boxShadow: _isElevated
+                                    ? [
+                                        const BoxShadow(
+                                            color: Colors.black,
+                                            offset: Offset(4, 4),
+                                            blurRadius: 15,
+                                            spreadRadius: 1),
+                                        const BoxShadow(
+                                            color: Colors.black12,
+                                            offset: Offset(-8, -8),
+                                            blurRadius: 15,
+                                            spreadRadius: 1),
+                                      ]
+                                    : null),
+                            child: Center(
+                              child: Text(
+                                "Log Out",
+                                style: TextStyle(
+                                  fontSize: 20.0,
+                                  color:
+                                      _isElevated ? Colors.red : Colors.white,
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
+        appBar: AppBar(
+          title: const Text("PUNCTUALITY DRIVE"),
+          // actions: [
+          //   DropdownButton(
+          //     hint: Text(
+          //       location ?? 'Default',
+          //       style: const TextStyle(
+          //         color: Colors.amberAccent,
+          //       ),
+          //     ),
+          //     //focusColor: Colors.amber,
+          //     iconEnabledColor: Colors.amberAccent,
+          //     dropdownColor: Colors.amberAccent,
+          //     items: const [
+          //       DropdownMenuItem(
+          //         value: "LT",
+          //         child: Text("LT"),
+          //       ),
+          //       DropdownMenuItem(
+          //         value: "CS/IT",
+          //         child: Text("CS/IT"),
+          //       ),
+          //       DropdownMenuItem(
+          //         value: "MG",
+          //         child: Text("Main Gate"),
+          //       ),
+          //     ],
+          //     onChanged: _dropDownCallback,
+          //   ),
+          // ],
+          centerTitle: false,
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.amberAccent,
+          elevation: 20.0,
+        ),
+        body: const Scaffold(),
+        floatingActionButton: const Scanner(),
       ),
-      appBar: AppBar(
-        title: const Text("PUNCTUALITY DRIVE"),
-        // actions: [
-        //   DropdownButton(
-        //     hint: Text(
-        //       location ?? 'Default',
-        //       style: const TextStyle(
-        //         color: Colors.amberAccent,
-        //       ),
-        //     ),
-        //     //focusColor: Colors.amber,
-        //     iconEnabledColor: Colors.amberAccent,
-        //     dropdownColor: Colors.amberAccent,
-        //     items: const [
-        //       DropdownMenuItem(
-        //         value: "LT",
-        //         child: Text("LT"),
-        //       ),
-        //       DropdownMenuItem(
-        //         value: "CS/IT",
-        //         child: Text("CS/IT"),
-        //       ),
-        //       DropdownMenuItem(
-        //         value: "MG",
-        //         child: Text("Main Gate"),
-        //       ),
-        //     ],
-        //     onChanged: _dropDownCallback,
-        //   ),
-        // ],
-        centerTitle: false,
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.amberAccent,
-        elevation: 20.0,
-      ),
-      body: const Scaffold(),
-      floatingActionButton: const Scanner(),
     );
   }
 }

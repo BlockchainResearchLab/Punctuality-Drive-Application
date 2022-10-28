@@ -266,10 +266,21 @@ class _LoginPageState extends State<LoginPage> {
                         );
                       } else {
                         try {
-                          login(username!, password!).then((value) {
-                            isSuccess = "true";
+                          // login(username!, password!).then((value) {
+                          //   isSuccess = "true";
+                          // }).catchError(() {
+                          //   isSuccess = "false";
+                          // });
+                          await login(username!, password!).then((value) {
+                            if (value != null) {
+                              setState(() {
+                                isSuccess = "true";
+                              });
+                            }
                           }).catchError(() {
-                            isSuccess = "false";
+                            setState(() {
+                              isSuccess = "false";
+                            });
                           });
                           if (isSuccess == "false") {
                             ScaffoldMessenger.of(context).showSnackBar(
