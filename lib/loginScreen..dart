@@ -119,297 +119,332 @@ class _LoginPageState extends State<LoginPage> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
     ]);
-    return Scaffold(
-      bottomSheet: ResultFooter(),
-      body: SingleChildScrollView(
-        primary: false,
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        reverse: true,
-        child: SafeArea(
-          child: Column(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(top: 50.0),
-                    child: SizedBox(
-                      height: 200,
-                      width: 200,
-                      child: Image.asset(
-                        'images/akg2.png',
-                        fit: BoxFit.fill,
-                        scale: 2.0,
-                      ),
-                    ),
-                  ),
-                ],
+    return WillPopScope(
+      onWillPop: () async {
+        return await showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text(
+                'Are you sure?',
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 20.0, horizontal: 35.0),
-                child: Column(
+              content: const Text(
+                'Do you want to exit?',
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text(
+                    'No',
+                  ),
+                  onPressed: () {
+                    Navigator.of(context).pop(false);
+                  },
+                ),
+                TextButton(
+                  child: const Text(
+                    'Yes',
+                  ),
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                )
+              ],
+            );
+          },
+        );
+      },
+      child: Scaffold(
+        bottomSheet: ResultFooter(),
+        body: SingleChildScrollView(
+          primary: false,
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          reverse: true,
+          child: SafeArea(
+            child: Column(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Center(
-                      child: Text(
-                        "PUNCTUALITY DRIVE",
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black,
-                          fontSize: MediaQuery.of(context).size.width * 0.05,
+                    Padding(
+                      padding: const EdgeInsets.only(top: 50.0),
+                      child: SizedBox(
+                        height: 200,
+                        width: 200,
+                        child: Image.asset(
+                          'images/akg2.png',
+                          fit: BoxFit.fill,
+                          scale: 2.0,
                         ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20.0,
-                    ),
-                    Form(
-                      key: _validationKey,
-                      child: Column(
-                        children: [
-                          DropdownButton(
-                            // isExpanded: true,
-                            elevation: 12,
-                            hint: Text(
-                              location ?? 'Your Location',
-                              style: const TextStyle(
-                                color: Colors.black54,
-                              ),
-                            ),
-                            //focusColor: Colors.amber,
-                            iconEnabledColor: Colors.black,
-                            dropdownColor: Colors.white,
-                            borderRadius: BorderRadius.circular(10),
-
-                            items: const [
-                              DropdownMenuItem(
-                                value: "LT",
-                                child: Text("LT"),
-                              ),
-                              DropdownMenuItem(
-                                value: "CS/IT",
-                                child: Text("CS/IT"),
-                              ),
-                              DropdownMenuItem(
-                                value: "MG",
-                                child: Text("Main Gate"),
-                              ),
-                            ],
-                            onChanged: _dropDownCallback,
-                          ),
-                          // TextFormField(
-                          //   //field for location
-                          //   cursorColor: Colors.amberAccent,
-                          //   style: const TextStyle(color: Colors.amberAccent),
-                          //   validator: (name) {
-                          //     if (name!.isEmpty) {
-                          //       return "Please enter your Location (Main Gate, CS/IT, LT)!";
-                          //     }
-                          //     return null;
-                          //   },
-                          //   decoration: const InputDecoration(
-                          //       labelText: 'Location',
-                          //       hintText: 'Your Location'),
-                          //   onChanged: (value) {
-                          //     location = value;
-                          //     setState(() {});
-                          //   },
-                          // ),
-                          TextFormField(
-                            enableInteractiveSelection: true,
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: usernameController,
-
-                            // field for username
-                            cursorColor: Colors.black,
-                            cursorHeight: 25,
-                            style: const TextStyle(color: Colors.black),
-                            validator: (usernm) {
-                              if (usernm!.isEmpty) {
-                                return "Please enter you Username!";
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              username = value;
-                              // print(username);
-                            },
-                            decoration: const InputDecoration(
-                                labelText: 'Username',
-                                prefixIcon: Icon(Icons.account_circle_sharp),
-                                prefixIconColor: Colors.black),
-                          ),
-                          TextFormField(
-                            autovalidateMode:
-                                AutovalidateMode.onUserInteraction,
-                            controller: passwordController,
-                            // field for password
-                            cursorColor: Colors.black,
-                            style: const TextStyle(color: Colors.black),
-                            validator: (pswd) {
-                              if (pswd!.isEmpty) {
-                                return "Please enter Password!";
-                              } else if (pswd.length < 8) {
-                                return "Password should at least have 8 characters!";
-                              }
-                              return null;
-                            },
-                            onChanged: (value) {
-                              password = value;
-                              // print(password);
-                            },
-                            obscureText: _obscureText,
-                            autocorrect: false,
-                            decoration: InputDecoration(
-                                labelText: 'Password',
-                                prefixIconColor: Colors.black,
-                                prefixIcon: Icon(Icons.password_outlined),
-                                suffixIcon: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscureText = !_obscureText;
-                                    });
-                                  },
-                                  icon: _obscureText == true
-                                      ? Icon(Icons.visibility)
-                                      : Icon(Icons.visibility_off),
-                                )),
-                          ),
-                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 60.0,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                    autofocus: true,
-                    onPressed: () async {
-                      setState(() {});
-                      if (password == null && username == null) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
-                            duration: Duration(seconds: 1),
-                            content: Text(
-                                "Please provide required details to login"),
-                          ),
-                        );
-                      } else {
-                        try {
-                          // login(username!, password!).then((value) {
-                          //   isSuccess = "true";
-                          // }).catchError(() {
-                          //   isSuccess = "false";
-                          //
-                          await login(username!, password!).then((value) {
-                            if (value != null) {
-                              setState(() {
-                                isSuccess = "true";
-                              });
-                            }
-                          }).catchError(() {
-                            setState(() {
-                              isSuccess = "false";
-                            });
-                          });
-                          if (isSuccess == "false") {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  "Unauthorized Access",
-                                ),
-                                duration: Duration(seconds: 1),
-                              ),
-                            );
-                          } else {
-                            SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-                            prefs.setString('username', username.toString());
-                            prefs.setString('password', password.toString());
-                            Future.delayed(Duration(milliseconds: 2), () {
-                              LinearProgressIndicator(
-                                color: Colors.black,
-                              );
-                            }).then((value) => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ResultScreen(),
-                                )));
-                          }
-                        } catch (e) {
-                          print("cannot process");
-                        }
-                      }
-                    },
-                    // onPressed: () {
-                    //   // Navigator.pushNamed(context, Routes.resultScreen);
-                    //   try {
-                    //     // login(username!, password!);
-                    //     if (isSuccess == "true") {
-                    //       Navigator.push(
-                    //           context,
-                    //           MaterialPageRoute(
-                    //             builder: (context) => ResultScreen(),
-                    //           ));
-                    //     } else if (username == "" && password == "") {
-                    //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    //           content: Text(
-                    //               "Please fill Username and Password to Login")));
-                    //     } else {
-                    //       return null;
-                    //     }
-                    //   } catch (e) {
-                    //     throw (e);
-                    //   }
-                    // },
-                    style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.black,
-                        // foregroundColor: Colors.amberAccent,
-                        minimumSize: Size(
-                            MediaQuery.of(context).size.width * 0.8,
-                            MediaQuery.of(context).size.height * 0.05),
-                        elevation: 8.0,
-                        animationDuration: const Duration(seconds: 1)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        // Icon(Icons.g_mobiledata_rounded),
-                        SizedBox(
-                          width: 10.0,
-                        ),
-                        Text(
-                          "LOGIN",
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 20.0, horizontal: 35.0),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Center(
+                        child: Text(
+                          "PUNCTUALITY DRIVE",
+                          textAlign: TextAlign.left,
                           style: TextStyle(
-                            fontSize: 20.0,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),
                         ),
-                        SizedBox(
-                          width: 10.0,
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      Form(
+                        key: _validationKey,
+                        child: Column(
+                          children: [
+                            DropdownButton(
+                              // isExpanded: true,
+                              elevation: 12,
+                              hint: Text(
+                                location ?? 'Your Location',
+                                style: const TextStyle(
+                                  color: Colors.black54,
+                                ),
+                              ),
+                              //focusColor: Colors.amber,
+                              iconEnabledColor: Colors.black,
+                              dropdownColor: Colors.white,
+                              borderRadius: BorderRadius.circular(10),
+
+                              items: const [
+                                DropdownMenuItem(
+                                  value: "LT",
+                                  child: Text("LT"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "CS/IT",
+                                  child: Text("CS/IT"),
+                                ),
+                                DropdownMenuItem(
+                                  value: "MG",
+                                  child: Text("Main Gate"),
+                                ),
+                              ],
+                              onChanged: _dropDownCallback,
+                            ),
+                            // TextFormField(
+                            //   //field for location
+                            //   cursorColor: Colors.amberAccent,
+                            //   style: const TextStyle(color: Colors.amberAccent),
+                            //   validator: (name) {
+                            //     if (name!.isEmpty) {
+                            //       return "Please enter your Location (Main Gate, CS/IT, LT)!";
+                            //     }
+                            //     return null;
+                            //   },
+                            //   decoration: const InputDecoration(
+                            //       labelText: 'Location',
+                            //       hintText: 'Your Location'),
+                            //   onChanged: (value) {
+                            //     location = value;
+                            //     setState(() {});
+                            //   },
+                            // ),
+                            TextFormField(
+                              enableInteractiveSelection: true,
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: usernameController,
+
+                              // field for username
+                              cursorColor: Colors.black,
+                              cursorHeight: 25,
+                              style: const TextStyle(color: Colors.black),
+                              validator: (usernm) {
+                                if (usernm!.isEmpty) {
+                                  return "Please enter you Username!";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                username = value;
+                                // print(username);
+                              },
+                              decoration: const InputDecoration(
+                                  labelText: 'Username',
+                                  prefixIcon: Icon(Icons.account_circle_sharp),
+                                  prefixIconColor: Colors.black),
+                            ),
+                            TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: passwordController,
+                              // field for password
+                              cursorColor: Colors.black,
+                              style: const TextStyle(color: Colors.black),
+                              validator: (pswd) {
+                                if (pswd!.isEmpty) {
+                                  return "Please enter Password!";
+                                } else if (pswd.length < 8) {
+                                  return "Password should at least have 8 characters!";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                password = value;
+                                // print(password);
+                              },
+                              obscureText: _obscureText,
+                              autocorrect: false,
+                              decoration: InputDecoration(
+                                  labelText: 'Password',
+                                  prefixIconColor: Colors.black,
+                                  prefixIcon: Icon(Icons.password_outlined),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        _obscureText = !_obscureText;
+                                      });
+                                    },
+                                    icon: _obscureText == true
+                                        ? Icon(Icons.visibility)
+                                        : Icon(Icons.visibility_off),
+                                  )),
+                            ),
+                          ],
                         ),
-                        Icon(Icons.arrow_forward),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-              // isSuccess == "true"
-              //     ? Text("Logged In")
-              //     : Text("Incorrect Username or Password"),
-              //linear progress indicator is to be put here.
-              const SizedBox(
-                height: 100.0,
-              ),
-            ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 60.0,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      autofocus: true,
+                      onPressed: () async {
+                        setState(() {});
+                        if (password == null && username == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              duration: Duration(seconds: 1),
+                              content: Text(
+                                  "Please provide required details to login"),
+                            ),
+                          );
+                        } else {
+                          try {
+                            // login(username!, password!).then((value) {
+                            //   isSuccess = "true";
+                            // }).catchError(() {
+                            //   isSuccess = "false";
+                            //
+                            await login(username!, password!).then((value) {
+                              if (value != null) {
+                                setState(() {
+                                  isSuccess = "true";
+                                });
+                              }
+                            }).catchError(() {
+                              setState(() {
+                                isSuccess = "false";
+                              });
+                            });
+                            if (isSuccess == "false") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    "Unauthorized Access",
+                                  ),
+                                  duration: Duration(seconds: 1),
+                                ),
+                              );
+                            } else {
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              prefs.setString('username', username.toString());
+                              prefs.setString('password', password.toString());
+                              Future.delayed(Duration(milliseconds: 2), () {
+                                LinearProgressIndicator(
+                                  color: Colors.black,
+                                );
+                              }).then((value) => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ResultScreen(),
+                                  )));
+                            }
+                          } catch (e) {
+                            print("cannot process");
+                          }
+                        }
+                      },
+                      // onPressed: () {
+                      //   // Navigator.pushNamed(context, Routes.resultScreen);
+                      //   try {
+                      //     // login(username!, password!);
+                      //     if (isSuccess == "true") {
+                      //       Navigator.push(
+                      //           context,
+                      //           MaterialPageRoute(
+                      //             builder: (context) => ResultScreen(),
+                      //           ));
+                      //     } else if (username == "" && password == "") {
+                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                      //           content: Text(
+                      //               "Please fill Username and Password to Login")));
+                      //     } else {
+                      //       return null;
+                      //     }
+                      //   } catch (e) {
+                      //     throw (e);
+                      //   }
+                      // },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          // foregroundColor: Colors.amberAccent,
+                          minimumSize: Size(
+                              MediaQuery.of(context).size.width * 0.8,
+                              MediaQuery.of(context).size.height * 0.05),
+                          elevation: 8.0,
+                          animationDuration: const Duration(seconds: 1)),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: const [
+                          // Icon(Icons.g_mobiledata_rounded),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Icon(Icons.arrow_forward),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                // isSuccess == "true"
+                //     ? Text("Logged In")
+                //     : Text("Incorrect Username or Password"),
+                //linear progress indicator is to be put here.
+                const SizedBox(
+                  height: 100.0,
+                ),
+              ],
+            ),
           ),
         ),
       ),

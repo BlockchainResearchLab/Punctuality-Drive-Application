@@ -34,7 +34,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 'Are you sure?',
               ),
               content: const Text(
-                'Do you want to exit an App',
+                'Do you want to exit?',
               ),
               actions: <Widget>[
                 TextButton(
@@ -88,7 +88,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 Text(
                   // TODO: UID NAME
-                  userNamePrefs!,
+                  username!,
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 // SizedBox(
