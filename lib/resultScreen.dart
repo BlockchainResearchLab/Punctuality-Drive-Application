@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
+import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,6 +21,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -82,10 +86,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 const SizedBox(
                   height: 5.0,
                 ),
-                const Text(
+                Text(
                   // TODO: UID NAME
-                  "UserName",
-                  style: TextStyle(fontSize: 30.0, color: Colors.black),
+                  userNamePrefs!,
+                  style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 // SizedBox(
                 //   height: 500,
@@ -116,6 +120,7 @@ class _ResultScreenState extends State<ResultScreen> {
                                 username = null;
                                 isSuccess = "false";
                                 location = null;
+                                // is_loading = false;
                               });
                             });
                             // TODO: Logout Function Implementation

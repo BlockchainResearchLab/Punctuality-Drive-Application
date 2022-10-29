@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+var userNamePrefs;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  var userNamePrefs = prefs.getString('username');
+  userNamePrefs = prefs.getString('username');
   var passwordPrefs = prefs.getString("password");
   print(userNamePrefs);
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     home: userNamePrefs == null ? LoginPage() : ResultScreen(),

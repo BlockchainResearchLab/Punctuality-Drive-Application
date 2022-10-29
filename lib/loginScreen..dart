@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/services.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/resultScreen.dart';
@@ -15,6 +18,7 @@ String? location;
 String? username;
 String? password;
 String? isSuccess = "false";
+// var is_loading;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -102,11 +106,24 @@ class _LoginPageState extends State<LoginPage> {
     print(password);
   }
 
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return Scaffold(
       bottomSheet: ResultFooter(),
       body: SingleChildScrollView(
+        primary: false,
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         reverse: true,
         child: SafeArea(
           child: Column(
@@ -155,7 +172,7 @@ class _LoginPageState extends State<LoginPage> {
                       child: Column(
                         children: [
                           DropdownButton(
-                            isExpanded: true,
+                            // isExpanded: true,
                             elevation: 12,
                             hint: Text(
                               location ?? 'Your Location',
@@ -166,6 +183,8 @@ class _LoginPageState extends State<LoginPage> {
                             //focusColor: Colors.amber,
                             iconEnabledColor: Colors.black,
                             dropdownColor: Colors.white,
+                            borderRadius: BorderRadius.circular(10),
+
                             items: const [
                               DropdownMenuItem(
                                 value: "LT",
@@ -201,9 +220,14 @@ class _LoginPageState extends State<LoginPage> {
                           //   },
                           // ),
                           TextFormField(
+                            enableInteractiveSelection: true,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: usernameController,
+
                             // field for username
                             cursorColor: Colors.black,
+                            cursorHeight: 25,
                             style: const TextStyle(color: Colors.black),
                             validator: (usernm) {
                               if (usernm!.isEmpty) {
@@ -213,12 +237,16 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               username = value;
-                              print(username);
+                              // print(username);
                             },
                             decoration: const InputDecoration(
-                                labelText: 'Username', hintText: 'Username'),
+                                labelText: 'Username',
+                                prefixIcon: Icon(Icons.account_circle_sharp),
+                                prefixIconColor: Colors.black),
                           ),
                           TextFormField(
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
                             controller: passwordController,
                             // field for password
                             cursorColor: Colors.black,
@@ -233,12 +261,24 @@ class _LoginPageState extends State<LoginPage> {
                             },
                             onChanged: (value) {
                               password = value;
-                              print(password);
+                              // print(password);
                             },
-                            obscureText: true,
+                            obscureText: _obscureText,
                             autocorrect: false,
-                            decoration:
-                                const InputDecoration(labelText: 'Password'),
+                            decoration: InputDecoration(
+                                labelText: 'Password',
+                                prefixIconColor: Colors.black,
+                                prefixIcon: Icon(Icons.password_outlined),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText = !_obscureText;
+                                    });
+                                  },
+                                  icon: _obscureText == true
+                                      ? Icon(Icons.visibility)
+                                      : Icon(Icons.visibility_off),
+                                )),
                           ),
                         ],
                       ),
@@ -270,7 +310,7 @@ class _LoginPageState extends State<LoginPage> {
                           //   isSuccess = "true";
                           // }).catchError(() {
                           //   isSuccess = "false";
-                          // });
+                          //
                           await login(username!, password!).then((value) {
                             if (value != null) {
                               setState(() {
@@ -296,12 +336,9 @@ class _LoginPageState extends State<LoginPage> {
                                 await SharedPreferences.getInstance();
                             prefs.setString('username', username.toString());
                             prefs.setString('password', password.toString());
-                            Future.delayed(Duration(seconds: 2), () {
-                              Container(
-                                child: LinearProgressIndicator(
-                                  color: Colors.black,
-                                  minHeight: 18,
-                                ),
+                            Future.delayed(Duration(milliseconds: 2), () {
+                              LinearProgressIndicator(
+                                color: Colors.black,
                               );
                             }).then((value) => Navigator.push(
                                 context,
@@ -362,7 +399,7 @@ class _LoginPageState extends State<LoginPage> {
                         Icon(Icons.arrow_forward),
                       ],
                     ),
-                  ),
+                  )
                 ],
               ),
               // isSuccess == "true"

@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'Modals/studentData.dart';
@@ -14,6 +15,9 @@ class ScannedEntry extends StatefulWidget {
 class _ScannedEntryState extends State<ScannedEntry> {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     var size = MediaQuery.of(context).size;
 
     var height = size.height;
