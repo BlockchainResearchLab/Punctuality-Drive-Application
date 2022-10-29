@@ -88,7 +88,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 ),
                 Text(
                   // TODO: UID NAME
-                  username!,
+                  userNamePrefs.toString(),
                   style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 // SizedBox(
