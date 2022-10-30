@@ -118,6 +118,7 @@ class _ResultScreenState extends State<ResultScreen> {
                               setState(() {
                                 password = null;
                                 username = null;
+                                authToken = null;
                                 isSuccess = "false";
                                 location = null;
                                 // is_loading = false;
