@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
+import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
@@ -17,6 +18,9 @@ class _ResultScreenState extends State<ResultScreen> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -27,7 +31,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 'Are you sure?',
               ),
               content: const Text(
-                'Do you want to exit an App',
+                'Do you want to exit?',
               ),
               actions: <Widget>[
                 TextButton(
@@ -79,10 +83,10 @@ class _ResultScreenState extends State<ResultScreen> {
                 const SizedBox(
                   height: 5.0,
                 ),
-                const Text(
+                Text(
                   // TODO: UID NAME
-                  "UserName",
-                  style: TextStyle(fontSize: 30.0, color: Colors.black),
+                  userNamePrefs.toString(),
+                  style: TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 // SizedBox(
                 //   height: 500,
@@ -102,24 +106,21 @@ class _ResultScreenState extends State<ResultScreen> {
                             // username = null;
                             // password = null;
                             Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginPage(),
-                              ),
-                            ).whenComplete(
-                              () {
-                                // password = null;
-                                // username = null;
-                                setState(
-                                  () {
-                                    password = null;
-                                    username = null;
-                                    isSuccess = "false";
-                                    location = null;
-                                  },
-                                );
-                              },
-                            );
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginPage(),
+                                )).whenComplete(() {
+                              // password = null;
+                              // username = null;
+                              setState(() {
+                                password = null;
+                                username = null;
+                                authToken = null;
+                                isSuccess = "false";
+                                location = null;
+                                // is_loading = false;
+                              });
+                            });
                             // TODO: Logout Function Implementation
                             setState(
                               () {
