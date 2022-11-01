@@ -5,16 +5,20 @@ import 'package:punctuality_drive/resultScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var userNamePrefs;
+var authTokenPrefs;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   userNamePrefs = prefs.getString('username');
   var passwordPrefs = prefs.getString("password");
+  authTokenPrefs = prefs.getString("authTokenPrefs");
   print(userNamePrefs);
+  print(authTokenPrefs);
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: userNamePrefs == null ? LoginPage() : ResultScreen(),
+    home: authTokenPrefs == null ? LoginPage() : ResultScreen(),
   ));
 }
 

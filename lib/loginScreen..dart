@@ -159,12 +159,12 @@ class _LoginPageState extends State<LoginPage> {
       },
       child: Scaffold(
         bottomSheet: ResultFooter(),
-        resizeToAvoidBottomInset: false,
         body: SingleChildScrollView(
           primary: false,
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           reverse: true,
           child: SafeArea(
+            top: false,
             child: Column(
               children: [
                 Column(
@@ -374,6 +374,8 @@ class _LoginPageState extends State<LoginPage> {
                                   await SharedPreferences.getInstance();
                               prefs.setString('username', username.toString());
                               prefs.setString('password', password.toString());
+                              prefs.setString(
+                                  'authTokenPrefs', authToken.toString());
                               Future.delayed(Duration(milliseconds: 2), () {
                                 LinearProgressIndicator(
                                   color: Colors.black,
