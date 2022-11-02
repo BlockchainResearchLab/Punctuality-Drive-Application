@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/loginScreen..dart';
-import 'package:punctuality_drive/resultScreen.dart';
+import 'package:punctuality_drive/landingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 var userNamePrefs;
@@ -16,7 +16,7 @@ Future<void> main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    home: userNamePrefs == null ? LoginPage() : ResultScreen(),
+    home: userNamePrefs == null ? LoginPage() : LandingScreen(),
   ));
 }
 
@@ -29,7 +29,7 @@ class MainPage extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const LoginPage(),
-        '/result': (context) => const ResultScreen(),
+        '/result': (context) => const LandingScreen(),
       },
     );
   }

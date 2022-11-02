@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/result2.dart';
-import 'package:punctuality_drive/resultScreen.dart';
+import 'package:punctuality_drive/landingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 import 'package:http/http.dart' as http;
@@ -56,7 +57,7 @@ class _LoginPageState extends State<LoginPage> {
         isSuccess = "true";
         authToken = jsondata["token"];
       });
-      print(authToken);
+      log(authToken!);
     } else {
       if (kDebugMode) {
         print(response.reasonPhrase);
@@ -122,6 +123,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   bool _obscureText = true;
+
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;
@@ -392,7 +394,7 @@ class _LoginPageState extends State<LoginPage> {
                               }).then((value) => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ResultScreen(),
+                                    builder: (context) => LandingScreen(),
                                   )));
                             }
                           } catch (e) {

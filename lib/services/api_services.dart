@@ -25,7 +25,6 @@ else {
 
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/Modals/studentData.dart';
@@ -49,8 +48,8 @@ Future<EntryModel?> lateEntry() async {
     Uri.parse(postApiURL),
   );
   request.bodyFields = {
-    'stdNo': studentNumber ?? '...',
-    'location': location ?? '...'
+    'stdNo': studentNumber!,
+    'location': location!
   };
   request.headers.addAll(headers);
 

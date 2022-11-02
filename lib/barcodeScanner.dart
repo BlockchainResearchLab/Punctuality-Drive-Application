@@ -17,7 +17,7 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   // barcodeScanRes is the Result of the SCANNER
-  String barcodeScanRes = "";
+  String? barcodeScanRes;
 
   Future<void> scanBarcodeNormal() async {
     try {
@@ -27,7 +27,7 @@ class _ScannerState extends State<Scanner> {
         () {
           studentNumber = barcodeScanRes;
           // lateEntry(); // moved to mark entry button.
-          show(studentNumber ?? "2012014");
+          show(studentNumber!);
           Navigator.push(
             context,
             MaterialPageRoute(

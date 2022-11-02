@@ -6,14 +6,14 @@ import 'package:punctuality_drive/result2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
 
-class ResultScreen extends StatefulWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({Key? key}) : super(key: key);
 
   @override
-  State<ResultScreen> createState() => _ResultScreenState();
+  State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _LandingScreenState extends State<LandingScreen> {
   bool _isElevated = true;
 
   @override
@@ -206,6 +206,7 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
         body: const Scaffold(),
         floatingActionButton: const Scanner(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       ),
     );
   }
