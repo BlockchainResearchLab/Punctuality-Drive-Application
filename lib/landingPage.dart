@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
-import 'package:punctuality_drive/result2.dart';
+import 'package:punctuality_drive/resultScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
 
