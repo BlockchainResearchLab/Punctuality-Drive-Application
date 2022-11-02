@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +28,6 @@ class _ScannerState extends State<Scanner> {
       setState(
         () {
           studentNumber = barcodeScanRes;
-          // lateEntry(); // moved to mark entry button.
           show(studentNumber!);
           Navigator.push(
             context,
@@ -38,7 +39,7 @@ class _ScannerState extends State<Scanner> {
       );
 
       if (kDebugMode) {
-        print(barcodeScanRes);
+        log(barcodeScanRes!);
       }
     } on PlatformException {
       barcodeScanRes = 'Failed to get platform version.';
@@ -47,18 +48,20 @@ class _ScannerState extends State<Scanner> {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton.large(
-      onPressed: () => setState(
-        () {
-          scanBarcodeNormal();
-        },
-      ),
-      elevation: 10.0,
-      backgroundColor: Colors.black,
-      foregroundColor: Colors.amberAccent,
-      child: Transform.rotate(
-        angle: 90 * math.pi / 180,
-        child: const Icon(Icons.document_scanner),
+    return Center(
+      child: FloatingActionButton.large(
+        onPressed: () => setState(
+          () {
+            scanBarcodeNormal();
+          },
+        ),
+        elevation: 10.0,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.amberAccent,
+        child: Transform.rotate(
+          angle: 90 * math.pi / 180,
+          child: const Icon(Icons.document_scanner),
+        ),
       ),
     );
   }

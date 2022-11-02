@@ -1,23 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/landingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-var userNamePrefs;
+String? userNamePrefs;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   userNamePrefs = prefs.getString('username');
-  var passwordPrefs = prefs.getString("password");
-  if (kDebugMode) {
-    print(userNamePrefs);
-  }
+  String? passwordPrefs = prefs.getString("password");
+  log(userNamePrefs!);
 
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: userNamePrefs == null ? LoginPage() : LandingScreen(),
-  ));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: userNamePrefs == null ? const LoginPage() : const LandingScreen(),
+    ),
+  );
 }
 
 class MainPage extends StatelessWidget {

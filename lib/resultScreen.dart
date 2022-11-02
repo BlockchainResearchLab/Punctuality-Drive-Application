@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/services/api_services.dart';
-import 'Modals/studentData.dart';
+import 'Modals/student_data.dart';
 
 class ScannedEntry extends StatefulWidget {
   const ScannedEntry({super.key});
@@ -28,7 +28,6 @@ class _ScannedEntryState extends State<ScannedEntry> {
       print(width);
     }
 
-
     return Scaffold(
       bottomSheet: ResultFooter(),
       body: Container(
@@ -43,7 +42,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
               border: Border.all(color: Colors.grey),
             ),
             child: FutureBuilder<StudentData?>(
-              future: show(studentNumber ?? "0000"),
+              future: show(studentNumber!),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const SizedBox(
@@ -149,7 +148,6 @@ class _ScannedEntryState extends State<ScannedEntry> {
                     ),
                   );
                 }
-                ;
               },
             ),
           ),

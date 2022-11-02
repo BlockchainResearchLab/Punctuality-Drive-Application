@@ -25,13 +25,14 @@ else {
 
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:punctuality_drive/Modals/studentData.dart';
+import 'package:punctuality_drive/Modals/student_data.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 
-import '../Modals/createEntry.dart';
+import '../Modals/create_entry.dart';
 
 String postApiURL =
     "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
@@ -47,21 +48,18 @@ Future<EntryModel?> lateEntry() async {
     'POST',
     Uri.parse(postApiURL),
   );
-  request.bodyFields = {
-    'stdNo': studentNumber!,
-    'location': location!
-  };
+  request.bodyFields = {'stdNo': studentNumber!, 'location': location!};
   request.headers.addAll(headers);
 
   http.StreamedResponse response = await request.send();
 
   if (response.statusCode == 200) {
     if (kDebugMode) {
-      print(await response.stream.bytesToString());
+      log(await response.stream.bytesToString());
     }
   } else {
     if (kDebugMode) {
-      print(response.reasonPhrase);
+      log(response.reasonPhrase!);
     }
   }
   return null;
@@ -77,7 +75,7 @@ Future<StudentData?> show(String stdNum) async {
   });
   if (response.statusCode == 200) {
     if (kDebugMode) {
-      print(response.body);
+      log(response.body);
     }
 
     return StudentData.fromJson(
@@ -85,7 +83,9 @@ Future<StudentData?> show(String stdNum) async {
     );
   } else {
     if (kDebugMode) {
-      print(response.statusCode);
+      log(
+        response.statusCode.toString(),
+      );
     }
   }
   return null;
