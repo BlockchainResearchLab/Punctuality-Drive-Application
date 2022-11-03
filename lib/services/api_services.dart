@@ -30,11 +30,11 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/Modals/studentData.dart';
 import 'package:punctuality_drive/main.dart';
+import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/resultScreen.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../Modals/createEntry.dart';
 import 'package:punctuality_drive/Modals/login.dart';
 

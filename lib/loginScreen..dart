@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/Modals/studentData.dart';
+import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/resultScreen.dart';
@@ -73,6 +74,7 @@ class _LoginPageState extends State<LoginPage> {
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  ScannedEntry scannedEntry = ScannedEntry();
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -380,11 +382,13 @@ class _LoginPageState extends State<LoginPage> {
                                 LinearProgressIndicator(
                                   color: Colors.black,
                                 );
-                              }).then((value) => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ResultScreen(),
-                                  )));
+                              }).then((value) {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => Scanner(),
+                                    ));
+                              });
                             }
                           } catch (e) {
                             print("cannot process");

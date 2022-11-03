@@ -1,18 +1,36 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
+import 'package:punctuality_drive/loginScreen..dart';
+import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/services/api_services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/studentData.dart';
 
 class ScannedEntry extends StatefulWidget {
-  const ScannedEntry({super.key});
+  ScannedEntry({super.key});
 
   @override
   State<ScannedEntry> createState() => _ScannedEntryState();
 }
 
 class _ScannedEntryState extends State<ScannedEntry> {
+// barcodeScanRes is the Result of the SCANNER
+
+  bool _isElevated = true;
+  void _dropDownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(() {
+        location = selectedValue;
+      });
+      if (kDebugMode) {
+        print(location);
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -97,10 +115,10 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                           return AlertDialog(
                                             title: Text("Entry Status"),
                                             content: Text(
-                                                "Entry Marked \nCount : ${snapshot.data!.result!.lateCount}"),
+                                                "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
                                           );
                                         })))
-                                    .whenComplete(() => Navigator.pop(context));
+                                    .then((value) => Navigator.pop(context));
                                 // ScaffoldMessenger(child: Text("Entry Marked"));
 
                                 // Future.delayed(Duration(seconds: 2), () {
@@ -124,7 +142,9 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                             ),
                                           );
                                         },
-                                      ).then((value) => Navigator.pop(context)),
+                                      ).then((value) {
+                                        Navigator.pop(context);
+                                      }),
                                   "Cancel",
                                   Colors.red)
                             ],
