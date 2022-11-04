@@ -1,8 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:barcode_scan/barcode_scan.dart';
+import 'package:barcode_scan2/model/scan_result.dart';
+import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:punctuality_drive/loginScreen..dart';
+import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/result2.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'dart:math' as math;
@@ -10,6 +14,7 @@ import 'dart:math' as math;
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? studentNumber;
+String? error;
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);
@@ -20,32 +25,37 @@ class Scanner extends StatefulWidget {
 
 class _ScannerState extends State<Scanner> {
   // barcodeScanRes is the Result of the SCANNER
-  String barcodeScanRes = "";
 
   Future<void> scanBarcodeNormal() async {
     try {
-      barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
-          '#ff6666', 'Cancel', true, ScanMode.BARCODE);
-      setState(
-        () {
-          studentNumber = barcodeScanRes;
+      ScanResult barcodeScanRes = await BarcodeScanner.scan();
+      print(barcodeScanRes.rawContent);
+      setState(() {
+        studentNumber = barcodeScanRes.rawContent;
+        print(studentNumber);
 
-          // lateEntry(); // moved to mark entry button.
-          show(studentNumber ?? "2012014");
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: ((context) => ScannedEntry()),
-            ),
-          );
-        },
-      );
+        // lateEntry(); // moved to mark entry button.
+        show(studentNumber ?? "2012014");
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: ((context) => ScannedEntry()),
+          ),
+        );
+      });
 
       if (kDebugMode) {
         print(barcodeScanRes);
       }
-    } on PlatformException {
-      barcodeScanRes = 'Failed to get platform version.';
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+        setState(() {
+          error = 'The user did not grant the camera permission!';
+        });
+      } else {
+        setState(() => error = 'Unknown error: $e');
+        print(studentNumber);
+      }
     }
   }
 
@@ -62,6 +72,10 @@ class _ScannerState extends State<Scanner> {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+    );
     return WillPopScope(
       onWillPop: (() async {
         return await showDialog(
@@ -77,16 +91,18 @@ class _ScannerState extends State<Scanner> {
               actions: <Widget>[
                 TextButton(
                   child: const Text(
-                    'No',
+                    'NO',
+                    style: TextStyle(
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
-                  child: const Text(
-                    'Yes',
-                  ),
+                  child: const Text('YES',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
                   onPressed: () {
                     SystemNavigator.pop();
                   },
@@ -101,79 +117,150 @@ class _ScannerState extends State<Scanner> {
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
-              backgroundColor: Colors.black,
-              actions: [
-                DropdownButton(
-                  hint: Text(
-                    location ?? 'Your location',
-                    style: const TextStyle(
-                      color: Colors.white,
+              centerTitle: false,
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  DropdownButton(
+                    hint: Text(
+                      location ?? locPrefs,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
                     ),
+                    //focusColor: Colors.amber,
+                    iconEnabledColor: Colors.white,
+                    dropdownColor: Colors.white,
+                    items: const [
+                      DropdownMenuItem(
+                        value: "LT",
+                        child: Text("LT"),
+                      ),
+                      DropdownMenuItem(
+                        value: "CS/IT",
+                        child: Text("CS/IT"),
+                      ),
+                      DropdownMenuItem(
+                        value: "MG",
+                        child: Text("Main Gate"),
+                      ),
+                    ],
+                    onChanged: _dropDownCallback,
                   ),
-                  //focusColor: Colors.amber,
-                  iconEnabledColor: Colors.white,
-                  dropdownColor: Colors.white,
-                  items: const [
-                    DropdownMenuItem(
-                      value: "LT",
-                      child: Text("LT"),
+                  ElevatedButton(
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.grey),
                     ),
-                    DropdownMenuItem(
-                      value: "CS/IT",
-                      child: Text("CS/IT"),
-                    ),
-                    DropdownMenuItem(
-                      value: "MG",
-                      child: Text("Main Gate"),
-                    ),
-                  ],
-                  onChanged: _dropDownCallback,
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                ElevatedButton(
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(Colors.grey),
-                  ),
-                  onPressed: () async {
-                    SharedPreferences prefs =
-                        await SharedPreferences.getInstance();
-                    prefs.remove('username');
-                    prefs.remove('password');
-                    prefs.remove('authTokenPrefs');
-                    // username = null;
-                    // password = null;
-
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginPage(),
-                        )).whenComplete(() {
-                      // password = null;
+                    onPressed: () async {
+                      SharedPreferences prefs =
+                          await SharedPreferences.getInstance();
+                      prefs.remove('username');
+                      prefs.remove('password');
+                      prefs.remove('authTokenPrefs');
                       // username = null;
-                      setState(() {
-                        password = null;
-                        username = null;
-                        authToken = null;
-                        isSuccess = "false";
-                        location = null;
-                        // is_loading = false;
+                      // password = null;
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginPage(),
+                          )).whenComplete(() {
+                        // password = null;
+                        // username = null;
+                        setState(() {
+                          password = null;
+                          username = null;
+                          authToken = null;
+                          isSuccess = "false";
+                          location = null;
+                          // is_loading = false;
+                        });
                       });
-                    });
-                  },
-                  child: Text(
-                    "Logout",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
+                    },
+                    child: Text(
+                      "Logout",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-              ],
+                ],
+              ),
+              automaticallyImplyLeading: false,
+              backgroundColor: Colors.black,
+              // actions: [
+              //   DropdownButton(
+              //     hint: Text(
+              //       location ?? 'Your location',
+              //       style: const TextStyle(
+              //         color: Colors.white,
+              //       ),
+              //     ),
+              //     //focusColor: Colors.amber,
+              //     iconEnabledColor: Colors.white,
+              //     dropdownColor: Colors.white,
+              //     items: const [
+              //       DropdownMenuItem(
+              //         value: "LT",
+              //         child: Text("LT"),
+              //       ),
+              //       DropdownMenuItem(
+              //         value: "CS/IT",
+              //         child: Text("CS/IT"),
+              //       ),
+              //       DropdownMenuItem(
+              //         value: "MG",
+              //         child: Text("Main Gate"),
+              //       ),
+              //     ],
+              //     onChanged: _dropDownCallback,
+              //   ),
+              //   SizedBox(
+              //     width: 10,
+              //   ),
+              //   ElevatedButton(
+              //     style: ButtonStyle(
+              //       backgroundColor: MaterialStateProperty.all(Colors.grey),
+              //     ),
+              //     onPressed: () async {
+              //       SharedPreferences prefs =
+              //           await SharedPreferences.getInstance();
+              //       prefs.remove('username');
+              //       prefs.remove('password');
+              //       prefs.remove('authTokenPrefs');
+              //       // username = null;
+              //       // password = null;
+
+              //       Navigator.pushReplacement(
+              //           context,
+              //           MaterialPageRoute(
+              //             builder: (context) => LoginPage(),
+              //           )).whenComplete(() {
+              //         // password = null;
+              //         // username = null;
+              //         setState(() {
+              //           password = null;
+              //           username = null;
+              //           authToken = null;
+              //           isSuccess = "false";
+              //           location = null;
+              //           // is_loading = false;
+              //         });
+              //       });
+              //     },
+              //     child: Text(
+              //       "Logout",
+              //       style: TextStyle(
+              //         color: Colors.white,
+              //         fontSize: 18,
+              //       ),
+              //     ),
+              //   ),
+              //   SizedBox(
+              //     width: 10,
+              //   ),
+              // ],
             ),
             bottomSheet: ResultFooter(),
             body: Center(

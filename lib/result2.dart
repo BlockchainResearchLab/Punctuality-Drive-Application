@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
+// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
@@ -44,6 +44,12 @@ class _ScannedEntryState extends State<ScannedEntry> {
       print(height);
       print(width);
     }
+
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+    );
+
     return Scaffold(
       bottomSheet: ResultFooter(),
       body: Container(
@@ -106,8 +112,8 @@ class _ScannedEntryState extends State<ScannedEntry> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               Buttons(
-                                  IconData(0xe156, fontFamily: 'MaterialIcons'),
-                                  () {
+                                  const IconData(0xe156,
+                                      fontFamily: 'MaterialIcons'), () {
                                 lateEntry()
                                     .whenComplete(() => showDialog(
                                         context: context,
@@ -129,7 +135,8 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                 width: 10,
                               ),
                               Buttons(
-                                  IconData(0xe139, fontFamily: 'MaterialIcons'),
+                                  const IconData(0xe139,
+                                      fontFamily: 'MaterialIcons'),
                                   () => showDialog(
                                         context: context,
                                         builder: (context) {

@@ -8,15 +8,29 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 var userNamePrefs;
 var authTokenPrefs;
+var locPrefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SharedPreferences prefs = await SharedPreferences.getInstance();
   userNamePrefs = prefs.getString('username');
   var passwordPrefs = prefs.getString("password");
+  locPrefs = prefs.getString('location');
   authTokenPrefs = prefs.getString("authTokenPrefs");
   print(userNamePrefs);
   print(authTokenPrefs);
+
+  SystemChrome.setSystemUIOverlayStyle(
+    SystemUiOverlayStyle(
+      statusBarColor: Colors.black,
+      systemNavigationBarColor: Colors.black,
+    ),
+  );
+
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -29,8 +43,16 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.grey,
+      ),
       routes: {
         '/': (context) => const LoginPage(),
         // '/result': (context) => const ResultScreen(),

@@ -121,10 +121,15 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersiveSticky);
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
+    );
+    theme:
+    ThemeData(
+      primarySwatch: Colors.grey,
+    );
+
     return WillPopScope(
       onWillPop: () async {
         return await showDialog(
@@ -139,17 +144,21 @@ class _LoginPageState extends State<LoginPage> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text(
-                    'No',
-                  ),
+                  child: const Text('NO',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
-                  child: const Text(
-                    'Yes',
-                  ),
+                  child: const Text('YES',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      )),
                   onPressed: () {
                     SystemNavigator.pop();
                   },
@@ -175,8 +184,8 @@ class _LoginPageState extends State<LoginPage> {
                     Padding(
                       padding: const EdgeInsets.only(top: 50.0),
                       child: SizedBox(
-                        height: 200,
-                        width: 200,
+                        height: 150,
+                        width: 150,
                         child: Image.asset(
                           'images/akg2.png',
                           fit: BoxFit.fill,
@@ -206,7 +215,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const SizedBox(
-                        height: 20.0,
+                        height: 40.0,
                       ),
                       Form(
                         key: _validationKey,
@@ -221,6 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.black54,
                                 ),
                               ),
+
                               //focusColor: Colors.amber,
                               iconEnabledColor: Colors.black,
                               dropdownColor: Colors.white,
@@ -260,6 +270,9 @@ class _LoginPageState extends State<LoginPage> {
                             //     setState(() {});
                             //   },
                             // ),
+                            SizedBox(
+                              height: 20,
+                            ),
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -279,11 +292,26 @@ class _LoginPageState extends State<LoginPage> {
                                 username = value;
                                 // print(username);
                               },
-                              decoration: const InputDecoration(
-                                  labelText: 'Username',
-                                  prefixIcon: Icon(Icons.account_circle_sharp),
-                                  prefixIconColor: Colors.black),
+                              decoration: InputDecoration(
+                                labelText: 'USERNAME',
+                                prefixIcon: Icon(Icons.account_circle_sharp),
+                                prefixIconColor: Colors.black,
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                              ),
                             ),
+
+                            SizedBox(
+                              height: 20,
+                            ),
+
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
@@ -306,8 +334,17 @@ class _LoginPageState extends State<LoginPage> {
                               obscureText: _obscureText,
                               autocorrect: false,
                               decoration: InputDecoration(
-                                  labelText: 'Password',
+                                  labelText: 'PASSWORD',
                                   prefixIconColor: Colors.black,
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
+                                  border: UnderlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.black),
+                                  ),
                                   prefixIcon: Icon(Icons.password_outlined),
                                   suffixIcon: IconButton(
                                     onPressed: () {
@@ -327,7 +364,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 60.0,
+                  height: 40.0,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -378,6 +415,7 @@ class _LoginPageState extends State<LoginPage> {
                               prefs.setString('password', password.toString());
                               prefs.setString(
                                   'authTokenPrefs', authToken.toString());
+                              prefs.setString('location', location.toString());
                               Future.delayed(Duration(milliseconds: 2), () {
                                 LinearProgressIndicator(
                                   color: Colors.black,
