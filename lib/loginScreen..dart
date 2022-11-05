@@ -417,8 +417,12 @@ class _LoginPageState extends State<LoginPage> {
                                   'authTokenPrefs', authToken.toString());
                               prefs.setString('location', location.toString());
                               Future.delayed(Duration(milliseconds: 2), () {
-                                LinearProgressIndicator(
-                                  color: Colors.black,
+                                Container(
+                                  height: 32,
+                                  width: 32,
+                                  child: LinearProgressIndicator(
+                                    color: Colors.black,
+                                  ),
                                 );
                               }).then((value) {
                                 Navigator.push(

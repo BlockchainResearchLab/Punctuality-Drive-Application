@@ -55,117 +55,137 @@ class _ScannedEntryState extends State<ScannedEntry> {
       body: Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Center(
-          child: Container(
-            padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-            height: height * 0.479,
-            width: width,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              border: Border.all(color: Colors.grey),
-            ),
-            child: FutureBuilder<StudentData?>(
-                future: show(studentNumber ?? "0000"),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return SizedBox(
-                      child: Center(child: LinearProgressIndicator()),
-                      height: 100,
-                      width: 100,
-                    );
-                  } else if (snapshot.hasData) {
-                    return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Center(
-                            child: CircleAvatar(
-                              backgroundColor: Colors.grey,
-                              radius: 80,
-                              backgroundImage: NetworkImage(snapshot
-                                  .data!.result!.img
-                                  .toString()), // link to be provided later.
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Student Name : ${snapshot.data!.result!.name.toString()}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 20,
-                          ),
-                          Text(
-                            "Student Number :${snapshot.data!.result!.stdNo} ",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          SizedBox(
-                            height: 70,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              Buttons(
-                                  const IconData(0xe156,
-                                      fontFamily: 'MaterialIcons'), () {
-                                lateEntry()
-                                    .whenComplete(() => showDialog(
-                                        context: context,
-                                        builder: ((context) {
-                                          return AlertDialog(
-                                            title: Text("Entry Status"),
-                                            content: Text(
-                                                "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
-                                          );
-                                        })))
-                                    .then((value) => Navigator.pop(context));
-                                // ScaffoldMessenger(child: Text("Entry Marked"));
-
-                                // Future.delayed(Duration(seconds: 2), () {
-                                //   Navigator.pop(context);
-                                // });
-                              }, "Mark Entry", Colors.blue),
-                              SizedBox(
-                                width: 10,
+          child: SingleChildScrollView(
+            child: Expanded(
+              child: Container(
+                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                width: width,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                      opacity: 0.15,
+                      image: AssetImage("images/AKGEC_1_0.png"),
+                      fit: BoxFit.scaleDown),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 5,
+                      blurRadius: 7,
+                      offset: Offset(0, 3), // changes position of shadow
+                    ),
+                  ],
+                  borderRadius: BorderRadius.circular(15),
+                  // border: Border.all(color: Colors.grey),
+                ),
+                child: FutureBuilder<StudentData?>(
+                    future: show(studentNumber ?? "0000"),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return SizedBox(
+                          child: Center(child: LinearProgressIndicator()),
+                          height: 100,
+                          width: 100,
+                        );
+                      } else if (snapshot.hasData) {
+                        return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: <Widget>[
+                              Center(
+                                child: CircleAvatar(
+                                  backgroundColor: Colors.grey,
+                                  radius: 80,
+                                  backgroundImage: NetworkImage(snapshot
+                                      .data!.result!.img
+                                      .toString()), // link to be provided later.
+                                ),
                               ),
-                              Buttons(
-                                  const IconData(0xe139,
-                                      fontFamily: 'MaterialIcons'),
-                                  () => showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return AlertDialog(
-                                            title: Text("Entry Status"),
-                                            content: Text(
-                                              "Entry Cancelled",
-                                              style:
-                                                  TextStyle(color: Colors.red),
-                                            ),
-                                          );
-                                        },
-                                      ).then((value) {
-                                        Navigator.pop(context);
-                                      }),
-                                  "Cancel",
-                                  Colors.red)
-                            ],
-                          ),
-                        ]);
-                  } else {
-                    return ScaffoldMessenger(
-                        child: Text(
-                      "Scan the card again",
-                      style: TextStyle(fontSize: 18),
-                    ));
-                  }
-                  ;
-                }),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Student Name : ${snapshot.data!.result!.name.toString()}",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                "Student Number :${snapshot.data!.result!.stdNo} ",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 70,
+                              ),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Buttons(
+                                      const IconData(0xe156,
+                                          fontFamily: 'MaterialIcons'), () {
+                                    lateEntry()
+                                        .whenComplete(() => showDialog(
+                                            context: context,
+                                            builder: ((context) {
+                                              return AlertDialog(
+                                                title: Text("Entry Status"),
+                                                content: Text(
+                                                    "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
+                                              );
+                                            })))
+                                        .then(
+                                            (value) => Navigator.pop(context));
+                                    // ScaffoldMessenger(child: Text("Entry Marked"));
+
+                                    // Future.delayed(Duration(seconds: 2), () {
+                                    //   Navigator.pop(context);
+                                    // });
+                                  }, "Mark Entry", Colors.blue),
+                                  SizedBox(
+                                    width: 30,
+                                  ),
+                                  Buttons(
+                                      const IconData(0xe139,
+                                          fontFamily: 'MaterialIcons'),
+                                      () => showDialog(
+                                            context: context,
+                                            builder: (context) {
+                                              return AlertDialog(
+                                                title: Text("Entry Status"),
+                                                content: Text(
+                                                  "Entry Cancelled",
+                                                  style: TextStyle(
+                                                      color: Colors.red),
+                                                ),
+                                              );
+                                            },
+                                          ).then((value) {
+                                            Navigator.pop(context);
+                                          }),
+                                      "Cancel",
+                                      Colors.red)
+                                ],
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                            ]);
+                      } else {
+                        return ScaffoldMessenger(
+                            child: Text(
+                          "Scan the card again",
+                          style: TextStyle(fontSize: 18),
+                        ));
+                      }
+                      ;
+                    }),
+              ),
+            ),
           ),
         ),
       ),
@@ -190,7 +210,7 @@ class Buttons extends StatelessWidget {
         style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all(color),
             minimumSize: MaterialStateProperty.all(Size(50, 50)),
-            side: MaterialStatePropertyAll(BorderSide(color: Colors.white)),
+            side: MaterialStatePropertyAll(BorderSide(color: color)),
             shape: MaterialStatePropertyAll(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10)))),
         onPressed: onpressed,
