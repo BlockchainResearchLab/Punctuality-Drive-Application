@@ -19,32 +19,33 @@ String postApiURL =
 
 /* Function for creating late entry in the DB */
 
-Future<EntryModel?> lateEntry() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-  var headers = {
-    'Authorization': 'Bearer ${prefs.getString('authTokenPrefs')}',
-    'Content-Type': 'application/x-www-form-urlencoded'
-  };
-  var request = http.Request(
-    'POST',
-    Uri.parse(postApiURL),
-  );
-  request.bodyFields = {'stdNo': studentNumber!, 'location': location!};
-  request.headers.addAll(headers);
+// Future<EntryModel?> lateEntry() async {
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+//   var headers = {
+//     'Authorization': 'Bearer ${prefs.getString('authTokenPrefs')}',
+//     'Content-Type': 'application/x-www-form-urlencoded'
+//   };
+//   var request = http.Request(
+//     'POST',
+//     Uri.parse(postApiURL),
+//   );
+//   request.bodyFields = {
+//     'stdNo': studentNumber.toString(),
+//     'location': location.toString()
+//   };
+//   request.headers.addAll(headers);
 
-  http.StreamedResponse response = await request.send();
+//   http.StreamedResponse response = await request.send();
 
-  if (response.statusCode == 200) {
-    if (kDebugMode) {
-      log(await response.stream.bytesToString());
-    }
-  } else {
-    if (kDebugMode) {
-      log(response.reasonPhrase!);
-    }
-  }
-  return null;
-}
+//   if (response.statusCode == 200) {
+//     log(await response.stream.bytesToString());
+//   } else {
+//     var badRequest = true;
+//     log(response.reasonPhrase!);
+//     log("entry already exists");
+//   }
+//   return null;
+// }
 
 /*Function for fetching student details in result2 page*/
 Future<StudentData?> show(String stdNum) async {

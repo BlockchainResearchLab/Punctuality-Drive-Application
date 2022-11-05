@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/result2.dart';
-
 import 'package:punctuality_drive/resultScreen.dart';
-import 'package:punctuality_drive/landingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 import 'package:http/http.dart' as http;
@@ -430,7 +428,7 @@ class _LoginPageState extends State<LoginPage> {
                               prefs.setString(
                                   'authTokenPrefs', authToken.toString());
                               prefs.setString('location', location.toString());
-                              Future.delayed(Duration(milliseconds: 2), () {
+                              Future.delayed(Duration(milliseconds: 1), () {
                                 Container(
                                   height: 32,
                                   width: 32,

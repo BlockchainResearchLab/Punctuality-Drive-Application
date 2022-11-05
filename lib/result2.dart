@@ -1,13 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:punctuality_drive/Modals/create_entry.dart';
 // import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:punctuality_drive/barcodeScanner.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:http/http.dart' as http;
 import 'Modals/student_data.dart';
 
 class ScannedEntry extends StatefulWidget {
@@ -30,6 +33,43 @@ class _ScannedEntryState extends State<ScannedEntry> {
         print(location);
       }
     }
+  }
+
+  bool? badRequest;
+  Future<EntryModel?> lateEntry() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var headers = {
+      'Authorization': 'Bearer ${prefs.getString('authTokenPrefs')}',
+      'Content-Type': 'application/x-www-form-urlencoded'
+    };
+    var request = http.Request(
+      'POST',
+      Uri.parse(postApiURL),
+    );
+    request.bodyFields = {
+      'stdNo': studentNumber.toString(),
+      'location': location.toString()
+    };
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      setState(() {
+        badRequest = false;
+      });
+      log(await response.stream.bytesToString());
+      log(badRequest.toString());
+    } else {
+      setState(() {
+        badRequest = true;
+      });
+
+      log(response.reasonPhrase!);
+      log("entry already exists");
+      log(badRequest.toString());
+    }
+    return null;
   }
 
   @override
@@ -82,7 +122,10 @@ class _ScannedEntryState extends State<ScannedEntry> {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
-                          child: Center(child: LinearProgressIndicator()),
+                          child: Center(
+                              child: LinearProgressIndicator(
+                            backgroundColor: Colors.white,
+                          )),
                           height: 100,
                           width: 100,
                         );
@@ -129,18 +172,31 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                   Buttons(
                                       const IconData(0xe156,
                                           fontFamily: 'MaterialIcons'), () {
-                                    lateEntry()
-                                        .whenComplete(() => showDialog(
-                                            context: context,
-                                            builder: ((context) {
-                                              return AlertDialog(
-                                                title: Text("Entry Status"),
-                                                content: Text(
-                                                    "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
-                                              );
-                                            })))
-                                        .then(
-                                            (value) => Navigator.pop(context));
+                                    lateEntry().then((error) {
+                                      badRequest == false
+                                          ? showDialog(
+                                              context: context,
+                                              builder: ((context) {
+                                                return AlertDialog(
+                                                  title: Text("Entry Status"),
+                                                  content: Text(
+                                                      "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
+                                                );
+                                              }),
+                                            ).then(
+                                              (value) => Navigator.pop(context))
+                                          : showDialog(
+                                              context: context,
+                                              builder: ((context) {
+                                                return AlertDialog(
+                                                  title: Text("Entry Status"),
+                                                  content: Text(
+                                                      "Entry Already Marked"),
+                                                );
+                                              }),
+                                            ).then((value) =>
+                                              Navigator.pop(context));
+                                    });
                                     // ScaffoldMessenger(child: Text("Entry Marked"));
 
                                     // Future.delayed(Duration(seconds: 2), () {
