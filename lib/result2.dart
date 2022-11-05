@@ -7,7 +7,8 @@ import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Modals/studentData.dart';
+
+import 'Modals/student_data.dart';
 
 class ScannedEntry extends StatefulWidget {
   ScannedEntry({super.key});

@@ -1,22 +1,34 @@
-import 'package:flutter/foundation.dart';
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
-import 'package:punctuality_drive/result2.dart';
-import 'package:punctuality_drive/services/api_services.dart';
+import 'package:punctuality_drive/resultScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'barcodeScanner.dart';
+import 'package:ripple_wave/ripple_wave.dart';
 
-class ResultScreen extends StatefulWidget {
-  const ResultScreen({Key? key}) : super(key: key);
+
+class LandingScreen extends StatefulWidget {
+  const LandingScreen({Key? key}) : super(key: key);
 
   @override
-  State<ResultScreen> createState() => _ResultScreenState();
+  State<LandingScreen> createState() => _LandingScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _LandingScreenState extends State<LandingScreen> {
   bool _isElevated = true;
+
+  void _dropDownCallback(String? selectedValue) {
+    if (selectedValue is String) {
+      setState(
+            () {
+          location = selectedValue;
+        },
+      );
+      log(location!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +74,7 @@ class _ResultScreenState extends State<ResultScreen> {
         drawer: Drawer(
           child: Container(
             width: double.infinity,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 // color: Colors.grey[800],
                 ),
             child: Column(
@@ -76,7 +88,6 @@ class _ResultScreenState extends State<ResultScreen> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         fit: BoxFit.fill,
-                        // TODO: UID IMAGE
                         image: AssetImage("images/akg2.png"),
                       ),
                     ),
@@ -86,9 +97,8 @@ class _ResultScreenState extends State<ResultScreen> {
                   height: 5.0,
                 ),
                 Text(
-                  // TODO: UID NAME
                   userNamePrefs.toString(),
-                  style: TextStyle(fontSize: 20.0, color: Colors.black),
+                  style: const TextStyle(fontSize: 20.0, color: Colors.black),
                 ),
                 // SizedBox(
                 //   height: 500,
@@ -108,10 +118,11 @@ class _ResultScreenState extends State<ResultScreen> {
                             // username = null;
                             // password = null;
                             Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => LoginPage(),
-                                )).whenComplete(() {
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const LoginPage(),
+                              ),
+                            ).whenComplete(() {
                               // password = null;
                               // username = null;
                               setState(() {
@@ -123,10 +134,11 @@ class _ResultScreenState extends State<ResultScreen> {
                                 // is_loading = false;
                               });
                             });
-                            // TODO: Logout Function Implementation
-                            setState(() {
-                              _isElevated = !_isElevated;
-                            });
+                            setState(
+                              () {
+                                _isElevated = !_isElevated;
+                              },
+                            );
                           },
                           child: AnimatedContainer(
                             duration: const Duration(milliseconds: 100),
@@ -171,41 +183,51 @@ class _ResultScreenState extends State<ResultScreen> {
         ),
         appBar: AppBar(
           title: const Text("PUNCTUALITY DRIVE"),
-          // actions: [
-          //   DropdownButton(
-          //     hint: Text(
-          //       location ?? 'Default',
-          //       style: const TextStyle(
-          //         color: Colors.amberAccent,
-          //       ),
-          //     ),
-          //     //focusColor: Colors.amber,
-          //     iconEnabledColor: Colors.amberAccent,
-          //     dropdownColor: Colors.amberAccent,
-          //     items: const [
-          //       DropdownMenuItem(
-          //         value: "LT",
-          //         child: Text("LT"),
-          //       ),
-          //       DropdownMenuItem(
-          //         value: "CS/IT",
-          //         child: Text("CS/IT"),
-          //       ),
-          //       DropdownMenuItem(
-          //         value: "MG",
-          //         child: Text("Main Gate"),
-          //       ),
-          //     ],
-          //     onChanged: _dropDownCallback,
-          //   ),
-          // ],
+          actions: [
+            DropdownButton(
+              // isExpanded: true,
+              elevation: 12,
+              hint: Text(
+                location ?? 'Your Location',
+                style: const TextStyle(
+                  color: Colors.amberAccent,
+                ),
+              ),
+              //focusColor: Colors.amber,
+              iconEnabledColor: Colors.amberAccent,
+              dropdownColor: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              items: const [
+                DropdownMenuItem(
+                  value: "LT",
+                  child: Text("LT"),
+                ),
+                DropdownMenuItem(
+                  value: "CS/IT",
+                  child: Text("CS/IT"),
+                ),
+                DropdownMenuItem(
+                  value: "MG",
+                  child: Text("Main Gate"),
+                ),
+              ],
+              onChanged: _dropDownCallback,
+            ),
+          ],
           centerTitle: false,
           backgroundColor: Colors.black,
           foregroundColor: Colors.amberAccent,
           elevation: 20.0,
         ),
-        body: const Scaffold(),
-        floatingActionButton: const Scanner(),
+        body: Scaffold(
+          body: RippleWave(
+            childTween: Tween(begin: 1.5, end: 2),
+            color: Colors.blue,
+            child: const Scanner(),
+          ),
+        ),
+        // floatingActionButton: const Scanner(),
+        // floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
       ),
     );
   }
