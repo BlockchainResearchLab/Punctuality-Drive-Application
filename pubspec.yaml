@@ -41,6 +41,7 @@ dependencies:
   barcode_scan2: ^4.2.1
   http: ^0.13.5
   shared_preferences: ^2.0.15
+  ripple_wave: ^0.0.2
 
 dev_dependencies:
   flutter_test:

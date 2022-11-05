@@ -1,17 +1,11 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/services.dart';
-import 'package:punctuality_drive/Modals/studentData.dart';
-import 'package:punctuality_drive/barcodeScanner.dart';
-import 'package:punctuality_drive/main.dart';
-import 'package:punctuality_drive/result2.dart';
+
 import 'package:punctuality_drive/resultScreen.dart';
-import 'package:punctuality_drive/routes/routes.dart';
-import 'package:punctuality_drive/services/api_services.dart';
+import 'package:punctuality_drive/landingPage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 import 'package:http/http.dart' as http;
@@ -35,9 +29,12 @@ class _LoginPageState extends State<LoginPage> {
 
   void _dropDownCallback(String? selectedValue) {
     if (selectedValue is String) {
-      setState(() {
-        location = selectedValue;
-      });
+      setState(
+        () {
+          location = selectedValue;
+        },
+      );
+
       if (kDebugMode) {
         print(location);
       }
@@ -56,25 +53,29 @@ class _LoginPageState extends State<LoginPage> {
     if (response.statusCode == 200) {
       var data = await response.stream.bytesToString();
       var jsondata = jsonDecode(data);
-      print(jsondata);
-      // print(jsondata["success"]);
 
       setState(() {
         isSuccess = "true";
         authToken = jsondata["token"];
       });
-      print(authToken);
+      log(authToken!);
     } else {
-      print(response.reasonPhrase);
-      setState(() {
-        isSuccess = "false";
-      });
+      if (kDebugMode) {
+        print(response.reasonPhrase);
+      }
+
+      setState(
+        () {
+          isSuccess = "false";
+        },
+      );
     }
+    return null;
   }
 
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  ScannedEntry scannedEntry = ScannedEntry();
+
   // @override
   // void initState() {
   //   // TODO: implement initState
@@ -99,20 +100,31 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _printLatestUsername() {
-    setState(() {
-      username = usernameController.text;
-    });
-    print(username);
+    setState(
+      () {
+        username = usernameController.text;
+      },
+    );
+
+    if (kDebugMode) {
+      print(username);
+    }
   }
 
   void _printLatestPassword() {
-    setState(() {
-      password = passwordController.text;
-    });
-    print(password);
+    setState(
+      () {
+        password = passwordController.text;
+      },
+    );
+
+    if (kDebugMode) {
+      print(password);
+    }
   }
 
   bool _obscureText = true;
+
   void _toggle() {
     setState(() {
       _obscureText = !_obscureText;

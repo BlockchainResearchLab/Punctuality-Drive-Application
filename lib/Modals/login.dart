@@ -12,18 +12,13 @@ class Login {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    data['privilege'] = this.privilege;
-    data['token'] = this.token;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    data['privilege'] = privilege;
+    data['token'] = token;
     return data;
   }
 }
-
-
-
-
-
 
 /*  Failure response */
 // {

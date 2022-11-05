@@ -106,7 +106,6 @@ class _ResultScreenState extends State<ResultScreen> {
                                 await SharedPreferences.getInstance();
                             prefs.remove('username');
                             prefs.remove('password');
-                            prefs.remove('authTokenPrefs');
                             // username = null;
                             // password = null;
                             Navigator.pushReplacement(
@@ -206,8 +205,8 @@ class _ResultScreenState extends State<ResultScreen> {
           foregroundColor: Colors.amberAccent,
           elevation: 20.0,
         ),
-        body: const Scanner(),
-        // floatingActionButton: const Scanner(),
+        body: const Scaffold(),
+        floatingActionButton: const Scanner(),
       ),
     );
   }

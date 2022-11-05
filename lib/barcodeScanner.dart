@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-// import 'package:barcode_scan/barcode_scan.dart';
+
 import 'package:barcode_scan2/model/scan_result.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:punctuality_drive/loginScreen..dart';
 import 'package:punctuality_drive/main.dart';
 import 'package:punctuality_drive/result2.dart';
+
 import 'package:punctuality_drive/services/api_services.dart';
 import 'dart:math' as math;
 
@@ -34,7 +36,6 @@ class _ScannerState extends State<Scanner> {
         studentNumber = barcodeScanRes.rawContent;
         print(studentNumber);
 
-        // lateEntry(); // moved to mark entry button.
         show(studentNumber ?? "2012014");
         Navigator.push(
           context,
@@ -45,7 +46,7 @@ class _ScannerState extends State<Scanner> {
       });
 
       if (kDebugMode) {
-        print(barcodeScanRes);
+        log(barcodeScanRes.rawContent);
       }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
