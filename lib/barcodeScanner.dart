@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 String? studentNumber;
 String? error;
+bool emptyBarcode = false;
 
 class Scanner extends StatefulWidget {
   const Scanner({Key? key}) : super(key: key);
@@ -31,12 +32,20 @@ class _ScannerState extends State<Scanner> {
   Future<void> scanBarcodeNormal() async {
     try {
       ScanResult barcodeScanRes = await BarcodeScanner.scan();
-      print(barcodeScanRes.rawContent);
+      log(barcodeScanRes.rawContent);
       setState(() {
-        studentNumber = barcodeScanRes.rawContent;
-        print(studentNumber);
+        if (barcodeScanRes.rawContent.isEmpty) {
+          log(barcodeScanRes.rawContent);
+          emptyBarcode = true;
+        } else {
+          log(barcodeScanRes.rawContent);
+          emptyBarcode = false;
+          studentNumber = barcodeScanRes.rawContent;
 
-        show(studentNumber ?? "2012014");
+          // print(studentNumber);
+          // show(studentNumber ?? "2012014");
+        }
+
         Navigator.push(
           context,
           MaterialPageRoute(
