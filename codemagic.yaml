@@ -26,15 +26,13 @@ workflows:
         # set up local properties
         echo "flutter.sdk=$HOME/programs/flutter" > "$FCI_BUILD_DIR/android/local.properties"
       - flutter packages pub get
-      - flutter build apk
-      - find . -name "Podfile" -execdir pod install \;
-      - flutter build ios --debug --no-codesign
+      - flutter build apk --debug
+      
+      
     artifacts:
       - build/**/outputs/apk/**/*.apk
       - build/**/outputs/bundle/**/*.aab
-      - build/**/outputs/**/mapping.txt
-      - build/ios/ipa/*.ipa
-      - /tmp/xcodebuild_logs/*.log
+      - build/**/outputs/**/mappin
       - build/windows/**/*.msix
       - flutter_drive.log
     publishing:
