@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "142968872544",
+    "project_id": "punctuality-drive",
+    "storage_bucket": "punctuality-drive.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142968872544:android:a0498afca7c6afaa246d05",
+        "android_client_info": {
+          "package_name": "com.example.punctuality_drive"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142968872544-e4socfqh6tsh9rev4ja525gda12io3b0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvRh4da332XrS1630qIUeLlHGNhWlqbgM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142968872544-e4socfqh6tsh9rev4ja525gda12io3b0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

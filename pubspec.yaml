@@ -36,12 +36,12 @@ dependencies:
   cupertino_icons: ^1.0.2
 
   page_transition: ^2.0.9
-  # flutter_barcode_scanner: ^2.0.0
-  # barcode_scan: any
+ 
   barcode_scan2: ^4.2.1
   http: ^0.13.5
   shared_preferences: ^2.0.15
-  ripple_wave: ^0.0.2
+  
+  firebase_messaging: ^14.0.4
 
 dev_dependencies:
   flutter_test:
