@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'package:punctuality_drive/splash.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -49,7 +49,7 @@ Future<void> main() async {
       visualDensity: VisualDensity.adaptivePlatformDensity,
     ),
     debugShowCheckedModeBanner: false,
-    home: authTokenPrefs == null ? LoginPage() : Scanner(),
+    home: authTokenPrefs == null ? Splash() : Scanner(),
   ));
 }
 

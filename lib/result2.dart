@@ -323,7 +323,7 @@ Widget ResultFooter() {
                   "images/brl_logo.png",
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
