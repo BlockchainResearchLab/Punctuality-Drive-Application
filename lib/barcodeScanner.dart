@@ -131,35 +131,43 @@ class _ScannerState extends State<Scanner> {
               title: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
-                  DropdownButton(
-                    hint: Text(
-                      location ?? locPrefs,
-                      style: const TextStyle(
-                        color: Colors.white,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 5),
+                    child: DropdownButton(
+                      // isExpanded: true,
+                      elevation: 12,
+                      hint: Text(
+                        location ?? 'Your Location',
+                        style: const TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
+
+                      //focusColor: Colors.amber,
+                      iconEnabledColor: Colors.white,
+                      dropdownColor: Colors.white,
+                      borderRadius: BorderRadius.circular(10),
+
+                      items: const [
+                        DropdownMenuItem(
+                          value: "LT",
+                          child: Text("LT"),
+                        ),
+                        DropdownMenuItem(
+                          value: "CS/IT",
+                          child: Text("CS/IT"),
+                        ),
+                        DropdownMenuItem(
+                          value: "MG",
+                          child: Text("Main Gate"),
+                        ),
+                      ],
+                      onChanged: _dropDownCallback,
                     ),
-                    //focusColor: Colors.amber,
-                    iconEnabledColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    items: const [
-                      DropdownMenuItem(
-                        value: "LT",
-                        child: Text("LT"),
-                      ),
-                      DropdownMenuItem(
-                        value: "CS/IT",
-                        child: Text("CS/IT"),
-                      ),
-                      DropdownMenuItem(
-                        value: "MG",
-                        child: Text("Main Gate"),
-                      ),
-                    ],
-                    onChanged: _dropDownCallback,
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.grey),
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
                     ),
                     onPressed: () async {
                       SharedPreferences prefs =
@@ -190,7 +198,7 @@ class _ScannerState extends State<Scanner> {
                     child: Text(
                       "Logout",
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: 18,
                       ),
                     ),

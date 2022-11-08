@@ -98,155 +98,183 @@ class _ScannedEntryState extends State<ScannedEntry> {
         child: Center(
           child: SingleChildScrollView(
             child: Expanded(
-              child: Container(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-                width: width,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      opacity: 0.15,
-                      image: AssetImage("images/AKGEC_1_0.png"),
-                      fit: BoxFit.scaleDown),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 5,
-                      blurRadius: 7,
-                      offset: Offset(0, 3), // changes position of shadow
-                    ),
-                  ],
-                  borderRadius: BorderRadius.circular(15),
-                  // border: Border.all(color: Colors.grey),
-                ),
-                child: emptyBarcode == true
-                    ? Center(
-                        child: Text("No ID Card Found\nUse Valid ID Card."),
-                      )
-                    : FutureBuilder<StudentData?>(
-                        future: show(studentNumber ?? "0000"),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return SizedBox(
-                              child: Center(
+              child: Material(
+                borderRadius: BorderRadius.circular(15.0),
+                elevation: 20,
+                child: Container(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  width: width,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(0, 3), // changes position of shadow
+                      ),
+                    ],
+                    borderRadius: BorderRadius.circular(15),
+                    // border: Border.all(color: Colors.grey),
+                  ),
+                  child: emptyBarcode == true
+                      ? Center(
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8.0),
+                            child: Text("No ID card found. Scan again"),
+                          ),
+                        )
+                      : FutureBuilder<StudentData?>(
+                          future: show(studentNumber ?? "0000"),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return SizedBox(
+                                child: Center(
                                   child: LinearProgressIndicator(
-                                backgroundColor: Colors.white,
-                              )),
-                              height: 100,
-                              width: 100,
-                            );
-                          } else if (snapshot.hasData) {
-                            return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Center(
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.grey,
-                                      radius: 80,
-                                      backgroundImage: NetworkImage(snapshot
-                                          .data!.result!.img
-                                          .toString()), // link to be provided later.
-                                    ),
+                                    backgroundColor: Colors.white,
                                   ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    "Student Name : ${snapshot.data!.result!.name.toString()}",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    "Student Number :${snapshot.data!.result!.stdNo} ",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    height: 70,
-                                  ),
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      Buttons(
-                                          const IconData(0xe156,
-                                              fontFamily: 'MaterialIcons'), () {
-                                        lateEntry().then((error) {
-                                          badRequest == false
-                                              ? showDialog(
-                                                  context: context,
-                                                  builder: ((context) {
-                                                    return AlertDialog(
-                                                      title:
-                                                          Text("Entry Status"),
-                                                      content: Text(
-                                                          "Entry Marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
-                                                    );
-                                                  }),
-                                                ).then((value) =>
-                                                  Navigator.pop(context))
-                                              : showDialog(
-                                                  context: context,
-                                                  builder: ((context) {
-                                                    return AlertDialog(
-                                                      title:
-                                                          Text("Entry Status"),
-                                                      content: Text(
-                                                          "Entry Already Marked"),
-                                                    );
-                                                  }),
-                                                ).then((value) =>
-                                                  Navigator.pop(context));
-                                        });
-                                        // ScaffoldMessenger(child: Text("Entry Marked"));
-
-                                        // Future.delayed(Duration(seconds: 2), () {
-                                        //   Navigator.pop(context);
-                                        // });
-                                      }, "Mark Entry", Colors.blue),
-                                      SizedBox(
-                                        width: 30,
+                                ),
+                                height: 100,
+                                width: 100,
+                              );
+                            } else if (snapshot.hasData) {
+                              return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Center(
+                                      child: CircleAvatar(
+                                        backgroundColor: Colors.grey,
+                                        radius: 80,
+                                        backgroundImage: NetworkImage(snapshot
+                                            .data!.result!.img
+                                            .toString()), // link to be provided later.
                                       ),
-                                      Buttons(
-                                          const IconData(0xe139,
-                                              fontFamily: 'MaterialIcons'),
-                                          () => showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    title: Text("Entry Status"),
-                                                    content: Text(
-                                                      "Entry Cancelled",
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    ),
-                                                  );
-                                                },
-                                              ).then((value) {
-                                                Navigator.pop(context);
-                                              }),
-                                          "Cancel",
-                                          Colors.red)
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                ]);
-                          } else {
-                            return ScaffoldMessenger(
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Student Name:  ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 20),
+                                        children: [
+                                          sData(
+                                              "${snapshot.data!.result!.name.toString()}"),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 20,
+                                    ),
+                                    RichText(
+                                      text: TextSpan(
+                                        text: 'Student Number:  ',
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black,
+                                            fontSize: 20),
+                                        children: [
+                                          sData(
+                                              "${snapshot.data!.result!.stdNo}"),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 70,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Buttons(
+                                            const IconData(0xe156,
+                                                fontFamily: 'MaterialIcons'),
+                                            () {
+                                          lateEntry().then(
+                                            (error) {
+                                              badRequest == false
+                                                  ? showDialog(
+                                                      context: context,
+                                                      builder: ((context) {
+                                                        return AlertDialog(
+                                                          icon: Image.asset(
+                                                              'images/tick.png'),
+                                                          title: Text(
+                                                              "Entry Status"),
+                                                          content: Text(
+                                                              "Entry marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
+                                                        );
+                                                      }),
+                                                    ).then((value) =>
+                                                      Navigator.pop(context))
+                                                  : showDialog(
+                                                      context: context,
+                                                      builder: ((context) {
+                                                        return AlertDialog(
+                                                          title: Text(
+                                                              "Entry Status"),
+                                                          content: Text(
+                                                              "Entry already marked"),
+                                                        );
+                                                      }),
+                                                    ).then((value) =>
+                                                      Navigator.pop(context));
+                                            },
+                                          );
+                                          // ScaffoldMessenger(child: Text("Entry Marked"));
+
+                                          // Future.delayed(Duration(seconds: 2), () {
+                                          //   Navigator.pop(context);
+                                          // });
+                                        }, "Mark Entry", Colors.green),
+                                        SizedBox(
+                                          width: 30,
+                                        ),
+                                        Buttons(
+                                            const IconData(0xe139,
+                                                fontFamily: 'MaterialIcons'),
+                                            () => showDialog(
+                                                  context: context,
+                                                  builder: (context) {
+                                                    return AlertDialog(
+                                                      icon: Image.asset(
+                                                          'images/cancel.png'),
+                                                      title:
+                                                          Text("Entry Status"),
+                                                      content: Text(
+                                                        "Entry cancelled.",
+                                                        style: TextStyle(
+                                                            color: Colors.red),
+                                                      ),
+                                                    );
+                                                  },
+                                                ).then((value) {
+                                                  Navigator.pop(context);
+                                                }),
+                                            "Cancel",
+                                            Colors.red)
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+                                  ]);
+                            } else {
+                              return ScaffoldMessenger(
+                                  child: Padding(
+                                padding: const EdgeInsets.only(bottom: 8.0),
                                 child: Text(
-                              "Scan the card again",
-                              style: TextStyle(fontSize: 18),
-                            ));
-                          }
-                        }),
+                                  "Scan card again.",
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ));
+                            }
+                          }),
+                ),
               ),
             ),
           ),
@@ -325,5 +353,13 @@ Row resultFooter() {
         ],
       ),
     ],
+  );
+}
+
+TextSpan sData(String text) {
+  return TextSpan(
+    text: text,
+    style: TextStyle(
+        color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20.0),
   );
 }
