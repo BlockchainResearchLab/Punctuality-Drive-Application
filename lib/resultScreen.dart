@@ -58,7 +58,7 @@ class _ResultScreenState extends State<ResultScreen> {
         );
       },
       child: Scaffold(
-        bottomSheet: ResultFooter(),
+        bottomSheet: resultFooter(),
         drawer: Drawer(
           child: Container(
             width: double.infinity,

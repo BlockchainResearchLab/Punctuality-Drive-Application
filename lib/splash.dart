@@ -76,7 +76,7 @@ class _FadeFooterState extends State<FadeFooter> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 5),
     vsync: this,
-  )..repeat(reverse: false);
+  )..repeat(reverse: true);
   late final Animation<double> _animation = CurvedAnimation(
     parent: _controller,
     curve: Curves.easeIn,

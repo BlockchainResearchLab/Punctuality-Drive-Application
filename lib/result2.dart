@@ -92,7 +92,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
     );
 
     return Scaffold(
-      bottomSheet: ResultFooter(),
+      bottomSheet: resultFooter(),
       body: Container(
         padding: EdgeInsets.only(left: 20, right: 20),
         child: Center(
@@ -270,62 +270,59 @@ class Buttons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
-        style: ButtonStyle(
-            backgroundColor: MaterialStateProperty.all(color),
-            minimumSize: MaterialStateProperty.all(Size(50, 50)),
-            side: MaterialStatePropertyAll(BorderSide(color: color)),
-            shape: MaterialStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)))),
-        onPressed: onpressed,
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: Colors.black54,
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
-              text,
-              style: TextStyle(color: Colors.white),
-            ),
-          ],
-        ));
+      style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all(color),
+          minimumSize: MaterialStateProperty.all(Size(50, 50)),
+          side: MaterialStatePropertyAll(BorderSide(color: color)),
+          shape: MaterialStatePropertyAll(
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+      onPressed: onpressed,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: Colors.black54,
+          ),
+          SizedBox(
+            width: 5,
+          ),
+          Text(
+            text,
+            style: TextStyle(color: Colors.white),
+          ),
+        ],
+      ),
+    );
   }
 }
 
-Widget ResultFooter() {
+Row resultFooter() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       // SizedBox(
       //   width: 145,
       // ),
-      Container(
-        height: 100,
-        width: 100,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Center(
-              child: Text(
-                "POWERED BY : ",
-                style: TextStyle(fontWeight: FontWeight.w300),
-              ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "POWERED BY : ",
+            style: TextStyle(fontWeight: FontWeight.w400),
+          ),
+          SizedBox(
+            width: 10,
+          ),
+          Image(
+            width: 120,
+            image: AssetImage(
+              "images/brl_logo.png",
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Center(
-              child: Image(
-                image: AssetImage(
-                  "images/brl_logo.png",
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+          SizedBox(
+            height: 50.0,
+          )
+        ],
       ),
     ],
   );

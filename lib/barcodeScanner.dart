@@ -272,7 +272,7 @@ class _ScannerState extends State<Scanner> {
               //   ),
               // ],
             ),
-            bottomSheet: ResultFooter(),
+            bottomSheet: resultFooter(),
             body: Center(
               child: InkWell(
                 child: Column(
