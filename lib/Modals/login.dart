@@ -19,9 +19,3 @@ class Login {
     return data;
   }
 }
-
-/*  Failure response */
-// {
-//     "success": false,
-//     "msg": "Authentication failed. Invalid User."
-// }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:punctuality_drive/loginScreen..dart';
-import 'package:punctuality_drive/result2.dart';
+import 'package:punctuality_drive/login_screen.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -20,14 +19,14 @@ class _SplashState extends State<Splash> {
         body: Center(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 30.0,
               ),
               Image.asset(
                 'images/akgeclogo.png',
                 width: 300,
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40.0,
               ),
               SizedBox(
@@ -96,8 +95,8 @@ class _FadeFooterState extends State<FadeFooter> with TickerProviderStateMixin {
         opacity: _animation,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
+          children: const [
+            SizedBox(
               height: 200,
               width: 300,
               child: Center(

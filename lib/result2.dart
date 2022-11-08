@@ -1,41 +1,40 @@
 import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/Modals/create_entry.dart';
-// import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
-import 'package:punctuality_drive/barcodeScanner.dart';
-import 'package:punctuality_drive/loginScreen..dart';
-import 'package:punctuality_drive/main.dart';
+import 'package:punctuality_drive/barcode_scanner.dart';
+import 'package:punctuality_drive/login_screen.dart';
 import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'Modals/student_data.dart';
 
 class ScannedEntry extends StatefulWidget {
-  ScannedEntry({super.key});
+  const ScannedEntry({super.key});
 
   @override
   State<ScannedEntry> createState() => _ScannedEntryState();
 }
 
 class _ScannedEntryState extends State<ScannedEntry> {
-// barcodeScanRes is the Result of the SCANNER
 
-  bool _isElevated = true;
-  void _dropDownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        location = selectedValue;
-      });
-      if (kDebugMode) {
-        print(location);
-      }
-    }
-  }
+
+  // void _dropDownCallback(String? selectedValue) {
+  //   if (selectedValue is String) {
+  //     setState(() {
+  //       location = selectedValue;
+  //     });
+  //     if (kDebugMode) {
+  //       print(location);
+  //     }
+  //   }
+  // }
+
+
 
   bool? badRequest;
+
   Future<EntryModel?> lateEntry() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var headers = {
@@ -55,15 +54,19 @@ class _ScannedEntryState extends State<ScannedEntry> {
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
-      setState(() {
-        badRequest = false;
-      });
+      setState(
+        () {
+          badRequest = false;
+        },
+      );
       log(await response.stream.bytesToString());
       log(badRequest.toString());
     } else {
-      setState(() {
-        badRequest = true;
-      });
+      setState(
+        () {
+          badRequest = true;
+        },
+      );
 
       log(response.reasonPhrase!);
       log("entry already exists");
@@ -74,9 +77,11 @@ class _ScannedEntryState extends State<ScannedEntry> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+      ],
+    );
     var size = MediaQuery.of(context).size;
 
     var height = size.height;
@@ -94,7 +99,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
     return Scaffold(
       bottomSheet: resultFooter(),
       body: Container(
-        padding: EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
           child: SingleChildScrollView(
             child: Expanded(
@@ -102,7 +107,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                 borderRadius: BorderRadius.circular(15.0),
                 elevation: 20,
                 child: Container(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10),
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 10),
                   width: width,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -111,16 +116,17 @@ class _ScannedEntryState extends State<ScannedEntry> {
                         color: Colors.grey.withOpacity(0.5),
                         spreadRadius: 5,
                         blurRadius: 7,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset:
+                            const Offset(0, 3), // changes position of shadow
                       ),
                     ],
                     borderRadius: BorderRadius.circular(15),
                     // border: Border.all(color: Colors.grey),
                   ),
                   child: emptyBarcode == true
-                      ? Center(
+                      ? const Center(
                           child: Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
+                            padding: EdgeInsets.only(bottom: 8.0),
                             child: Text("No ID card found. Scan again"),
                           ),
                         )
@@ -129,151 +135,150 @@ class _ScannedEntryState extends State<ScannedEntry> {
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return SizedBox(
+                              return const SizedBox(
+                                height: 100,
+                                width: 100,
                                 child: Center(
                                   child: LinearProgressIndicator(
                                     backgroundColor: Colors.white,
                                   ),
                                 ),
-                                height: 100,
-                                width: 100,
                               );
                             } else if (snapshot.hasData) {
                               return Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Center(
-                                      child: CircleAvatar(
-                                        backgroundColor: Colors.grey,
-                                        radius: 80,
-                                        backgroundImage: NetworkImage(snapshot
-                                            .data!.result!.img
-                                            .toString()), // link to be provided later.
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Center(
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.grey,
+                                      radius: 80,
+                                      backgroundImage: NetworkImage(
+                                        snapshot.data!.result!.img.toString(),
                                       ),
                                     ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Student Name:  ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 20),
-                                        children: [
-                                          sData(
-                                              "${snapshot.data!.result!.name.toString()}"),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 20,
-                                    ),
-                                    RichText(
-                                      text: TextSpan(
-                                        text: 'Student Number:  ',
-                                        style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.black,
-                                            fontSize: 20),
-                                        children: [
-                                          sData(
-                                              "${snapshot.data!.result!.stdNo}"),
-                                        ],
-                                      ),
-                                    ),
-                                    SizedBox(
-                                      height: 70,
-                                    ),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Student Name:  ',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 20),
                                       children: [
-                                        Buttons(
-                                            const IconData(0xe156,
-                                                fontFamily: 'MaterialIcons'),
-                                            () {
-                                          lateEntry().then(
-                                            (error) {
-                                              badRequest == false
-                                                  ? showDialog(
-                                                      context: context,
-                                                      builder: ((context) {
-                                                        return AlertDialog(
-                                                          icon: Image.asset(
-                                                              'images/tick.png'),
-                                                          title: Text(
-                                                              "Entry Status"),
-                                                          content: Text(
-                                                              "Entry marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
-                                                        );
-                                                      }),
-                                                    ).then((value) =>
-                                                      Navigator.pop(context))
-                                                  : showDialog(
-                                                      context: context,
-                                                      builder: ((context) {
-                                                        return AlertDialog(
-                                                          title: Text(
-                                                              "Entry Status"),
-                                                          content: Text(
-                                                              "Entry already marked"),
-                                                        );
-                                                      }),
-                                                    ).then((value) =>
-                                                      Navigator.pop(context));
-                                            },
-                                          );
-                                          // ScaffoldMessenger(child: Text("Entry Marked"));
-
-                                          // Future.delayed(Duration(seconds: 2), () {
-                                          //   Navigator.pop(context);
-                                          // });
-                                        }, "Mark Entry", Colors.green),
-                                        SizedBox(
-                                          width: 30,
-                                        ),
-                                        Buttons(
-                                            const IconData(0xe139,
-                                                fontFamily: 'MaterialIcons'),
-                                            () => showDialog(
-                                                  context: context,
-                                                  builder: (context) {
-                                                    return AlertDialog(
-                                                      icon: Image.asset(
-                                                          'images/cancel.png'),
-                                                      title:
-                                                          Text("Entry Status"),
-                                                      content: Text(
-                                                        "Entry cancelled.",
-                                                        style: TextStyle(
-                                                            color: Colors.red),
-                                                      ),
-                                                    );
-                                                  },
-                                                ).then((value) {
-                                                  Navigator.pop(context);
-                                                }),
-                                            "Cancel",
-                                            Colors.red)
+                                        sData(snapshot.data!.result!.name
+                                            .toString()),
                                       ],
                                     ),
-                                    SizedBox(
-                                      height: 30,
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  RichText(
+                                    text: TextSpan(
+                                      text: 'Student Number:  ',
+                                      style: const TextStyle(
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black,
+                                          fontSize: 20),
+                                      children: [
+                                        sData(
+                                            "${snapshot.data!.result!.stdNo}"),
+                                      ],
                                     ),
-                                  ]);
+                                  ),
+                                  const SizedBox(
+                                    height: 70,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      Buttons(
+                                          const IconData(0xe156,
+                                              fontFamily: 'MaterialIcons'), () {
+                                        lateEntry().then(
+                                          (error) {
+                                            badRequest == false
+                                                ? showDialog(
+                                                    context: context,
+                                                    builder: ((context) {
+                                                      return AlertDialog(
+                                                        icon: Image.asset(
+                                                            'images/tick.png'),
+                                                        title: const Text(
+                                                            "Entry Status"),
+                                                        content: Text(
+                                                            "Entry marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
+                                                      );
+                                                    }),
+                                                  ).then((value) =>
+                                                    Navigator.pop(context))
+                                                : showDialog(
+                                                    context: context,
+                                                    builder: ((context) {
+                                                      return const AlertDialog(
+                                                        title: Text(
+                                                            "Entry Status"),
+                                                        content: Text(
+                                                            "Entry already marked"),
+                                                      );
+                                                    }),
+                                                  ).then((value) =>
+                                                    Navigator.pop(context));
+                                          },
+                                        );
+                                      }, "Mark Entry", Colors.green),
+                                      const SizedBox(
+                                        width: 30,
+                                      ),
+                                      Buttons(
+                                          const IconData(0xe139,
+                                              fontFamily: 'MaterialIcons'),
+                                          () => showDialog(
+                                                context: context,
+                                                builder: (context) {
+                                                  return AlertDialog(
+                                                    icon: Image.asset(
+                                                        'images/cancel.png'),
+                                                    title: const Text(
+                                                        "Entry Status"),
+                                                    content: const Text(
+                                                      "Entry cancelled.",
+                                                      style: TextStyle(
+                                                          color: Colors.red),
+                                                    ),
+                                                  );
+                                                },
+                                              ).then(
+                                                (value) {
+                                                  Navigator.pop(context);
+                                                },
+                                              ),
+                                          "Cancel",
+                                          Colors.red)
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 30,
+                                  ),
+                                ],
+                              );
                             } else {
-                              return ScaffoldMessenger(
-                                  child: Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Text(
-                                  "Scan card again.",
-                                  style: TextStyle(fontSize: 18),
+                              return const ScaffoldMessenger(
+                                child: Padding(
+                                  padding: EdgeInsets.only(bottom: 8.0),
+                                  child: Text(
+                                    "Scan card again.",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
                                 ),
-                              ));
+                              );
                             }
-                          }),
+                          },
+                        ),
                 ),
               ),
             ),
@@ -291,19 +296,27 @@ class Buttons extends StatelessWidget {
     this.text,
     this.color,
   );
+
   IconData icon;
   String text;
   Function() onpressed;
   Color color;
+
   @override
   Widget build(BuildContext context) {
     return OutlinedButton(
       style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(color),
-          minimumSize: MaterialStateProperty.all(Size(50, 50)),
-          side: MaterialStatePropertyAll(BorderSide(color: color)),
-          shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)))),
+        backgroundColor: MaterialStateProperty.all(color),
+        minimumSize: MaterialStateProperty.all(
+          const Size(50, 50),
+        ),
+        side: MaterialStatePropertyAll(BorderSide(color: color)),
+        shape: MaterialStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+      ),
       onPressed: onpressed,
       child: Row(
         children: [
@@ -311,12 +324,14 @@ class Buttons extends StatelessWidget {
             icon,
             color: Colors.black54,
           ),
-          SizedBox(
+          const SizedBox(
             width: 5,
           ),
           Text(
             text,
-            style: TextStyle(color: Colors.white),
+            style: const TextStyle(
+              color: Colors.white,
+            ),
           ),
         ],
       ),
@@ -328,15 +343,14 @@ Row resultFooter() {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      // SizedBox(
-      //   width: 145,
-      // ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text(
             "POWERED BY : ",
-            style: TextStyle(fontWeight: FontWeight.w400),
+            style: TextStyle(
+              fontWeight: FontWeight.w400,
+            ),
           ),
           SizedBox(
             width: 10,
@@ -359,7 +373,10 @@ Row resultFooter() {
 TextSpan sData(String text) {
   return TextSpan(
     text: text,
-    style: TextStyle(
-        color: Colors.black, fontWeight: FontWeight.w700, fontSize: 20.0),
+    style: const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w700,
+      fontSize: 20.0,
+    ),
   );
 }

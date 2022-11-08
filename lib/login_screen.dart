@@ -3,9 +3,8 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:punctuality_drive/barcodeScanner.dart';
+import 'package:punctuality_drive/barcode_scanner.dart';
 import 'package:punctuality_drive/result2.dart';
-import 'package:punctuality_drive/resultScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'Modals/login.dart';
 import 'package:http/http.dart' as http;
@@ -14,7 +13,6 @@ String? location;
 String? username;
 String? password;
 String? isSuccess = "false";
-// var is_loading;
 String? authToken;
 
 class LoginPage extends StatefulWidget {
@@ -54,10 +52,12 @@ class _LoginPageState extends State<LoginPage> {
       var data = await response.stream.bytesToString();
       var jsondata = jsonDecode(data);
 
-      setState(() {
-        isSuccess = "true";
-        authToken = jsondata["token"];
-      });
+      setState(
+        () {
+          isSuccess = "true";
+          authToken = jsondata["token"];
+        },
+      );
       log(authToken!);
     } else {
       if (kDebugMode) {
@@ -76,13 +76,6 @@ class _LoginPageState extends State<LoginPage> {
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   usernameController.dispose();
-  //   passwordController.dispose();
-  // }
   @override
   void initState() {
     super.initState();
@@ -125,11 +118,15 @@ class _LoginPageState extends State<LoginPage> {
 
   bool _obscureText = true;
 
-  void _toggle() {
-    setState(() {
-      _obscureText = !_obscureText;
-    });
-  }
+
+  // void _toggle() {
+  //   setState(
+  //     () {
+  //       _obscureText = !_obscureText;
+  //     },
+  //   );
+  // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -137,7 +134,6 @@ class _LoginPageState extends State<LoginPage> {
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
     );
-    theme:
     ThemeData(
       primarySwatch: Colors.grey,
     );
@@ -156,21 +152,25 @@ class _LoginPageState extends State<LoginPage> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('NO',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: const Text(
+                    'NO',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
                 ),
                 TextButton(
-                  child: const Text('YES',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      )),
+                  child: const Text(
+                    'YES',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   onPressed: () {
                     SystemNavigator.pop();
                   },
@@ -234,7 +234,6 @@ class _LoginPageState extends State<LoginPage> {
                         child: Column(
                           children: [
                             DropdownButton(
-                              // isExpanded: true,
                               elevation: 12,
                               hint: Text(
                                 location ?? 'Your Location',
@@ -242,12 +241,9 @@ class _LoginPageState extends State<LoginPage> {
                                   color: Colors.black54,
                                 ),
                               ),
-
-                              //focusColor: Colors.amber,
                               iconEnabledColor: Colors.black,
                               dropdownColor: Colors.white,
                               borderRadius: BorderRadius.circular(10),
-
                               items: const [
                                 DropdownMenuItem(
                                   value: "LT",
@@ -264,47 +260,26 @@ class _LoginPageState extends State<LoginPage> {
                               ],
                               onChanged: _dropDownCallback,
                             ),
-                            // TextFormField(
-                            //   //field for location
-                            //   cursorColor: Colors.amberAccent,
-                            //   style: const TextStyle(color: Colors.amberAccent),
-                            //   validator: (name) {
-                            //     if (name!.isEmpty) {
-                            //       return "Please enter your Location (Main Gate, CS/IT, LT)!";
-                            //     }
-                            //     return null;
-                            //   },
-                            //   decoration: const InputDecoration(
-                            //       labelText: 'Location',
-                            //       hintText: 'Your Location'),
-                            //   onChanged: (value) {
-                            //     location = value;
-                            //     setState(() {});
-                            //   },
-                            // ),
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: usernameController,
-
-                              // field for username
                               cursorColor: Colors.black,
                               cursorHeight: 25,
                               style: const TextStyle(color: Colors.black),
-                              validator: (usernm) {
-                                if (usernm!.isEmpty) {
+                              validator: (username) {
+                                if (username!.isEmpty) {
                                   return "Please enter you Username!";
                                 }
                                 return null;
                               },
                               onChanged: (value) {
                                 username = value;
-                                // print(username);
                               },
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'USERNAME',
                                 prefixIcon: Icon(Icons.account_circle_sharp),
                                 prefixIconColor: Colors.black,
@@ -319,55 +294,54 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ),
                             ),
-
-                            SizedBox(
+                            const SizedBox(
                               height: 20,
                             ),
-
                             TextFormField(
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               controller: passwordController,
-                              // field for password
                               cursorColor: Colors.black,
                               style: const TextStyle(color: Colors.black),
-                              validator: (pswd) {
-                                if (pswd!.isEmpty) {
+                              validator: (password) {
+                                if (password!.isEmpty) {
                                   return "Please enter Password!";
-                                } else if (pswd.length < 8) {
+                                } else if (password.length < 8) {
                                   return "Password should at least have 8 characters!";
                                 }
                                 return null;
                               },
                               onChanged: (value) {
                                 password = value;
-                                // print(password);
                               },
                               obscureText: _obscureText,
                               autocorrect: false,
                               decoration: InputDecoration(
-                                  labelText: 'PASSWORD',
-                                  prefixIconColor: Colors.black,
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide: BorderSide(color: Colors.black),
-                                  ),
-                                  prefixIcon: Icon(Icons.password_outlined),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
+                                labelText: 'PASSWORD',
+                                prefixIconColor: Colors.black,
+                                enabledBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                focusedBorder: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                border: const UnderlineInputBorder(
+                                  borderSide: BorderSide(color: Colors.black),
+                                ),
+                                prefixIcon: const Icon(Icons.password_outlined),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
+                                    setState(
+                                      () {
                                         _obscureText = !_obscureText;
-                                      });
-                                    },
-                                    icon: _obscureText == true
-                                        ? Icon(Icons.visibility)
-                                        : Icon(Icons.visibility_off),
-                                  )),
+                                      },
+                                    );
+                                  },
+                                  icon: _obscureText == true
+                                      ? const Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility_off),
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -385,35 +359,41 @@ class _LoginPageState extends State<LoginPage> {
                       autofocus: true,
                       onPressed: () async {
                         setState(() {});
-                        if (password == null && username == null) {
+                        if (location == null ||
+                            password == null ||
+                            username == null) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
+                            const SnackBar(
                               duration: Duration(seconds: 1),
                               content: Text(
-                                  "Please provide required details to login"),
+                                "Please provide required details along with [Location] to Login",
+                              ),
                             ),
                           );
                         } else {
                           try {
-                            // login(username!, password!).then((value) {
-                            //   isSuccess = "true";
-                            // }).catchError(() {
-                            //   isSuccess = "false";
-                            //
-                            await login(username!, password!).then((value) {
-                              if (value != null) {
-                                setState(() {
-                                  isSuccess = "true";
-                                });
-                              }
-                            }).catchError(() {
-                              setState(() {
-                                isSuccess = "false";
-                              });
-                            });
+                            await login(username!, password!).then(
+                              (value) {
+                                if (value != null) {
+                                  setState(
+                                    () {
+                                      isSuccess = "true";
+                                    },
+                                  );
+                                }
+                              },
+                            ).catchError(
+                              (e) {
+                                setState(
+                                  () {
+                                    isSuccess = "false";
+                                  },
+                                );
+                              },
+                            );
                             if (isSuccess == "false") {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
+                                const SnackBar(
                                   content: Text(
                                     "Unauthorized Access",
                                   ),
@@ -428,60 +408,46 @@ class _LoginPageState extends State<LoginPage> {
                               prefs.setString(
                                   'authTokenPrefs', authToken.toString());
                               prefs.setString('location', location.toString());
-                              Future.delayed(Duration(milliseconds: 1), () {
-                                Container(
-                                  height: 32,
-                                  width: 32,
-                                  child: LinearProgressIndicator(
-                                    color: Colors.black,
-                                  ),
-                                );
-                              }).then((value) {
-                                Navigator.push(
+                              Future.delayed(
+                                const Duration(milliseconds: 1),
+                                () {
+                                  const SizedBox(
+                                    height: 32,
+                                    width: 32,
+                                    child: LinearProgressIndicator(
+                                      color: Colors.black,
+                                    ),
+                                  );
+                                },
+                              ).then(
+                                (value) {
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => Scanner(),
-                                    ));
-                              });
+                                      builder: (context) => const Scanner(),
+                                    ),
+                                  );
+                                },
+                              );
                             }
                           } catch (e) {
-                            print("cannot process");
+                            if (kDebugMode) {
+                              print("cannot process");
+                            }
                           }
                         }
                       },
-                      // onPressed: () {
-                      //   // Navigator.pushNamed(context, Routes.resultScreen);
-                      //   try {
-                      //     // login(username!, password!);
-                      //     if (isSuccess == "true") {
-                      //       Navigator.push(
-                      //           context,
-                      //           MaterialPageRoute(
-                      //             builder: (context) => ResultScreen(),
-                      //           ));
-                      //     } else if (username == "" && password == "") {
-                      //       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      //           content: Text(
-                      //               "Please fill Username and Password to Login")));
-                      //     } else {
-                      //       return null;
-                      //     }
-                      //   } catch (e) {
-                      //     throw (e);
-                      //   }
-                      // },
                       style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          // foregroundColor: Colors.amberAccent,
-                          minimumSize: Size(
-                              MediaQuery.of(context).size.width * 0.8,
-                              MediaQuery.of(context).size.height * 0.05),
-                          elevation: 8.0,
-                          animationDuration: const Duration(seconds: 1)),
+                        backgroundColor: Colors.black,
+                        minimumSize: Size(
+                            MediaQuery.of(context).size.width * 0.8,
+                            MediaQuery.of(context).size.height * 0.05),
+                        elevation: 8.0,
+                        animationDuration: const Duration(seconds: 1),
+                      ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: const [
-                          // Icon(Icons.g_mobiledata_rounded),
                           SizedBox(
                             width: 10.0,
                           ),
@@ -500,10 +466,6 @@ class _LoginPageState extends State<LoginPage> {
                     )
                   ],
                 ),
-                // isSuccess == "true"
-                //     ? Text("Logged In")
-                //     : Text("Incorrect Username or Password"),
-                //linear progress indicator is to be put here.
                 const SizedBox(
                   height: 100.0,
                 ),
@@ -515,44 +477,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
-// FutureBuilder<Login?> isSuccess() {
-//   return FutureBuilder<Login?>(
-//     future: login(username!, password!),
-//     builder: (context, snapshot) {
-//       if (snapshot.data!.success == true) {
-//         return
-//         Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => ResultScreen(),
-//             ));
-//       } else {
-//         return LinearProgressIndicator();
-//       }
-
-//     }
-//   );
-// }
-
-// bool isSuccess() {}
-
-// var headers = {
-//   'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjYzMzgxYmI0YWRiZDMyNTZkMGQzOWYzMyIsIm5hbWUiOiJTSEFIQkFaIEFMSSIsIm1vYmlsZSI6NzM5ODM1ODAxMiwidXNlck5hbWUiOiJzaGE3Mzk4MyIsInByaXZpbGVnZSI6MSwiZW1haWwiOiJzaGFoYmF6X2FsaUBvdXRsb29rLmluIiwicGFzc3dvcmQiOiIkMmIkMTAkOXVlNzBUakxsTGY3ODRDY3BrTlFNdXF0LlF4L0pWVW5rZktaVnFnSHBoZDRyeEdnVEswZGUiLCJkZXB0IjoiSVQiLCJjcmVhdGVkQXQiOiIyMDIyLTEwLTAxVDEwOjUxOjMyLjM3MFoiLCJ1cGRhdGVkQXQiOiIyMDIyLTEwLTI5VDE3OjEwOjUyLjUzNFoiLCJfX3YiOjAsInNhdmVkRm9ybWF0IjoiRm9sbG93aW5nIHN0dWRlbnRzIGFyZSBiZWluZyBhd2FyZGVkIDxzdHJvbmc-ZGVkdWN0aW9uIG9mIFR3bygyKSBHUCBNYXJrcyA8L3N0cm9uZz4gZWFjaCBmb3IgYmVpbmcgbGF0ZSB0aHJpY2UgZHVyaW5nIHB1bmN0dWFsaXR5IGRyaXZlLiJ9LCJpYXQiOjE2NjcxMDk5NDQsImV4cCI6MTY2NzEyMDc0NH0.tPT0qIVfZz3gad_2BeYltsYA19LmnPK6i_2xmu_n0Ic',
-//   'Content-Type': 'application/x-www-form-urlencoded'
-// };
-// var request = http.Request('POST', Uri.parse('http://akgec-late-entry.herokuapp.com/api/admin/entry/create'));
-// request.bodyFields = {
-//   'stdNo': '2012014',
-//   'location': 'MG'
-// };
-// request.headers.addAll(headers);
-
-// http.StreamedResponse response = await request.send();
-
-// if (response.statusCode == 200) {
-//   print(await response.stream.bytesToString());
-// }
-// else {
-//   print(response.reasonPhrase);
-// }

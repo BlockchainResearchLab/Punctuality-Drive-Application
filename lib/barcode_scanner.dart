@@ -1,17 +1,12 @@
-import 'dart:developer';
 
+import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:barcode_scan2/model/scan_result.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
-import 'package:punctuality_drive/loginScreen..dart';
-import 'package:punctuality_drive/main.dart';
+import 'package:punctuality_drive/login_screen.dart';
 import 'package:punctuality_drive/result2.dart';
-
-import 'package:punctuality_drive/services/api_services.dart';
-import 'dart:math' as math;
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,53 +22,56 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-  // barcodeScanRes is the Result of the SCANNER
-
   Future<void> scanBarcodeNormal() async {
     try {
       ScanResult barcodeScanRes = await BarcodeScanner.scan();
       log(barcodeScanRes.rawContent);
-      setState(() {
-        if (barcodeScanRes.rawContent.isEmpty) {
-          log(barcodeScanRes.rawContent);
-          emptyBarcode = true;
-        } else {
-          log(barcodeScanRes.rawContent);
-          emptyBarcode = false;
-          studentNumber = barcodeScanRes.rawContent;
+      setState(
+        () {
+          if (barcodeScanRes.rawContent.isEmpty) {
+            log(barcodeScanRes.rawContent);
+            emptyBarcode = true;
+          } else {
+            log(barcodeScanRes.rawContent);
+            emptyBarcode = false;
+            studentNumber = barcodeScanRes.rawContent;
+          }
 
-          // print(studentNumber);
-          // show(studentNumber ?? "2012014");
-        }
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: ((context) => ScannedEntry()),
-          ),
-        );
-      });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const ScannedEntry()),
+            ),
+          );
+        },
+      );
 
       if (kDebugMode) {
         log(barcodeScanRes.rawContent);
       }
     } on PlatformException catch (e) {
       if (e.code == BarcodeScanner.cameraAccessDenied) {
-        setState(() {
-          error = 'The user did not grant the camera permission!';
-        });
+        setState(
+          () {
+            error = 'The user did not grant the camera permission!';
+          },
+        );
       } else {
         setState(() => error = 'Unknown error: $e');
-        print(studentNumber);
+        if (kDebugMode) {
+          print(studentNumber);
+        }
       }
     }
   }
 
   void _dropDownCallback(String? selectedValue) {
     if (selectedValue is String) {
-      setState(() {
-        location = selectedValue;
-      });
+      setState(
+        () {
+          location = selectedValue;
+        },
+      );
       if (kDebugMode) {
         print(location);
       }
@@ -134,7 +132,6 @@ class _ScannerState extends State<Scanner> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: DropdownButton(
-                      // isExpanded: true,
                       elevation: 12,
                       hint: Text(
                         location ?? 'Your Location',
@@ -142,12 +139,9 @@ class _ScannerState extends State<Scanner> {
                           color: Colors.white,
                         ),
                       ),
-
-                      //focusColor: Colors.amber,
                       iconEnabledColor: Colors.white,
                       dropdownColor: Colors.white,
                       borderRadius: BorderRadius.circular(10),
-
                       items: const [
                         DropdownMenuItem(
                           value: "LT",
@@ -175,27 +169,27 @@ class _ScannerState extends State<Scanner> {
                       prefs.remove('username');
                       prefs.remove('password');
                       prefs.remove('authTokenPrefs');
-                      // username = null;
-                      // password = null;
-
                       Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          )).whenComplete(() {
-                        // password = null;
-                        // username = null;
-                        setState(() {
-                          password = null;
-                          username = null;
-                          authToken = null;
-                          isSuccess = "false";
-                          location = null;
-                          // is_loading = false;
-                        });
-                      });
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginPage(),
+                        ),
+                      ).whenComplete(
+                        () {
+                          setState(
+                            () {
+                              password = null;
+                              username = null;
+                              authToken = null;
+                              isSuccess = "false";
+                              location = null;
+                              // is_loading = false;
+                            },
+                          );
+                        },
+                      );
                     },
-                    child: Text(
+                    child: const Text(
                       "Logout",
                       style: TextStyle(
                         color: Colors.black,
@@ -207,86 +201,14 @@ class _ScannerState extends State<Scanner> {
               ),
               automaticallyImplyLeading: false,
               backgroundColor: Colors.black,
-              // actions: [
-              //   DropdownButton(
-              //     hint: Text(
-              //       location ?? 'Your location',
-              //       style: const TextStyle(
-              //         color: Colors.white,
-              //       ),
-              //     ),
-              //     //focusColor: Colors.amber,
-              //     iconEnabledColor: Colors.white,
-              //     dropdownColor: Colors.white,
-              //     items: const [
-              //       DropdownMenuItem(
-              //         value: "LT",
-              //         child: Text("LT"),
-              //       ),
-              //       DropdownMenuItem(
-              //         value: "CS/IT",
-              //         child: Text("CS/IT"),
-              //       ),
-              //       DropdownMenuItem(
-              //         value: "MG",
-              //         child: Text("Main Gate"),
-              //       ),
-              //     ],
-              //     onChanged: _dropDownCallback,
-              //   ),
-              //   SizedBox(
-              //     width: 10,
-              //   ),
-              //   ElevatedButton(
-              //     style: ButtonStyle(
-              //       backgroundColor: MaterialStateProperty.all(Colors.grey),
-              //     ),
-              //     onPressed: () async {
-              //       SharedPreferences prefs =
-              //           await SharedPreferences.getInstance();
-              //       prefs.remove('username');
-              //       prefs.remove('password');
-              //       prefs.remove('authTokenPrefs');
-              //       // username = null;
-              //       // password = null;
-
-              //       Navigator.pushReplacement(
-              //           context,
-              //           MaterialPageRoute(
-              //             builder: (context) => LoginPage(),
-              //           )).whenComplete(() {
-              //         // password = null;
-              //         // username = null;
-              //         setState(() {
-              //           password = null;
-              //           username = null;
-              //           authToken = null;
-              //           isSuccess = "false";
-              //           location = null;
-              //           // is_loading = false;
-              //         });
-              //       });
-              //     },
-              //     child: Text(
-              //       "Logout",
-              //       style: TextStyle(
-              //         color: Colors.white,
-              //         fontSize: 18,
-              //       ),
-              //     ),
-              //   ),
-              //   SizedBox(
-              //     width: 10,
-              //   ),
-              // ],
             ),
             bottomSheet: resultFooter(),
             body: Center(
               child: InkWell(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
+                  children: const [
+                    SizedBox(
                       height: 250,
                       width: 250,
                       child: Image(
@@ -299,7 +221,9 @@ class _ScannerState extends State<Scanner> {
                     SizedBox(
                       height: 20,
                     ),
-                    Text("Tap anywhere on the screen to scan."),
+                    Text(
+                      "Tap anywhere on the screen to scan.",
+                    ),
                   ],
                 ),
               ),
