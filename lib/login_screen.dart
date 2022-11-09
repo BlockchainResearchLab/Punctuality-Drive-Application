@@ -145,6 +145,14 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (context) {
             return AlertDialog(
+              shape:
+              const RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.all(
+                  Radius.circular(
+                      20.0),
+                ),
+              ),
               title: const Text(
                 'Are you sure?',
               ),

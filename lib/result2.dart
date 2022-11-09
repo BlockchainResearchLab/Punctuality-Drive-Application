@@ -18,8 +18,6 @@ class ScannedEntry extends StatefulWidget {
 }
 
 class _ScannedEntryState extends State<ScannedEntry> {
-
-
   // void _dropDownCallback(String? selectedValue) {
   //   if (selectedValue is String) {
   //     setState(() {
@@ -30,8 +28,6 @@ class _ScannedEntryState extends State<ScannedEntry> {
   //     }
   //   }
   // }
-
-
 
   bool? badRequest;
 
@@ -206,10 +202,25 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                     context: context,
                                                     builder: ((context) {
                                                       return AlertDialog(
+                                                        shape:
+                                                            const RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.all(
+                                                            Radius.circular(
+                                                                16.0),
+                                                          ),
+                                                        ),
                                                         icon: Image.asset(
-                                                            'images/tick.png'),
+                                                            'images/tick.png',
+                                                            height: 40.0),
                                                         title: const Text(
-                                                            "Entry Status"),
+                                                          "Entry Status",
+                                                          style: TextStyle(
+                                                              fontSize: 25.0,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w400),
+                                                        ),
                                                         content: Text(
                                                             "Entry marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
                                                       );
@@ -220,6 +231,14 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                     context: context,
                                                     builder: ((context) {
                                                       return const AlertDialog(
+                                                        shape:
+                                                        RoundedRectangleBorder(
+                                                          borderRadius:
+                                                          BorderRadius.all(
+                                                            Radius.circular(
+                                                                16.0),
+                                                          ),
+                                                        ),
                                                         title: Text(
                                                             "Entry Status"),
                                                         content: Text(
@@ -241,8 +260,18 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                 context: context,
                                                 builder: (context) {
                                                   return AlertDialog(
+                                                    shape:
+                                                    const RoundedRectangleBorder(
+                                                      borderRadius:
+                                                      BorderRadius.all(
+                                                        Radius.circular(
+                                                            16.0,),
+                                                      ),
+                                                    ),
                                                     icon: Image.asset(
-                                                        'images/cancel.png'),
+                                                      'images/cancel.png',
+                                                      height: 40.0,
+                                                    ),
                                                     title: const Text(
                                                         "Entry Status"),
                                                     content: const Text(

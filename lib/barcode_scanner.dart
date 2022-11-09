@@ -89,6 +89,14 @@ class _ScannerState extends State<Scanner> {
           context: context,
           builder: (context) {
             return AlertDialog(
+              shape:
+              const RoundedRectangleBorder(
+                borderRadius:
+                BorderRadius.all(
+                  Radius.circular(
+                      20.0),
+                ),
+              ),
               title: const Text(
                 'Are you sure?',
               ),
