@@ -27,7 +27,7 @@ class _SplashState extends State<Splash> {
                 width: 300,
               ),
               const SizedBox(
-                height: 40.0,
+                height: 60.0,
               ),
               SizedBox(
                 width: 300.0,
@@ -36,7 +36,7 @@ class _SplashState extends State<Splash> {
                       fontSize: 30.0,
                       fontFamily: 'popin',
                       color: Colors.black,
-                      fontWeight: FontWeight.w400),
+                      fontWeight: FontWeight.w600),
                   child: AnimatedTextKit(
                     isRepeatingAnimation: false,
                     onFinished: () {
@@ -50,7 +50,7 @@ class _SplashState extends State<Splash> {
                       TyperAnimatedText(
                         'PUNCTUALITY DRIVE',
                         textAlign: TextAlign.center,
-                        speed: const Duration(milliseconds: 250),
+                        speed: const Duration(milliseconds: 170),
                       ),
                     ],
                   ),
@@ -73,7 +73,7 @@ class FadeFooter extends StatefulWidget {
 
 class _FadeFooterState extends State<FadeFooter> with TickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
-    duration: const Duration(seconds: 5),
+    duration: const Duration(seconds: 4),
     vsync: this,
   )..repeat(reverse: true);
   late final Animation<double> _animation = CurvedAnimation(

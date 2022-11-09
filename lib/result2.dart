@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:barcode_scan2/gen/protos/protos.pb.dart';
+import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -120,11 +122,30 @@ class _ScannedEntryState extends State<ScannedEntry> {
                     // border: Border.all(color: Colors.grey),
                   ),
                   child: emptyBarcode == true
-                      ? const Center(
-                          child: Padding(
-                            padding: EdgeInsets.only(bottom: 8.0),
-                            child: Text("No ID card found. Scan again"),
-                          ),
+                      ? Column(
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Image.asset(
+                                  'images/Disclaimer.png',
+                                  height: 200,
+                                ),
+                                const Padding(
+                                  padding:
+                                      EdgeInsets.only(bottom: 10.0, top: 20),
+                                  child: Text(
+                                    "No ID card found.",
+                                    style: TextStyle(fontSize: 18),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            TextButton(
+                              onPressed: () => scanBarcodeNormal(),
+                              child: const Text('SCAN AGAIN'),
+                            )
+                          ],
                         )
                       : FutureBuilder<StudentData?>(
                           future: show(studentNumber ?? "0000"),
@@ -212,7 +233,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                         ),
                                                         icon: Image.asset(
                                                             'images/tick.png',
-                                                            height: 40.0),
+                                                            height: 50.0),
                                                         title: const Text(
                                                           "Entry Status",
                                                           style: TextStyle(
@@ -230,16 +251,20 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                 : showDialog(
                                                     context: context,
                                                     builder: ((context) {
-                                                      return const AlertDialog(
+                                                      return AlertDialog(
+                                                        icon: Image.asset(
+                                                          'images/Disclaimer.png',
+                                                          height: 50.0,
+                                                        ),
                                                         shape:
-                                                        RoundedRectangleBorder(
+                                                            const RoundedRectangleBorder(
                                                           borderRadius:
-                                                          BorderRadius.all(
+                                                              BorderRadius.all(
                                                             Radius.circular(
                                                                 16.0),
                                                           ),
                                                         ),
-                                                        title: Text(
+                                                        title: const Text(
                                                             "Entry Status"),
                                                         content: Text(
                                                             "Entry already marked"),
@@ -261,16 +286,17 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                 builder: (context) {
                                                   return AlertDialog(
                                                     shape:
-                                                    const RoundedRectangleBorder(
+                                                        const RoundedRectangleBorder(
                                                       borderRadius:
-                                                      BorderRadius.all(
+                                                          BorderRadius.all(
                                                         Radius.circular(
-                                                            16.0,),
+                                                          16.0,
+                                                        ),
                                                       ),
                                                     ),
                                                     icon: Image.asset(
                                                       'images/cancel.png',
-                                                      height: 40.0,
+                                                      height: 50.0,
                                                     ),
                                                     title: const Text(
                                                         "Entry Status"),
@@ -315,6 +341,49 @@ class _ScannedEntryState extends State<ScannedEntry> {
         ),
       ),
     );
+  }
+
+  Future<void> scanBarcodeNormal() async {
+    try {
+      ScanResult barcodeScanRes = (await BarcodeScanner.scan()) as ScanResult;
+      log(barcodeScanRes.rawContent);
+      setState(
+        () {
+          if (barcodeScanRes.rawContent.isEmpty) {
+            log(barcodeScanRes.rawContent);
+            emptyBarcode = true;
+          } else {
+            log(barcodeScanRes.rawContent);
+            emptyBarcode = false;
+            studentNumber = barcodeScanRes.rawContent;
+          }
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: ((context) => const ScannedEntry()),
+            ),
+          );
+        },
+      );
+
+      if (kDebugMode) {
+        log(barcodeScanRes.rawContent);
+      }
+    } on PlatformException catch (e) {
+      if (e.code == BarcodeScanner.cameraAccessDenied) {
+        setState(
+          () {
+            error = 'The user did not grant the camera permission!';
+          },
+        );
+      } else {
+        setState(() => error = 'Unknown error: $e');
+        if (kDebugMode) {
+          print(studentNumber);
+        }
+      }
+    }
   }
 }
 
@@ -378,7 +447,7 @@ Row resultFooter() {
           Text(
             "POWERED BY : ",
             style: TextStyle(
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.w300,
             ),
           ),
           SizedBox(
