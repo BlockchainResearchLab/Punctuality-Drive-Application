@@ -1,4 +1,3 @@
-
 import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -132,28 +131,44 @@ class _ScannerState extends State<Scanner> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5),
                     child: DropdownButton(
+                      value: location,
                       elevation: 12,
-                      hint: Text(
-                        location ?? 'Your Location',
-                        style: const TextStyle(
+                      hint: const Text(
+                        'Your Location',
+                        style: TextStyle(
                           color: Colors.white,
                         ),
                       ),
                       iconEnabledColor: Colors.white,
-                      dropdownColor: Colors.white,
+                      dropdownColor: Colors.grey,
                       borderRadius: BorderRadius.circular(10),
                       items: const [
                         DropdownMenuItem(
                           value: "LT",
-                          child: Text("LT"),
+                          child: Text(
+                            "LT",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: "CS/IT",
-                          child: Text("CS/IT"),
+                          child: Text(
+                            "CS/IT",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                         DropdownMenuItem(
                           value: "MG",
-                          child: Text("Main Gate"),
+                          child: Text(
+                            "Main Gate",
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                         ),
                       ],
                       onChanged: _dropDownCallback,
