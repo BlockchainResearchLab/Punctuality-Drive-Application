@@ -6,7 +6,6 @@ import 'package:barcode_scan2/model/scan_result.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
 import 'package:punctuality_drive/login_screen.dart';
 import 'package:punctuality_drive/result2.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
 
 String? studentNumber;
@@ -150,7 +149,7 @@ class _ScannerState extends State<Scanner> {
                     padding: const EdgeInsets.only(left: 5),
                     child: DropdownButton(
                       value: location,
-                      elevation: 12,
+                      elevation: 4,
                       hint: const Text(
                         'Your Location',
                         style: TextStyle(
@@ -158,7 +157,7 @@ class _ScannerState extends State<Scanner> {
                         ),
                       ),
                       iconEnabledColor: Colors.white,
-                      dropdownColor: Colors.grey,
+                      dropdownColor: Colors.black,
                       borderRadius: BorderRadius.circular(10),
                       items: const [
                         DropdownMenuItem(
@@ -194,7 +193,8 @@ class _ScannerState extends State<Scanner> {
                   ),
                   ElevatedButton(
                     style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.red.shade600),
                     ),
                     onPressed: () async {
                       SharedPreferences prefs =
@@ -225,7 +225,7 @@ class _ScannerState extends State<Scanner> {
                     child: const Text(
                       "Logout",
                       style: TextStyle(
-                        color: Colors.black,
+                        color: Colors.white,
                         fontSize: 18,
                       ),
                     ),

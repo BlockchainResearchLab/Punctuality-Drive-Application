@@ -143,7 +143,14 @@ class _ScannedEntryState extends State<ScannedEntry> {
                             ),
                             TextButton(
                               onPressed: () => scanBarcodeNormal(),
-                              child: const Text('SCAN AGAIN'),
+                              child: const Text(
+                                'SCAN AGAIN',
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                             )
                           ],
                         )
@@ -266,7 +273,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                         ),
                                                         title: const Text(
                                                             "Entry Status"),
-                                                        content: Text(
+                                                        content: const Text(
                                                             "Entry already marked"),
                                                       );
                                                     }),
