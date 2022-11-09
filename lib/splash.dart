@@ -50,7 +50,7 @@ class _SplashState extends State<Splash> {
                       TyperAnimatedText(
                         'PUNCTUALITY DRIVE',
                         textAlign: TextAlign.center,
-                        speed: const Duration(milliseconds: 200),
+                        speed: const Duration(milliseconds: 250),
                       ),
                     ],
                   ),
