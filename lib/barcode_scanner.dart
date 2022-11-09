@@ -128,7 +128,20 @@ class _ScannerState extends State<Scanner> {
         );
       }),
       child: GestureDetector(
-        onTap: scanBarcodeNormal,
+        onTap: (){
+          if(location != null) {
+            scanBarcodeNormal();
+          } else{
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                duration: Duration(seconds: 1),
+                content: Text(
+                  "Please provide [Location] to Scan",
+                ),
+              ),
+            );
+          }
+        },
         child: SafeArea(
           child: Scaffold(
             appBar: AppBar(
