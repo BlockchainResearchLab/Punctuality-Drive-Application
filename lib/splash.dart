@@ -20,14 +20,14 @@ class _SplashState extends State<Splash> {
           child: Column(
             children: [
               const SizedBox(
-                height: 30.0,
+                height: 60.0,
               ),
               Image.asset(
                 'images/akgeclogo.png',
-                width: 300,
+                width: 200,
               ),
               const SizedBox(
-                height: 60.0,
+                height: 100.0,
               ),
               SizedBox(
                 width: 300.0,
@@ -97,8 +97,8 @@ class _FadeFooterState extends State<FadeFooter> with TickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.center,
           children: const [
             SizedBox(
-              height: 200,
-              width: 300,
+              height: 150,
+              width: 200,
               child: Center(
                 child: Image(
                   image: AssetImage(

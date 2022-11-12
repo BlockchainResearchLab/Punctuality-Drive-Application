@@ -247,7 +247,7 @@ class _ScannerState extends State<Scanner> {
                       child: Image(
                         fit: BoxFit.cover,
                         image: AssetImage(
-                          "images/scan_icon.png",
+                          "images/scan2.jpg",
                         ),
                       ),
                     ),
@@ -256,6 +256,7 @@ class _ScannerState extends State<Scanner> {
                     ),
                     Text(
                       "Tap anywhere on the screen to scan.",
+                      style: TextStyle(color: Colors.blue, fontSize: 20),
                     ),
                   ],
                 ),

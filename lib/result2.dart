@@ -453,9 +453,7 @@ Row resultFooter() {
         children: const [
           Text(
             "POWERED BY : ",
-            style: TextStyle(
-              fontWeight: FontWeight.w300,
-            ),
+            style: TextStyle(fontWeight: FontWeight.w300, fontSize: 10),
           ),
           SizedBox(
             width: 10,
