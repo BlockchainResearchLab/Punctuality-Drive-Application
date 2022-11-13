@@ -172,7 +172,6 @@ class _ScannerState extends State<Scanner> {
                                         setState(() {
                                           emptyBarcode = true;
                                         });
-
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -182,11 +181,8 @@ class _ScannerState extends State<Scanner> {
                                         log(studentNumber.toString());
                                         setState(() {
                                           studentNumber = _controller.text;
-                                        });
-                                        setState(() {
                                           emptyBarcode = false;
                                         });
-
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
