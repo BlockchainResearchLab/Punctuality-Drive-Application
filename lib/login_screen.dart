@@ -392,7 +392,10 @@ class _LoginPageState extends State<LoginPage> {
                       autofocus: true,
                       onPressed: () async {
                         log(isSuccess.toString());
-                        setState(() {});
+                        log(username.toString());
+                        log(password.toString());
+                        log(authToken.toString());
+                        // setState(() {});
                         if (location == null ||
                             password == null ||
                             username == null) {
