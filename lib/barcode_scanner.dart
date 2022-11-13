@@ -215,8 +215,6 @@ class _ScannerState extends State<Scanner> {
                               username = null;
                               authToken = null;
                               isSuccess = "false";
-                              location = null;
-                              // is_loading = false;
                             },
                           );
                         },

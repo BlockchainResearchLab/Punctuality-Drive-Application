@@ -1,4 +1,5 @@
 import 'package:punctuality_drive/splash.dart';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -11,6 +12,7 @@ var locPrefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
   userNamePrefs = prefs.getString('username');
@@ -57,7 +59,6 @@ class PDApp extends StatelessWidget {
     );
   }
 }
-
 
 class Palette {
   static const MaterialColor kToDark = MaterialColor(

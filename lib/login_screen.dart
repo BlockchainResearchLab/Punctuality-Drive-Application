@@ -117,8 +117,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
-
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
       content: Row(
@@ -140,8 +138,6 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-
-
   bool _obscureText = true;
 
   // void _toggle() {
@@ -151,7 +147,6 @@ class _LoginPageState extends State<LoginPage> {
   //     },
   //   );
   // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -396,6 +391,7 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       autofocus: true,
                       onPressed: () async {
+                        log(isSuccess.toString());
                         setState(() {});
                         if (location == null ||
                             password == null ||
