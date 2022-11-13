@@ -180,6 +180,7 @@ class _ScannerState extends State<Scanner> {
                         child: Column(
                           children: [
                             TextFormField(
+                              keyboardType: TextInputType.number,
                               autovalidateMode:
                                   AutovalidateMode.onUserInteraction,
                               validator: (value) {
@@ -205,7 +206,7 @@ class _ScannerState extends State<Scanner> {
                                         } else {
                                           emptyBarcode == false;
                                         }
-
+                                        Navigator.pop(context);
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
