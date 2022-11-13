@@ -142,7 +142,12 @@ class _ScannedEntryState extends State<ScannedEntry> {
                               ],
                             ),
                             TextButton(
-                              onPressed: () => scanBarcodeNormal(),
+                              onPressed: () => Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const Scanner(),
+                                ),
+                              ),
                               child: const Text(
                                 'SCAN AGAIN',
                                 style: TextStyle(

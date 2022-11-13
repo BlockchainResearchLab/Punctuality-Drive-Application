@@ -47,16 +47,26 @@ Future<void> main() async {
   ]);
 
   runApp(
-    MaterialApp(
+    const PDApp(),
+  );
+}
+
+class PDApp extends StatelessWidget {
+  const PDApp({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
       theme: ThemeData(
         primarySwatch: Palette.kToDark,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       debugShowCheckedModeBanner: false,
       home: authTokenPrefs == null ? const Splash() : const Scanner(),
-    ),
-  );
+    );
+  }
 }
+
 
 class Palette {
   static const MaterialColor kToDark = MaterialColor(
