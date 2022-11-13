@@ -78,6 +78,13 @@ class _ScannerState extends State<Scanner> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.manual,
@@ -161,18 +168,25 @@ class _ScannerState extends State<Scanner> {
                                   prefixIcon: const Icon(Icons.numbers),
                                   suffixIcon: IconButton(
                                     onPressed: () {
-                                      log(studentNumber.toString());
-                                      setState(() {
-                                        studentNumber = _controller.text;
-                                      });
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: ((context) =>
-                                              const ScannedEntry()),
-                                        ),
-                                      );
+                                      if (studentNumber == null) {
+                                        emptyBarcode = true;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ScannedEntry()));
+                                      } else {
+                                        log(studentNumber.toString());
+                                        setState(() {
+                                          studentNumber = _controller.text;
+                                        });
+                                        emptyBarcode = false;
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ScannedEntry()));
+                                      }
                                     },
                                     icon: const Icon(Icons.search),
                                   ),
