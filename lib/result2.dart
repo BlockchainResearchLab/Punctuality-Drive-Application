@@ -257,7 +257,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                           builderContext) {
                                                         _timer = Timer(
                                                           const Duration(
-                                                              seconds: 2),
+                                                              seconds: 1),
                                                           () {
                                                             Navigator.of(
                                                                     context)
@@ -303,7 +303,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                           builderContext) {
                                                         _timer = Timer(
                                                           const Duration(
-                                                              seconds: 2),
+                                                              seconds: 1),
                                                           () {
                                                             Navigator.of(
                                                                     context)
@@ -352,7 +352,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                         builderContext) {
                                                       _timer = Timer(
                                                         const Duration(
-                                                            seconds: 2),
+                                                            seconds: 1),
                                                         () {
                                                           Navigator.of(context)
                                                               .pop();
