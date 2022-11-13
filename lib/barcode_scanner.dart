@@ -78,6 +78,24 @@ class _ScannerState extends State<Scanner> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    _controller.addListener(_printLatestStudentNoFromKeyboard);
+  }
+
+  void _printLatestStudentNoFromKeyboard() {
+    setState(
+      () {
+        studentNumber = _controller.text;
+      },
+    );
+
+    if (kDebugMode) {
+      print(username);
+    }
+  }
+
+  @override
   void dispose() {
     // TODO: implement dispose
     _controller.dispose();
@@ -162,6 +180,9 @@ class _ScannerState extends State<Scanner> {
                         child: Column(
                           children: [
                             TextFormField(
+                              onChanged: (value) {
+                                studentNumber = _controller.text;
+                              },
                               autofocus: true,
                               controller: _controller,
                               decoration: InputDecoration(
@@ -172,7 +193,6 @@ class _ScannerState extends State<Scanner> {
                                         if (studentNumber == null) {
                                           emptyBarcode == true;
                                         } else {
-                                          studentNumber == _controller.text;
                                           emptyBarcode == false;
                                         }
 
