@@ -168,27 +168,20 @@ class _ScannerState extends State<Scanner> {
                                   prefixIcon: const Icon(Icons.numbers),
                                   suffixIcon: IconButton(
                                     onPressed: () {
-                                      if (studentNumber == null) {
-                                        setState(() {
-                                          emptyBarcode = true;
-                                        });
+                                      setState(() {
+                                        if (studentNumber == null) {
+                                          emptyBarcode == true;
+                                        } else {
+                                          studentNumber == _controller.text;
+                                          emptyBarcode == false;
+                                        }
+
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
                                                     ScannedEntry()));
-                                      } else {
-                                        log(studentNumber.toString());
-                                        setState(() {
-                                          studentNumber = _controller.text;
-                                          emptyBarcode = false;
-                                        });
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ScannedEntry()));
-                                      }
+                                      });
                                     },
                                     icon: const Icon(Icons.search),
                                   ),
