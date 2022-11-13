@@ -20,7 +20,6 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
-
   final TextEditingController _controller = TextEditingController();
 
   Future<void> scanBarcodeNormal() async {
@@ -145,8 +144,10 @@ class _ScannerState extends State<Scanner> {
             floatingActionButton: FloatingActionButton(
               child: const Icon(Icons.person_search_outlined),
               onPressed: () {
-                if(location != null){
+                if (location != null) {
                   showModalBottomSheet(
+                    isDismissible: true,
+                    useRootNavigator: true,
                     context: context,
                     builder: (context) {
                       return Container(
@@ -161,13 +162,15 @@ class _ScannerState extends State<Scanner> {
                                   suffixIcon: IconButton(
                                     onPressed: () {
                                       log(studentNumber.toString());
-                                      setState((){
+                                      setState(() {
                                         studentNumber = _controller.text;
                                       });
+                                      Navigator.pop(context);
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: ((context) => const ScannedEntry()),
+                                          builder: ((context) =>
+                                              const ScannedEntry()),
                                         ),
                                       );
                                     },
@@ -185,7 +188,7 @@ class _ScannerState extends State<Scanner> {
                       ),
                     ),
                   );
-                }else{
+                } else {
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       duration: Duration(seconds: 1),
