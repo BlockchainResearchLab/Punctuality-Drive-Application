@@ -1,11 +1,9 @@
 import 'package:punctuality_drive/splash.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:punctuality_drive/barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 String? userNamePrefs;
 var authTokenPrefs;
@@ -13,14 +11,7 @@ var locPrefs;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  await FirebaseMessaging.instance.setAutoInitEnabled(true);
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  final fcmToken = await FirebaseMessaging.instance.getToken();
-
-  if (kDebugMode) {
-    print(fcmToken);
-  }
 
   userNamePrefs = prefs.getString('username');
   var passwordPrefs = prefs.getString("password");

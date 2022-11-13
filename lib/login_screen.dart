@@ -89,6 +89,7 @@ class _LoginPageState extends State<LoginPage> {
     // This also removes the _printLatestValue listener.
     usernameController.dispose();
     passwordController.dispose();
+    showLoaderDialog(context).dispose();
     super.dispose();
   }
 
@@ -116,24 +117,30 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
+
+
   showLoaderDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
       content: Row(
         children: [
-          CircularProgressIndicator(),
+          const CircularProgressIndicator(),
           Container(
-              margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
+            margin: const EdgeInsets.only(left: 7),
+            child: const Text("Loading..."),
+          ),
         ],
       ),
     );
     showDialog(
-      barrierDismissible: false,
+      barrierDismissible: true,
       context: context,
       builder: (BuildContext context) {
         return alert;
       },
     );
   }
+
+
 
   bool _obscureText = true;
 
@@ -144,6 +151,7 @@ class _LoginPageState extends State<LoginPage> {
   //     },
   //   );
   // }
+
 
   @override
   Widget build(BuildContext context) {
@@ -423,6 +431,7 @@ class _LoginPageState extends State<LoginPage> {
                               },
                             );
                             if (isSuccess == "false") {
+                              Navigator.of(context, rootNavigator: true).pop();
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
                                   content: Text(
