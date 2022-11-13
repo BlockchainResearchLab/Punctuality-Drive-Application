@@ -169,7 +169,10 @@ class _ScannerState extends State<Scanner> {
                                   suffixIcon: IconButton(
                                     onPressed: () {
                                       if (studentNumber == null) {
-                                        emptyBarcode = true;
+                                        setState(() {
+                                          emptyBarcode = true;
+                                        });
+
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
@@ -180,7 +183,10 @@ class _ScannerState extends State<Scanner> {
                                         setState(() {
                                           studentNumber = _controller.text;
                                         });
-                                        emptyBarcode = false;
+                                        setState(() {
+                                          emptyBarcode = false;
+                                        });
+
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(
