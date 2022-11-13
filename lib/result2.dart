@@ -102,8 +102,10 @@ class _ScannedEntryState extends State<ScannedEntry> {
       body: Container(
         padding: const EdgeInsets.only(left: 20, right: 20),
         child: Center(
-          child: SingleChildScrollView(
-            child: Expanded(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height*0.6,
+            width: double.maxFinite,
+            child: Center(
               child: Material(
                 borderRadius: BorderRadius.circular(15.0),
                 elevation: 20,
@@ -125,43 +127,46 @@ class _ScannedEntryState extends State<ScannedEntry> {
                     // border: Border.all(color: Colors.grey),
                   ),
                   child: emptyBarcode == true
-                      ? Column(
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Image.asset(
-                                  'images/Disclaimer.png',
-                                  height: 200,
-                                ),
-                                const Padding(
-                                  padding:
-                                      EdgeInsets.only(bottom: 10.0, top: 20),
-                                  child: Text(
-                                    "No ID card found.",
-                                    style: TextStyle(fontSize: 18),
+                      ? Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    'images/Disclaimer.png',
+                                    height: 200,
+                                  ),
+                                  const Padding(
+                                    padding:
+                                        EdgeInsets.only(bottom: 10.0, top: 20),
+                                    child: Text(
+                                      "No ID card found.",
+                                      style: TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              TextButton(
+                                onPressed: () => Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => const Scanner(),
                                   ),
                                 ),
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const Scanner(),
+                                child: const Text(
+                                  'SCAN AGAIN',
+                                  style: TextStyle(
+                                    color: Colors.blueAccent,
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                              child: const Text(
-                                'SCAN AGAIN',
-                                style: TextStyle(
-                                  color: Colors.blueAccent,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            )
-                          ],
-                        )
+                              )
+                            ],
+                          ),
+                      )
                       : FutureBuilder<StudentData?>(
                           future: show(studentNumber ?? "0000"),
                           builder: (context, snapshot) {
@@ -313,7 +318,7 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                       _timer!.cancel();
                                                     }
                                                   }).then((value) =>
-                                                    Navigator.pop(context));
+                                                    Navigator.pop(context, ));
                                           },
                                         );
                                       }, "Mark Entry", Colors.green),

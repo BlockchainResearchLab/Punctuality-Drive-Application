@@ -20,6 +20,9 @@ class Scanner extends StatefulWidget {
 }
 
 class _ScannerState extends State<Scanner> {
+
+  final TextEditingController _controller = TextEditingController();
+
   Future<void> scanBarcodeNormal() async {
     try {
       ScanResult barcodeScanRes = await BarcodeScanner.scan();
@@ -34,7 +37,6 @@ class _ScannerState extends State<Scanner> {
             emptyBarcode = false;
             studentNumber = barcodeScanRes.rawContent;
           }
-
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -140,6 +142,61 @@ class _ScannerState extends State<Scanner> {
         },
         child: SafeArea(
           child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              child: const Icon(Icons.person_search_outlined),
+              onPressed: () {
+                if(location != null){
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (context) {
+                      return Container(
+                        padding: const EdgeInsets.all(10),
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              autofocus: true,
+                              controller: _controller,
+                              decoration: InputDecoration(
+                                  prefixIcon: const Icon(Icons.numbers),
+                                  suffixIcon: IconButton(
+                                    onPressed: () {
+                                      log(studentNumber.toString());
+                                      setState((){
+                                        studentNumber = _controller.text;
+                                      });
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: ((context) => const ScannedEntry()),
+                                        ),
+                                      );
+                                    },
+                                    icon: const Icon(Icons.search),
+                                  ),
+                                  hintText: "Student Number"),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30),
+                      ),
+                    ),
+                  );
+                }else{
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      duration: Duration(seconds: 1),
+                      content: Text(
+                        "Please provide [Location] to Scan",
+                      ),
+                    ),
+                  );
+                }
+              },
+            ),
             appBar: AppBar(
               centerTitle: false,
               title: Row(
@@ -203,7 +260,7 @@ class _ScannerState extends State<Scanner> {
                       prefs.remove('password');
                       prefs.remove('authTokenPrefs');
                       setState(
-                            () {
+                        () {
                           password = null;
                           username = null;
                           authToken = null;
