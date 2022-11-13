@@ -202,22 +202,19 @@ class _ScannerState extends State<Scanner> {
                       prefs.remove('username');
                       prefs.remove('password');
                       prefs.remove('authTokenPrefs');
+                      setState(
+                            () {
+                          password = null;
+                          username = null;
+                          authToken = null;
+                          isSuccess = "false";
+                        },
+                      );
                       Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const LoginPage(),
                         ),
-                      ).whenComplete(
-                        () {
-                          setState(
-                            () {
-                              password = null;
-                              username = null;
-                              authToken = null;
-                              isSuccess = "false";
-                            },
-                          );
-                        },
                       );
                     },
                     child: const Text(
