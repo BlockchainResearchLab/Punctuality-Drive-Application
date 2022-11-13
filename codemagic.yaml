@@ -3,7 +3,7 @@
 
 workflows:
   default-workflow:
-    name: authBranch Workflow
+    name: UI Workflow
     max_build_duration: 60
     environment:
       flutter: default
@@ -44,3 +44,4 @@ workflows:
           - tripathiharsh16@gmail.com
           - apoorv1910042@akgec.ac.in
           - stuti1912059@akgec.ac.in
+          - aadarshpandey.pandey@gmail.com
