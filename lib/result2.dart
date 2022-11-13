@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:barcode_scan2/gen/protos/protos.pb.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
@@ -93,6 +94,8 @@ class _ScannedEntryState extends State<ScannedEntry> {
       SystemUiMode.manual,
       overlays: [SystemUiOverlay.bottom, SystemUiOverlay.top],
     );
+
+    Timer? _timer;
 
     return Scaffold(
       bottomSheet: resultFooter(),
@@ -233,7 +236,16 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                             badRequest == false
                                                 ? showDialog(
                                                     context: context,
-                                                    builder: ((context) {
+                                                    builder: (BuildContext
+                                                        builderContext) {
+                                                      _timer = Timer(
+                                                        const Duration(
+                                                            seconds: 2),
+                                                        () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      );
                                                       return AlertDialog(
                                                         shape:
                                                             const RoundedRectangleBorder(
@@ -257,12 +269,27 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                         content: Text(
                                                             "Entry marked \nCount : ${snapshot.data!.result!.lateCount! + 1}"),
                                                       );
-                                                    }),
+                                                    },
+                                                  ).then(
+                                                    (val) {
+                                                      if (_timer!.isActive) {
+                                                        _timer!.cancel();
+                                                      }
+                                                    },
                                                   ).then((value) =>
                                                     Navigator.pop(context))
                                                 : showDialog(
                                                     context: context,
-                                                    builder: ((context) {
+                                                    builder: (BuildContext
+                                                        builderContext) {
+                                                      _timer = Timer(
+                                                        const Duration(
+                                                            seconds: 2),
+                                                        () {
+                                                          Navigator.of(context)
+                                                              .pop();
+                                                        },
+                                                      );
                                                       return AlertDialog(
                                                         icon: Image.asset(
                                                           'images/Disclaimer.png',
@@ -281,8 +308,11 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                                         content: const Text(
                                                             "Entry already marked"),
                                                       );
-                                                    }),
-                                                  ).then((value) =>
+                                                    }).then((val) {
+                                                    if (_timer!.isActive) {
+                                                      _timer!.cancel();
+                                                    }
+                                                  }).then((value) =>
                                                     Navigator.pop(context));
                                           },
                                         );
@@ -294,36 +324,45 @@ class _ScannedEntryState extends State<ScannedEntry> {
                                           const IconData(0xe139,
                                               fontFamily: 'MaterialIcons'),
                                           () => showDialog(
-                                                context: context,
-                                                builder: (context) {
-                                                  return AlertDialog(
-                                                    shape:
-                                                        const RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                        Radius.circular(
-                                                          16.0,
-                                                        ),
+                                              context: context,
+                                              builder: (BuildContext
+                                              builderContext) {
+                                                _timer = Timer(
+                                                  const Duration(
+                                                      seconds: 2),
+                                                      () {
+                                                    Navigator.of(context)
+                                                        .pop();
+                                                  },
+                                                );
+                                                return AlertDialog(
+                                                  shape:
+                                                  const RoundedRectangleBorder(
+                                                    borderRadius:
+                                                    BorderRadius.all(
+                                                      Radius.circular(
+                                                        16.0,
                                                       ),
                                                     ),
-                                                    icon: Image.asset(
-                                                      'images/cancel.png',
-                                                      height: 50.0,
-                                                    ),
-                                                    title: const Text(
-                                                        "Entry Status"),
-                                                    content: const Text(
-                                                      "Entry cancelled.",
-                                                      style: TextStyle(
-                                                          color: Colors.red),
-                                                    ),
-                                                  );
-                                                },
-                                              ).then(
-                                                (value) {
-                                                  Navigator.pop(context);
-                                                },
-                                              ),
+                                                  ),
+                                                  icon: Image.asset(
+                                                    'images/cancel.png',
+                                                    height: 50.0,
+                                                  ),
+                                                  title: const Text(
+                                                      "Entry Status"),
+                                                  content: const Text(
+                                                    "Entry cancelled.",
+                                                    style: TextStyle(
+                                                        color: Colors.red),
+                                                  ),
+                                                );
+                                              }).then((val) {
+                                            if (_timer!.isActive) {
+                                              _timer!.cancel();
+                                            }
+                                          }).then((value) =>
+                                              Navigator.pop(context)),
                                           "Cancel",
                                           Colors.red)
                                     ],
