@@ -102,6 +102,8 @@ class _ScannerState extends State<Scanner> {
     super.dispose();
   }
 
+  final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIMode(
@@ -179,44 +181,45 @@ class _ScannerState extends State<Scanner> {
                         padding: const EdgeInsets.all(10),
                         child: Column(
                           children: [
-                            TextFormField(
-                              keyboardType: TextInputType.number,
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              validator: (value) {
-                                if (value == null) {
-                                  return "Enter the Student Number";
-                                } else if (value.length != 7) {
-                                  return "Enter Valid Student Number";
-                                }
-                                return null;
-                              },
-                              onChanged: (value) {
-                                studentNumber = _controller.text;
-                              },
-                              autofocus: true,
-                              controller: _controller,
-                              decoration: InputDecoration(
-                                  prefixIcon: const Icon(Icons.numbers),
-                                  suffixIcon: IconButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        if (studentNumber == null) {
-                                          emptyBarcode == true;
-                                        } else {
-                                          emptyBarcode == false;
-                                        }
-                                        Navigator.pop(context);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ScannedEntry()));
-                                      });
-                                    },
-                                    icon: const Icon(Icons.search),
-                                  ),
-                                  hintText: "Student Number"),
+                            Form(
+                              key: _formKey,
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                autovalidateMode:
+                                    AutovalidateMode.onUserInteraction,
+                                validator: (value) {
+                                  if (value == null) {
+                                    return "Enter the Student Number";
+                                  } else if (value.length != 7) {
+                                    return "Enter Valid Student Number";
+                                  }
+                                  return null;
+                                },
+                                onChanged: (value) {
+                                  studentNumber = _controller.text;
+                                },
+                                autofocus: true,
+                                controller: _controller,
+                                decoration: InputDecoration(
+                                    prefixIcon: const Icon(Icons.numbers),
+                                    suffixIcon: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_formKey.currentState!
+                                              .validate()) {
+                                            Navigator.pop(context);
+                                            Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        ScannedEntry()));
+                                          }
+                                        });
+                                      },
+                                      icon: const Icon(Icons.search),
+                                    ),
+                                    hintText: "Student Number"),
+                              ),
                             ),
                           ],
                         ),
