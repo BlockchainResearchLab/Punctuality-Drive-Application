@@ -25,7 +25,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _validationKey = GlobalKey<FormState>();
 
-
   // void _dropDownCallback(String? selectedValue) {
   //   if (selectedValue is String) {
   //     setState(
@@ -54,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       var jsondata = jsonDecode(data);
 
       setState(
-            () {
+        () {
           isSuccess = "true";
           authToken = jsondata["token"];
         },
@@ -66,7 +65,7 @@ class _LoginPageState extends State<LoginPage> {
       }
 
       setState(
-            () {
+        () {
           isSuccess = "false";
         },
       );
@@ -95,7 +94,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _printLatestUsername() {
     setState(
-          () {
+      () {
         username = usernameController.text;
       },
     );
@@ -107,7 +106,7 @@ class _LoginPageState extends State<LoginPage> {
 
   void _printLatestPassword() {
     setState(
-          () {
+      () {
         password = passwordController.text;
       },
     );
@@ -117,8 +116,26 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  bool _obscureText = true;
+  showLoaderDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(
+              margin: EdgeInsets.only(left: 7), child: Text("Loading...")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
+  bool _obscureText = true;
 
   // void _toggle() {
   //   setState(
@@ -127,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
   //     },
   //   );
   // }
-
 
   @override
   Widget build(BuildContext context) {
@@ -145,12 +161,9 @@ class _LoginPageState extends State<LoginPage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              shape:
-              const RoundedRectangleBorder(
-                borderRadius:
-                BorderRadius.all(
-                  Radius.circular(
-                      20.0),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20.0),
                 ),
               ),
               title: const Text(
@@ -231,10 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             fontWeight: FontWeight.w600,
                             color: Colors.black,
-                            fontSize: MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.05,
+                            fontSize: MediaQuery.of(context).size.width * 0.05,
                           ),
                         ),
                       ),
@@ -271,7 +281,7 @@ class _LoginPageState extends State<LoginPage> {
                                   child: Text("Main Gate"),
                                 ),
                               ],
-                              onChanged: (value){
+                              onChanged: (value) {
                                 setState(() {
                                   location = value as String?;
                                 });
@@ -285,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextFormField(
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               controller: usernameController,
                               cursorColor: Colors.black,
                               cursorHeight: 25,
@@ -319,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             TextFormField(
                               autovalidateMode:
-                              AutovalidateMode.onUserInteraction,
+                                  AutovalidateMode.onUserInteraction,
                               controller: passwordController,
                               cursorColor: Colors.black,
                               style: const TextStyle(color: Colors.black),
@@ -352,7 +362,7 @@ class _LoginPageState extends State<LoginPage> {
                                 suffixIcon: IconButton(
                                   onPressed: () {
                                     setState(
-                                          () {
+                                      () {
                                         _obscureText = !_obscureText;
                                       },
                                     );
@@ -391,21 +401,22 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           );
                         } else {
+                          showLoaderDialog(context);
                           try {
                             await login(username!, password!).then(
-                                  (value) {
+                              (value) {
                                 if (value != null) {
                                   setState(
-                                        () {
+                                    () {
                                       isSuccess = "true";
                                     },
                                   );
                                 }
                               },
                             ).catchError(
-                                  (e) {
+                              (e) {
                                 setState(
-                                      () {
+                                  () {
                                     isSuccess = "false";
                                   },
                                 );
@@ -422,7 +433,7 @@ class _LoginPageState extends State<LoginPage> {
                               );
                             } else {
                               SharedPreferences prefs =
-                              await SharedPreferences.getInstance();
+                                  await SharedPreferences.getInstance();
                               prefs.setString('username', username.toString());
                               prefs.setString('password', password.toString());
                               prefs.setString(
@@ -430,7 +441,7 @@ class _LoginPageState extends State<LoginPage> {
                               prefs.setString('location', location.toString());
                               Future.delayed(
                                 const Duration(milliseconds: 1),
-                                    () {
+                                () {
                                   const SizedBox(
                                     height: 32,
                                     width: 32,
@@ -440,7 +451,7 @@ class _LoginPageState extends State<LoginPage> {
                                   );
                                 },
                               ).then(
-                                    (value) {
+                                (value) {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -460,14 +471,8 @@ class _LoginPageState extends State<LoginPage> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
                         minimumSize: Size(
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .width * 0.8,
-                            MediaQuery
-                                .of(context)
-                                .size
-                                .height * 0.05),
+                            MediaQuery.of(context).size.width * 0.8,
+                            MediaQuery.of(context).size.height * 0.05),
                         elevation: 8.0,
                         animationDuration: const Duration(seconds: 1),
                       ),
