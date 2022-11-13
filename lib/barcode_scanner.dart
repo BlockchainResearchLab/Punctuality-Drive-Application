@@ -180,6 +180,16 @@ class _ScannerState extends State<Scanner> {
                         child: Column(
                           children: [
                             TextFormField(
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              validator: (value) {
+                                if (value == null) {
+                                  return "Enter the Student Number";
+                                } else if (value.length != 7) {
+                                  return "Enter Valid Student Number";
+                                }
+                                return null;
+                              },
                               onChanged: (value) {
                                 studentNumber = _controller.text;
                               },
