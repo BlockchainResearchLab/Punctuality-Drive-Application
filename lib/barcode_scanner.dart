@@ -207,6 +207,10 @@ class _ScannerState extends State<Scanner> {
                                         setState(() {
                                           if (_formKey.currentState!
                                               .validate()) {
+                                            setState(() {
+                                              emptyBarcode = false;
+                                            });
+
                                             Navigator.pop(context);
                                             Navigator.push(
                                                 context,

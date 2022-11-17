@@ -122,6 +122,9 @@ class _LoginPageState extends State<LoginPage> {
       content: Row(
         children: [
           const CircularProgressIndicator(),
+          const SizedBox(
+            width: 10,
+          ),
           Container(
             margin: const EdgeInsets.only(left: 7),
             child: const Text("Loading..."),
