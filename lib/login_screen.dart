@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
     showDialog(
-      barrierDismissible: true,
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return alert;
