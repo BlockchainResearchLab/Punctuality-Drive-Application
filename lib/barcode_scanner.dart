@@ -190,9 +190,10 @@ class _ScannerState extends State<Scanner> {
                                 validator: (value) {
                                   if (value == null) {
                                     return "Enter the Student Number";
-                                  } else if (value.length != 7) {
-                                    return "Enter Valid Student Number";
                                   }
+                                  // } else if (value.length != 7) {
+                                  //   return "Enter Valid Student Number";
+                                  // }
                                   return null;
                                 },
                                 onChanged: (value) {
