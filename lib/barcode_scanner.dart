@@ -184,7 +184,7 @@ class _ScannerState extends State<Scanner> {
                             Form(
                               key: _formKey,
                               child: TextFormField(
-                                keyboardType: TextInputType.number,
+                                keyboardType: TextInputType.text,
                                 autovalidateMode:
                                     AutovalidateMode.onUserInteraction,
                                 validator: (value) {
