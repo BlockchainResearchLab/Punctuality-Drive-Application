@@ -130,7 +130,7 @@ class _LoginPageState extends State<LoginPage> {
           ),
           Container(
             margin: const EdgeInsets.only(left: 7),
-            child: const Text("Loading..."),
+            child: const Text("Logging in..."),
           ),
         ],
       ),
