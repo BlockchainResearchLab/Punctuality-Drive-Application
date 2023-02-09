@@ -12,6 +12,7 @@ import 'package:punctuality_drive/services/api_services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'Modals/student_data.dart';
+import 'main.dart';
 
 class ScannedEntry extends StatefulWidget {
   const ScannedEntry({super.key});
