@@ -4,9 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:barcode_scan2/model/scan_result.dart';
 import 'package:barcode_scan2/platform_wrapper.dart';
-import 'package:punctuality_drive/login_screen.dart';
-import 'package:punctuality_drive/result2.dart';
+import 'package:punctuality_drive/Screens/login_screen.dart';
+import 'package:punctuality_drive/Screens/result2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../Constants/constants.dart';
+import '../Constants/widgets.dart';
 
 String? studentNumber;
 String? error;
@@ -113,14 +116,14 @@ class _ScannerState extends State<Scanner> {
     return WillPopScope(
       onWillPop: (() async {
         return await showDialog(
+          barrierDismissible: false,
           context: context,
           builder: (context) {
             return AlertDialog(
+              actionsOverflowButtonSpacing: 10,
+              actionsAlignment: MainAxisAlignment.spaceBetween,
               shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(20.0),
-                ),
-              ),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
               title: const Text(
                 'Are you sure?',
               ),
@@ -169,7 +172,11 @@ class _ScannerState extends State<Scanner> {
         child: SafeArea(
           child: Scaffold(
             floatingActionButton: FloatingActionButton(
-              child: const Icon(Icons.person_search_outlined),
+              backgroundColor: Colors.black,
+              child: const Icon(
+                Icons.person_search_outlined,
+                color: Colors.white,
+              ),
               onPressed: () {
                 if (location != null) {
                   showModalBottomSheet(
@@ -333,6 +340,7 @@ class _ScannerState extends State<Scanner> {
                       ),
                     ),
                   ),
+                  
                 ],
               ),
               automaticallyImplyLeading: false,

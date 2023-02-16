@@ -3,10 +3,13 @@ import 'dart:developer';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:punctuality_drive/barcode_scanner.dart';
-import 'package:punctuality_drive/result2.dart';
+import 'package:punctuality_drive/APIs/api.dart';
+import 'package:punctuality_drive/Screens/barcode_scanner.dart';
+import 'package:punctuality_drive/Screens/result2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'Modals/login.dart';
+import '../Constants/constants.dart';
+import '../Constants/widgets.dart';
+import '../Modals/login.dart';
 import 'package:http/http.dart' as http;
 
 String? location;
@@ -45,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         // 'POST', Uri.parse('http://akgec-late-entry.herokuapp.com/login'));
         'POST',
         // Uri.parse('https://akgec-late-entry-backend.onrender.com/login'));
-        Uri.parse('https://akgec-late-entry-backend.onrender.com/login'));
+        Uri.parse(loginAPI));
     request.bodyFields = {'userName': username, 'password': password};
     request.headers.addAll(headers);
 
@@ -499,13 +502,17 @@ class _LoginPageState extends State<LoginPage> {
                           Text(
                             "LOGIN",
                             style: TextStyle(
+                              color: Colors.white,
                               fontSize: 20.0,
                             ),
                           ),
                           SizedBox(
                             width: 10.0,
                           ),
-                          Icon(Icons.arrow_forward),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                          ),
                         ],
                       ),
                     )

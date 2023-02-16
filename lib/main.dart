@@ -1,20 +1,16 @@
 import 'dart:convert';
 
-import 'package:punctuality_drive/services/api_services.dart';
-import 'package:punctuality_drive/splash.dart';
+import 'package:punctuality_drive/Screens/splash.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:punctuality_drive/barcode_scanner.dart';
+import 'package:punctuality_drive/Screens/barcode_scanner.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Constants/constants.dart';
+import 'Constants/variables.dart';
 import 'Modals/student_data.dart';
-
-String? userNamePrefs;
-var authTokenPrefs;
-var locPrefs;
-String errorCode = "400";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -103,29 +99,11 @@ class _PDAppState extends State<PDApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
         theme: ThemeData(
+          useMaterial3: true,
           primarySwatch: Palette.kToDark,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         debugShowCheckedModeBanner: false,
         home: errorCode == "200" ? const Scanner() : const Splash());
   }
-}
-
-class Palette {
-  static const MaterialColor kToDark = MaterialColor(
-    0xff000000,
-    // 0% comes in here, this will be color picked if no shade is selected when defining a Color property which doesn’t require a swatch.
-    <int, Color>{
-      50: Color(0xff000000), //10%
-      100: Color(0xff000000), //20%
-      200: Color(0xff000000), //30%
-      300: Color(0xff000000), //40%
-      400: Color(0xff000000), //50%
-      500: Color(0xff000000), //60%
-      600: Color(0xff000000), //70%
-      700: Color(0xff000000), //80%
-      800: Color(0xff000000), //90%
-      900: Color(0xff000000), //100%
-    },
-  );
 }

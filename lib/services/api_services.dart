@@ -4,16 +4,15 @@ import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:punctuality_drive/Modals/create_entry.dart';
 import 'package:punctuality_drive/Modals/student_data.dart';
-import 'package:punctuality_drive/barcode_scanner.dart';
-import 'package:punctuality_drive/login_screen.dart';
+import 'package:punctuality_drive/Screens/barcode_scanner.dart';
+import 'package:punctuality_drive/Screens/login_screen.dart';
 import 'package:punctuality_drive/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/*Changing API. *Backend redeployed to Render* */
+import '../APIs/api.dart';
+import '../Constants/variables.dart';
 
-String postApiURL =
-    // "http://akgec-late-entry.herokuapp.com/api/admin/entry/create";
-    "https://akgec-late-entry-backend.onrender.com/api/admin/entry/create";
+/*Changing API. *Backend redeployed to Render* */
 
 /* Function for creating late entry in the DB */
 
@@ -47,15 +46,13 @@ String postApiURL =
 /*Changing API. *Backend redeployed to Render* */
 Future<StudentData?> show(String stdNum) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
-  String studentDataApiURL =
-      // "https://akgec-late-entry.herokuapp.com/api/admin/student/read?stdNo=$stdNum";
-      "https://akgec-late-entry-backend.onrender.com/api/admin/student/read?stdNo=$stdNum";
+
   final response = await http.get(
     headers: {
       'Authorization': 'Bearer ${prefs.getString('authTokenPrefs')}',
       'Content-Type': 'application/x-www-form-urlencoded'
     },
-    Uri.parse(studentDataApiURL),
+    Uri.parse(studentDataApiURL + stdNum),
   );
 
   if (response.statusCode == 200) {
