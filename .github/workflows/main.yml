@@ -32,7 +32,7 @@ jobs:
         with:
           artifacts: "build/app/outputs/apk/debug/*"
           tag: v1.0.${{ github.run_number }}
-          token: ${{ secrets.APP_RELEASE_TOKEN }}
+          token: ${{ secrets.AroundU_TOKEN }}
 
 
 # GITHUB ACTIONS CI/CD CODE
